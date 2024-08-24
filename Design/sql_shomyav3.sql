@@ -1,9 +1,12 @@
 -- MySQL Workbench Forward Engineering
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 -- -----------------------------------------------------
 -- Schema shomya
 -- -----------------------------------------------------
@@ -30,10 +33,8 @@ CREATE TABLE IF NOT EXISTS `shomya`.`user` (
   `credit_limit` FLOAT NOT NULL,
   `address` VARCHAR(100) NOT NULL,
   `user_role` VARCHAR(10) NOT NULL DEFAULT 'user',
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
-ENGINE = InnoDB;
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -43,10 +44,9 @@ DROP TABLE IF EXISTS `shomya`.`category` ;
 
 CREATE TABLE IF NOT EXISTS `shomya`.`category` (
   `id` INT NOT NULL auto_increment,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
-ENGINE = InnoDB;
+  `name` VARCHAR(45) NOT NULL unique,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `shomya`.`product` (
   `price` FLOAT NOT NULL,
   `quantity` INT NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -72,14 +72,13 @@ CREATE TABLE IF NOT EXISTS `shomya`.`order` (
   `id` INT NOT NULL auto_increment,
   `order_date` DATETIME NOT NULL,
   `user_id` INT NOT NULL,
-  PRIMARY KEY (`id`, `user_id`),
-  INDEX `fk_order_user1_idx` (`user_id` ASC) VISIBLE,
+  primary key(`id`),
   CONSTRAINT `fk_order_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `shomya`.`user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -91,8 +90,6 @@ CREATE TABLE IF NOT EXISTS `shomya`.`category_has_product` (
   `category_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   PRIMARY KEY (`category_id`, `product_id`),
-  INDEX `fk_category_has_product_product1_idx` (`product_id` ASC) VISIBLE,
-  INDEX `fk_category_has_product_category1_idx` (`category_id` ASC) VISIBLE,
   CONSTRAINT `fk_category_has_product_category1`
     FOREIGN KEY (`category_id`)
     REFERENCES `shomya`.`category` (`id`)
@@ -103,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `shomya`.`category_has_product` (
     REFERENCES `shomya`.`product` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -115,8 +112,6 @@ CREATE TABLE IF NOT EXISTS `shomya`.`user_intersts` (
   `user_id` INT NOT NULL,
   `category_id` INT NOT NULL,
   PRIMARY KEY (`user_id`, `category_id`),
-  INDEX `fk_user_has_category_category1_idx` (`category_id` ASC) VISIBLE,
-  INDEX `fk_user_has_category_user1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_has_category_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `shomya`.`user` (`id`)
@@ -127,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `shomya`.`user_intersts` (
     REFERENCES `shomya`.`category` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -141,8 +136,6 @@ CREATE TABLE IF NOT EXISTS `shomya`.`cart` (
   `quantity` INT NOT NULL,
   `current_price` FLOAT NOT NULL,
   PRIMARY KEY (`user_id`, `product_id`),
-  INDEX `fk_user_has_product_product1_idx` (`product_id` ASC) VISIBLE,
-  INDEX `fk_user_has_product_user1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_has_product_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `shomya`.`user` (`id`)
@@ -153,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `shomya`.`cart` (
     REFERENCES `shomya`.`product` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
 -- -----------------------------------------------------
@@ -167,8 +160,6 @@ CREATE TABLE IF NOT EXISTS `shomya`.`order_has_products` (
   `quantity` INT NOT NULL,
   `current_price` FLOAT NOT NULL,
   PRIMARY KEY (`order_id`, `product_id`),
-  INDEX `fk_order_has_product_product1_idx` (`product_id` ASC) VISIBLE,
-  INDEX `fk_order_has_product_order1_idx` (`order_id` ASC) VISIBLE,
   CONSTRAINT `fk_order_has_product_order1`
     FOREIGN KEY (`order_id`)
     REFERENCES `shomya`.`order` (`id`)
@@ -179,9 +170,19 @@ CREATE TABLE IF NOT EXISTS `shomya`.`order_has_products` (
     REFERENCES `shomya`.`product` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+	/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+	/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+
+
+
+	/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+	/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+	/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+	/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+	/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+	/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+	/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
