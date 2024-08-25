@@ -1,4 +1,4 @@
-package iti.jets.dao;
+package iti.jets.model;
 // Generated Aug 24, 2024, 11:37:30 AM by Hibernate Tools 6.5.1.Final
 
 
@@ -29,12 +29,13 @@ public class User  implements java.io.Serializable {
      private String email;
      private float creditLimit;
      private String address;
-     private String userRole;
+     private String userRole = "user";
      private Set<Cart> carts = new HashSet<Cart>(0);
      private Set<Order> orders = new HashSet<Order>(0);
      private Set<Category> categories = new HashSet<Category>(0);
 
     public User() {
+
     }
 
 	
@@ -136,7 +137,7 @@ public class User  implements java.io.Serializable {
     }
 
     
-    @Column(name="credit_limit", nullable=false, precision=12)
+    @Column(name="credit_limit", precision=12)
     public float getCreditLimit() {
         return this.creditLimit;
     }
@@ -156,7 +157,7 @@ public class User  implements java.io.Serializable {
     }
 
     
-    @Column(name="user_role", nullable=false, length=10)
+    @Column(name="user_role", length=10)
     public String getUserRole() {
         return this.userRole;
     }
@@ -185,8 +186,8 @@ public class User  implements java.io.Serializable {
 
 @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="user_intersts", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="user_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="category_id", nullable=false, updatable=false) })
+        @JoinColumn(name="user_id", nullable=false, updatable=true) }, inverseJoinColumns = {
+        @JoinColumn(name="category_id", nullable=false, updatable=true) })
     public Set<Category> getCategories() {
         return this.categories;
     }

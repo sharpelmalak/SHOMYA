@@ -16,9 +16,9 @@
 <!--            <property name="hibernate.cache.use_second_level_cache" value="true"/>-->
 <!--            <property name="hibernate.cache.region.factory_class"-->
 <!--                      value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>-->
-            <property
-                    name="jakarta.persistence.schema-generation.database.action"
-                    value="drop-and-create" />
+<!--            <property-->
+<!--                    name="jakarta.persistence.schema-generation.database.action"-->
+<!--                    value="drop-and-create" />-->
 <!--            <property name="jakarta.persistence.sql-load-script-source"-->
 <!--                      value="META-INF/HelloWorldDB.sql" />-->
 

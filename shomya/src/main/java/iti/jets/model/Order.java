@@ -1,4 +1,4 @@
-package iti.jets.dao;
+package iti.jets.model;
 // Generated Aug 24, 2024, 11:37:30 AM by Hibernate Tools 6.5.1.Final
 
 

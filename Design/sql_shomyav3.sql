@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS `shomya`.`user` (
   `job` VARCHAR(45) NULL,
   `password` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
-  `credit_limit` FLOAT NOT NULL,
+  `credit_limit` FLOAT DEFAULT 0,
   `address` VARCHAR(100) NOT NULL,
-  `user_role` VARCHAR(10) NOT NULL DEFAULT 'user',
+  `user_role` VARCHAR(10)  DEFAULT 'user',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB DEFAULT CHARSET=utf8;
 

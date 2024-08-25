@@ -1,4 +1,4 @@
-package iti.jets.dao;
+package iti.jets.model;
 // Generated Aug 24, 2024, 11:37:30 AM by Hibernate Tools 6.5.1.Final
 
 
@@ -89,8 +89,8 @@ public class Product  implements java.io.Serializable {
 
 @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="category_has_product", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="product_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="category_id", nullable=false, updatable=false) })
+        @JoinColumn(name="product_id", nullable=false, updatable=true) }, inverseJoinColumns = {
+        @JoinColumn(name="category_id", nullable=false, updatable=true) })
     public Set<Category> getCategories() {
         return this.categories;
     }
