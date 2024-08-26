@@ -23,7 +23,7 @@ public abstract class DAO<T, ID> {
         this.entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public T findById(ID id) {
+    public T findById(int id) {
         T entity = null;
         try {
             entity = entityManager.find(persistentClass, id);
@@ -84,7 +84,7 @@ public abstract class DAO<T, ID> {
     }
 
     public void deleteById(ID id) {
-        T entity = findById(id);
+        T entity = findById((Integer) id);
         if (entity != null) {
             delete(entity);
         }

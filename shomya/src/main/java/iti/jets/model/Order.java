@@ -4,6 +4,7 @@ package iti.jets.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,13 +16,14 @@ import java.util.Set;
 @Table(name="order"
     ,catalog="shomya"
 )
-public class Order  implements java.io.Serializable {
+public class Order  implements Serializable {
 
 
      private int id;
      private User user;
      private Timestamp orderDate;
      private Set<OrderHasProducts> orderHasProductses = new HashSet<OrderHasProducts>(0);
+    private int users;
 
     public Order() {
     }
@@ -79,9 +81,6 @@ public class Order  implements java.io.Serializable {
     public void setOrderHasProductses(Set<OrderHasProducts> orderHasProductses) {
         this.orderHasProductses = orderHasProductses;
     }
-
-
-
 
 }
 
