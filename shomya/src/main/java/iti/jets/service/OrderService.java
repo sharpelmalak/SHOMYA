@@ -1,20 +1,11 @@
 package iti.jets.service;
-
-import com.mysql.cj.x.protobuf.MysqlxCrud;
-import iti.jets.dao.CategoryDAO;
 import iti.jets.dao.OrderDAO;
-import iti.jets.dao.UserDAO;
-import iti.jets.model.Category;
 import iti.jets.model.Order;
-import iti.jets.model.Product;
-import iti.jets.model.User;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class OrderService {
     private OrderDAO orderDAO;
+
 
     public OrderService() {
         orderDAO = new OrderDAO();
@@ -38,6 +29,10 @@ public class OrderService {
         orderDAO.deleteById(id);
     }
 
+    // Setter method for OrderDAO
+    public void setOrderDAO(OrderDAO orderDAO) {
+        this.orderDAO = orderDAO;
+    }
 
 //      // Method to retrieve order history based on customer ID
 //        public List<Order> reviewCustomerOrderHistoryByID(int id) {
