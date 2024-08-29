@@ -82,8 +82,8 @@ public class Category  implements java.io.Serializable {
 
 @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="customer_has_interests_category", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="category_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="customer_id", nullable=false, updatable=false) })
+        @JoinColumn(name="category_id", nullable=false) }, inverseJoinColumns = {
+        @JoinColumn(name="customer_id", nullable=false) })
     public Set<Customer> getCustomers() {
         return this.customers;
     }

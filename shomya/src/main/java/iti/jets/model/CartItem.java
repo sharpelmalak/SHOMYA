@@ -94,8 +94,8 @@ public class CartItem  implements java.io.Serializable {
 
 @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="cart", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="cart_item_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="customer_id", nullable=false, updatable=false) })
+        @JoinColumn(name="cart_item_id", nullable=false) }, inverseJoinColumns = {
+        @JoinColumn(name="customer_id", nullable=false) })
     public Set<Customer> getCustomers() {
         return this.customers;
     }
@@ -106,8 +106,8 @@ public class CartItem  implements java.io.Serializable {
 
 @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="order_items", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="cart_item_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="order_id", nullable=false, updatable=false) })
+        @JoinColumn(name="cart_item_id", nullable=false) }, inverseJoinColumns = {
+        @JoinColumn(name="order_id", nullable=false) })
     public Set<Order> getOrders() {
         return this.orders;
     }

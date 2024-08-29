@@ -91,8 +91,8 @@ public class Customer  extends User implements java.io.Serializable {
 
 @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="cart", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="customer_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="cart_item_id", nullable=false, updatable=false) })
+        @JoinColumn(name="customer_id", nullable=false) }, inverseJoinColumns = {
+        @JoinColumn(name="cart_item_id", nullable=false) })
     public Set<CartItem> getCartItems() {
         return this.cartItems;
     }
@@ -103,8 +103,8 @@ public class Customer  extends User implements java.io.Serializable {
 
 @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="customer_has_interests_category", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="customer_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="category_id", nullable=false, updatable=false) })
+        @JoinColumn(name="customer_id", nullable=false) }, inverseJoinColumns = {
+        @JoinColumn(name="category_id", nullable=false) })
     public Set<Category> getCategories() {
         return this.categories;
     }
@@ -115,8 +115,8 @@ public class Customer  extends User implements java.io.Serializable {
 
 @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="customer_wishlist", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="customer_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
-        @JoinColumn(name="product_id", nullable=false, updatable=false) })
+        @JoinColumn(name="customer_id", nullable=false) }, inverseJoinColumns = {
+        @JoinColumn(name="product_id", nullable=false) })
     public Set<Product> getProducts() {
         return this.products;
     }
