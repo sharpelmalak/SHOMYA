@@ -43,15 +43,19 @@ public abstract class DAO<T, ID> {
         return entities;
     }
 
-    public void save(T entity) {
+    public boolean save(T entity) {
+        boolean result;
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(entity);
             entityManager.getTransaction().commit();
+            result = true;
         } catch (PersistenceException e) {
             entityManager.getTransaction().rollback();
             LOGGER.log(Level.SEVERE, "Error saving entity", e);
+            result = false;
         }
+        return result;
     }
 
     public T update(T entity) {

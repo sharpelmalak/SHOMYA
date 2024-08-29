@@ -1,12 +1,8 @@
 package iti.jets.model;
-// Generated Aug 24, 2024, 11:37:30 AM by Hibernate Tools 6.5.1.Final
+// Generated Aug 29, 2024, 10:26:43 PM by Hibernate Tools 6.5.1.Final
 
 
 import jakarta.persistence.*;
-
-import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -17,57 +13,18 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Table(name="user"
     ,catalog="shomya"
 )
-public class User  implements java.io.Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class User {
 
 
      private Integer id;
-     private String name;
-     private Date birthdate;
-     private String username;
-     private String job;
-     private String password;
-     private String email;
-     private float creditLimit;
-     private String address;
-     private String userRole = "user";
-     private Set<Cart> carts = new HashSet<Cart>(0);
-     private Set<Order> orders = new HashSet<Order>(0);
-     private Set<Category> categories = new HashSet<Category>(0);
+     protected String name;
+     protected String username;
+     protected String password;
+     protected String email;
 
-    public User() {
-
-    }
-
-	
-    public User(String name, Date birthdate, String username, String password, String email, float creditLimit, String address, String userRole) {
-        this.name = name;
-        this.birthdate = birthdate;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.creditLimit = creditLimit;
-        this.address = address;
-        this.userRole = userRole;
-    }
-    public User(String name, Date birthdate, String username, String job, String password, String email, float creditLimit, String address, String userRole, Set<Cart> carts, Set<Order> orders, Set<Category> categories) {
-       this.name = name;
-       this.birthdate = birthdate;
-       this.username = username;
-       this.job = job;
-       this.password = password;
-       this.email = email;
-       this.creditLimit = creditLimit;
-       this.address = address;
-       this.userRole = userRole;
-       this.carts = carts;
-       this.orders = orders;
-       this.categories = categories;
-    }
    
      @Id @GeneratedValue(strategy=IDENTITY)
-
-    
-    @Column(name="id", unique=true, nullable=false)
     public Integer getId() {
         return this.id;
     }
@@ -86,16 +43,6 @@ public class User  implements java.io.Serializable {
         this.name = name;
     }
 
-    @Temporal(TemporalType.DATE)
-    @Column(name="birthdate", nullable=false, length=10)
-    public Date getBirthdate() {
-        return this.birthdate;
-    }
-    
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
-    }
-
     
     @Column(name="username", nullable=false, length=45)
     public String getUsername() {
@@ -104,16 +51,6 @@ public class User  implements java.io.Serializable {
     
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    
-    @Column(name="job", length=45)
-    public String getJob() {
-        return this.job;
-    }
-    
-    public void setJob(String job) {
-        this.job = job;
     }
 
     
@@ -134,66 +71,6 @@ public class User  implements java.io.Serializable {
     
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    
-    @Column(name="credit_limit", precision=12)
-    public float getCreditLimit() {
-        return this.creditLimit;
-    }
-    
-    public void setCreditLimit(float creditLimit) {
-        this.creditLimit = creditLimit;
-    }
-
-    
-    @Column(name="address", nullable=false, length=100)
-    public String getAddress() {
-        return this.address;
-    }
-    
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    
-    @Column(name="user_role", length=10)
-    public String getUserRole() {
-        return this.userRole;
-    }
-    
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="user")
-    public Set<Cart> getCarts() {
-        return this.carts;
-    }
-    
-    public void setCarts(Set<Cart> carts) {
-        this.carts = carts;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="user")
-    public Set<Order> getOrders() {
-        return this.orders;
-    }
-    
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
-    }
-
-@ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="user_intersts", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="user_id", nullable=false, updatable=true) }, inverseJoinColumns = {
-        @JoinColumn(name="category_id", nullable=false, updatable=true) })
-    public Set<Category> getCategories() {
-        return this.categories;
-    }
-    
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
     }
 
 

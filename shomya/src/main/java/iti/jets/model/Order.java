@@ -1,10 +1,18 @@
 package iti.jets.model;
-// Generated Aug 24, 2024, 11:37:30 AM by Hibernate Tools 6.5.1.Final
+// Generated Aug 29, 2024, 10:26:43 PM by Hibernate Tools 6.5.1.Final
 
 
-import jakarta.persistence.*;
-
-import java.io.Serializable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,29 +24,28 @@ import java.util.Set;
 @Table(name="order"
     ,catalog="shomya"
 )
-public class Order  implements Serializable {
+public class Order  implements java.io.Serializable {
 
 
      private int id;
-     private User user;
+     private Customer customer;
      private Timestamp orderDate;
-     private Set<OrderHasProducts> orderHasProductses = new HashSet<OrderHasProducts>(0);
-    private int users;
+     private Set<CartItem> cartItems = new HashSet<CartItem>(0);
 
     public Order() {
     }
 
 	
-    public Order(int id, User user, Timestamp orderDate) {
+    public Order(int id, Customer customer, Timestamp orderDate) {
         this.id = id;
-        this.user = user;
+        this.customer = customer;
         this.orderDate = orderDate;
     }
-    public Order(int id, User user, Timestamp orderDate, Set<OrderHasProducts> orderHasProductses) {
+    public Order(int id, Customer customer, Timestamp orderDate, Set<CartItem> cartItems) {
        this.id = id;
-       this.user = user;
+       this.customer = customer;
        this.orderDate = orderDate;
-       this.orderHasProductses = orderHasProductses;
+       this.cartItems = cartItems;
     }
    
      @Id 
@@ -54,13 +61,13 @@ public class Order  implements Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false)
-    public User getUser() {
-        return this.user;
+    @JoinColumn(name="customer_id", nullable=false)
+    public Customer getCustomer() {
+        return this.customer;
     }
     
-    public void setUser(User user) {
-        this.user = user;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -73,14 +80,20 @@ public class Order  implements Serializable {
         this.orderDate = orderDate;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="order")
-    public Set<OrderHasProducts> getOrderHasProductses() {
-        return this.orderHasProductses;
+@ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(name="order_items", catalog="shomya", joinColumns = { 
+        @JoinColumn(name="order_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
+        @JoinColumn(name="cart_item_id", nullable=false, updatable=false) })
+    public Set<CartItem> getCartItems() {
+        return this.cartItems;
     }
     
-    public void setOrderHasProductses(Set<OrderHasProducts> orderHasProductses) {
-        this.orderHasProductses = orderHasProductses;
+    public void setCartItems(Set<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
+
+
+
 
 }
 

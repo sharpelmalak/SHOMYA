@@ -1,9 +1,17 @@
 package iti.jets.model;
-// Generated Aug 24, 2024, 11:37:30 AM by Hibernate Tools 6.5.1.Final
+// Generated Aug 29, 2024, 10:26:43 PM by Hibernate Tools 6.5.1.Final
 
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,31 +26,39 @@ public class Product  implements java.io.Serializable {
 
 
      private int id;
+     private Admin admin;
+     private Category category;
      private String name;
      private float price;
      private int quantity;
-     private Set<Category> categories = new HashSet<Category>(0);
-     private Set<Cart> carts = new HashSet<Cart>(0);
-     private Set<OrderHasProducts> orderHasProductses = new HashSet<OrderHasProducts>(0);
+     private String description;
+     private String image;
+     private Set<CartItem> cartItems = new HashSet<CartItem>(0);
+     private Set<Customer> customers = new HashSet<Customer>(0);
 
     public Product() {
     }
 
 	
-    public Product(int id, String name, float price, int quantity) {
+    public Product(int id, Admin admin, Category category, String name, float price, int quantity) {
         this.id = id;
+        this.admin = admin;
+        this.category = category;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
     }
-    public Product(int id, String name, float price, int quantity, Set<Category> categories, Set<Cart> carts, Set<OrderHasProducts> orderHasProductses) {
+    public Product(int id, Admin admin, Category category, String name, float price, int quantity, String description, String image, Set<CartItem> cartItems, Set<Customer> customers) {
        this.id = id;
+       this.admin = admin;
+       this.category = category;
        this.name = name;
        this.price = price;
        this.quantity = quantity;
-       this.categories = categories;
-       this.carts = carts;
-       this.orderHasProductses = orderHasProductses;
+       this.description = description;
+       this.image = image;
+       this.cartItems = cartItems;
+       this.customers = customers;
     }
    
      @Id 
@@ -55,6 +71,26 @@ public class Product  implements java.io.Serializable {
     
     public void setId(int id) {
         this.id = id;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="admin_id", nullable=false)
+    public Admin getAdmin() {
+        return this.admin;
+    }
+    
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="category_id", nullable=false)
+    public Category getCategory() {
+        return this.category;
+    }
+    
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     
@@ -87,34 +123,45 @@ public class Product  implements java.io.Serializable {
         this.quantity = quantity;
     }
 
+    
+    @Column(name="description", length=200)
+    public String getDescription() {
+        return this.description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    
+    @Column(name="image", length=100)
+    public String getImage() {
+        return this.image;
+    }
+    
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="product")
+    public Set<CartItem> getCartItems() {
+        return this.cartItems;
+    }
+    
+    public void setCartItems(Set<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
 @ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="category_has_product", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="product_id", nullable=false, updatable=true) }, inverseJoinColumns = {
-        @JoinColumn(name="category_id", nullable=false, updatable=true) })
-    public Set<Category> getCategories() {
-        return this.categories;
+    @JoinTable(name="customer_wishlist", catalog="shomya", joinColumns = { 
+        @JoinColumn(name="product_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
+        @JoinColumn(name="customer_id", nullable=false, updatable=false) })
+    public Set<Customer> getCustomers() {
+        return this.customers;
     }
     
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="product")
-    public Set<Cart> getCarts() {
-        return this.carts;
-    }
-    
-    public void setCarts(Set<Cart> carts) {
-        this.carts = carts;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="product")
-    public Set<OrderHasProducts> getOrderHasProductses() {
-        return this.orderHasProductses;
-    }
-    
-    public void setOrderHasProductses(Set<OrderHasProducts> orderHasProductses) {
-        this.orderHasProductses = orderHasProductses;
+    public void setCustomers(Set<Customer> customers) {
+        this.customers = customers;
     }
 
 
