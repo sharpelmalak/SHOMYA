@@ -15,6 +15,7 @@ public class UserDao extends DAO<User,Integer>{
     public User checkUserCredintials(String uname,String pass)
     {
         User user;
+        getConnection();
         try {
 
             Query q = entityManager.createQuery("from User u where u.username=:name and u.password=:pass").setParameter(
@@ -26,7 +27,7 @@ public class UserDao extends DAO<User,Integer>{
             // TODO: handle exception
             user = null;
         }
-
+        closeConnection();
         return user;
     }
 

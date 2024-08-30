@@ -46,7 +46,7 @@ public class App {
 //            System.out.println("Admin not added");
 //        }
         UserDao userDao = new UserDao();
-        User user = userDao.checkUserCredintials("admin","1234");
+        User user = userDao.checkUserCredintials("JohnDoe","1234");
         System.out.println(user);
         if (user instanceof Admin) {
             System.out.println("Admin User");

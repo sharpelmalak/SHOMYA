@@ -44,7 +44,7 @@ public abstract class User {
     }
 
     
-    @Column(name="username", nullable=false, length=45)
+    @Column(name="username", nullable=false, length=45,unique = true)
     public String getUsername() {
         return this.username;
     }
@@ -64,7 +64,7 @@ public abstract class User {
     }
 
     
-    @Column(name="email", nullable=false, length=45)
+    @Column(name="email", nullable=false, length=45,unique = true)
     public String getEmail() {
         return this.email;
     }

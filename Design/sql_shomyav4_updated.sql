@@ -3,6 +3,7 @@
 -- -----------------------------------------------------
 -- Schema shomya
 -- -----------------------------------------------------
+drop schema `shomya`;
 CREATE SCHEMA IF NOT EXISTS `shomya` DEFAULT CHARACTER SET utf8 ;
 
 USE `shomya` ;
@@ -151,10 +152,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `shomya`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `username` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL ,
+  `username` VARCHAR(45) NOT NULL unique,
   `password` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL unique,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
