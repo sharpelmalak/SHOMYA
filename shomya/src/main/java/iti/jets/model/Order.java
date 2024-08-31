@@ -29,6 +29,7 @@ public class Order  implements java.io.Serializable {
 
      private int id;
      private Customer customer;
+     private float totalPrice;
      private Timestamp orderDate;
      private Set<CartItem> cartItems = new HashSet<CartItem>(0);
 
@@ -58,6 +59,15 @@ public class Order  implements java.io.Serializable {
     
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Column(name="total_price", nullable=false, precision=12)
+    public float getTotalPrice() {
+        return this.totalPrice;
+    }
+
+    public void setTotalPrice(float price) {
+        this.totalPrice = price;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
