@@ -41,13 +41,33 @@ public class OrderDao extends DAO<Order,Integer>{
         }catch (PersistenceException e ){
             orders=null;
         }
-
         closeConnection();
         return orders;
     }
         @Override
     public List<Order> search(Order criteria) {
         return List.of();
+    }
+
+    private OrderDao orderDAO;
+
+    public List<Order> getAllOrders() {
+        return orderDAO.findAll();
+    }
+    public Order getOrderById(int id) {
+        return orderDAO.findById(id);
+    }
+    public void addOrder(Order order) {
+        orderDAO.save(order);
+    }
+    public void updateOrder(Order order) {
+        orderDAO.update(order);
+    }
+    public void deleteOrder(Order order) {
+        orderDAO.delete(order);
+    }
+    public void deleteOrderById(int id) {
+        orderDAO.deleteById(id);
     }
 }
 

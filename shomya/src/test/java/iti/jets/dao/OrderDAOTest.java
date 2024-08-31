@@ -24,4 +24,10 @@ public class OrderDAOTest {
         assertNotNull(orders);
         //assertEquals(8, orders.size());
     }
+
+
+    /// need to test getAllOrders, getOrderById, addOrder, updateOrder, deleteOrder, deleteOrderById
+
+
+
 }
