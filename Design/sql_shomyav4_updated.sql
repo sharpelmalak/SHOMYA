@@ -115,6 +115,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `shomya`.`order` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `order_date` DATETIME NOT NULL,
+  `total_price` FLOAT NOT NULL,
   `customer_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_order_customer1`
