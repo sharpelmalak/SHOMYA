@@ -165,6 +165,33 @@
             <scope>compile</scope>
         </dependency>
 
+<!--connection pooling-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+
+<!--        Apache DBCP 2.0 provides two types of DataSource (BasicDataSource and PoolingDataSource).-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+
+<!--        HikariCP is fast, reliable, and simple. It is one of the preferred solutions for Connection Pooling.-->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+
+<!--        C3P0 is one of oldest library. Generally, it is used with Hibernate-->
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.5.5</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter -->
         <dependency>
