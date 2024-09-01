@@ -1,18 +1,25 @@
 package iti.jets;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import iti.jets.dao.UserDao;
 import iti.jets.model.Admin;
 import iti.jets.model.Customer;
 import iti.jets.model.Order;
 import iti.jets.model.User;
 
-import java.sql.Date;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class App {
-    public static void main(String[] args) {
+   // public static void main(String[] args) {
 
 //        Customer customer = new Customer();
 //        customer.setName("John Doe");
@@ -84,5 +91,66 @@ public class App {
 //        }
 
 
+//        Customer customer = new Customer();
+//        customer.setName("John Doe");
+//        customer.setUsername("JohnDoe");
+//        customer.setEmail("john.doe@gmail.com");
+//        customer.setPassword("1234");
+//        customer.setBirthdate(new Date(2022,04,4));
+//        customer.setAddress("22 b sherman");
+//        customer.setCreditLimit(5000F);
+//        customer.setJob("wear");
+
+
+
+//        String name =  customer.getName();
+//        String username = customer.getUsername();
+//        String email = customer.getEmail();
+//        String password =customer.getPassword();
+//        Date birthdate = customer.getBirthdate();
+//        String address =customer.getAddress();
+//        float cl=customer.getCreditLimit();
+//        String job =customer.getJob();
+//
+//        Customer customer1 =new Customer(name,username,email,password,birthdate,address,cl,job);
+
+
+
+        // connection pooling
+
+
+
+    static ComboPooledDataSource comboPooledDataSource = null;
+
+    static {
+        comboPooledDataSource = new ComboPooledDataSource();
+        comboPooledDataSource.setJdbcUrl("jdbc:mysql://localhost:3366/mydb");
+        comboPooledDataSource.setUser("root");
+        comboPooledDataSource.setPassword("4520");
+        comboPooledDataSource.setMinPoolSize(3);
+        comboPooledDataSource.setAcquireIncrement(3);
+        comboPooledDataSource.setMaxPoolSize(30);
+
     }
-}
+
+            public static void main(String[] args) throws SQLException {
+                Connection connection = null;
+                Statement statement = null;
+                ResultSet resultSet = null;
+                try {
+                    connection = comboPooledDataSource.getConnection();
+                    statement = connection.createStatement();
+                    resultSet = statement.executeQuery("select * from login");
+                    while (resultSet.next()) {
+                        System.out.println("username " + resultSet.getString("username"));
+                        System.out.println("password " + resultSet.getString("password"));
+                       }
+                } finally {
+                    resultSet.close();
+                    statement.close();
+                    connection.close();
+                }
+            }
+
+        }
+
