@@ -23,7 +23,7 @@ public class Category  implements java.io.Serializable {
      private Set<Customer> customers = new HashSet<Customer>(0);
      private Set<Product> products = new HashSet<Product>(0);
 
-
+    public Category(){}
     public Category( String name) {
         this.name = name;
     }

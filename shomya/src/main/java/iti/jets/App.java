@@ -1,6 +1,8 @@
 package iti.jets;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import java.awt.print.Book;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -154,7 +156,7 @@ public class App {
 
        ConnectionInstance connectionInstance=new ConnectionInstance(Factory.getEntityMangerFactory());
 
-//       UserDao userDao = new UserDao(connectionInstance.getEntityManager());
+       UserDao userDao = new UserDao(connectionInstance.getEntityManager());
 
 //       Customer customer = new Customer();
 //       customer.setName("customer1");
@@ -210,15 +212,46 @@ public class App {
 //        }
 
 
-       Category category=new Category("cloths");
-       Category category2=new Category("electronics");
-       Category category3=new Category("books");
+       Admin user = (Admin)userDao.findById(2);
+       if (user instanceof Admin) {
+            System.out.println("Admin User");
+        }
+       else
+        {
+            System.out.println("Invalid User");
+        }
 
-       AdminDao adminDao=new AdminDao(connectionInstance.getEntityManager());
+           AdminDao adminDao=new AdminDao(connectionInstance.getEntityManager());
+       Category book = adminDao.getCategory(3);
+       if (book instanceof Category) {
+           System.out.println("Book Category");
+       }
+       else
+       {
+           System.out.println("Invalid Category");
+       }
+//       Product product = new Product(user,book,"Tales of two cities",50.50F,10,"This is the book for language schoools","/resource/tales.jpg");
+//       Product product1 = new Product(user,book,"Journey to the center of the earth",29.19F,50,"this book is amazing","/resource/center.jpg");
+//        adminDao.addProduct(product);
+//        adminDao.addProduct(product1);
+        List<Customer> customers = adminDao.getAllCustomers();
+        for (Customer customer : customers) {
+            System.out.println(customer.getAddress());
+            System.out.println(customer.getName());
+        }
+        List<Product> products = adminDao.getallProducts();
+        for (Product product : products) {
+            System.out.println(product.getName());
+        }
+       //       Category category=new Category("cloths");
+//       Category category2=new Category("electronics");
+//       Category category3=new Category("books");
 
-       adminDao.addCategory(category);
-       adminDao.addCategory(category2);
-       adminDao.addCategory(category3);
+//       adminDao.addCategory(category);
+//       adminDao.addCategory(category2);
+//       adminDao.addCategory(category3);
+
+
 
        connectionInstance.closeEntityManager();
        Factory.closeEntityManagerFactory();

@@ -2,16 +2,8 @@ package iti.jets.model;
 // Generated Sep 2, 2024, 5:22:05 PM by Hibernate Tools 6.5.1.Final
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,32 +33,25 @@ public class Product  implements java.io.Serializable {
     }
 
 	
-    public Product(int id, Admin admin, Category category, String name, float price, int quantity) {
-        this.id = id;
+    public Product(Admin admin, Category category, String name, float price, int quantity) {
         this.admin = admin;
         this.category = category;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
     }
-    public Product(int id, Admin admin, Category category, String name, float price, int quantity, String description, String image, Set<CartItem> cartItems, Set<OrderItem> orderItems, Set<Customer> customers) {
-       this.id = id;
-       this.admin = admin;
-       this.category = category;
+    public Product(Admin admin, Category category,String name, float price, int quantity, String description, String image) {
+
+        this.admin = admin;
+        this.category = category;
        this.name = name;
        this.price = price;
        this.quantity = quantity;
        this.description = description;
        this.image = image;
-       this.cartItems = cartItems;
-       this.orderItems = orderItems;
-       this.customers = customers;
     }
    
-     @Id 
-
-    
-    @Column(name="id", unique=true, nullable=false)
+     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return this.id;
     }
