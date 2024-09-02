@@ -1,5 +1,5 @@
 package iti.jets.model;
-// Generated Aug 29, 2024, 10:26:43 PM by Hibernate Tools 6.5.1.Final
+// Generated Sep 2, 2024, 5:22:05 PM by Hibernate Tools 6.5.1.Final
 
 
 import jakarta.persistence.Column;
@@ -26,8 +26,6 @@ import java.util.Set;
 )
 public class Customer  extends User implements java.io.Serializable {
 
-
-
      private Date birthdate;
      private String job;
      private float creditLimit;
@@ -42,12 +40,16 @@ public class Customer  extends User implements java.io.Serializable {
 
 	
     public Customer(Date birthdate, float creditLimit, String address) {
-
         this.birthdate = birthdate;
         this.creditLimit = creditLimit;
         this.address = address;
     }
-
+    public Customer( Date birthdate, String job, float creditLimit, String address) {
+       this.birthdate = birthdate;
+       this.job = job;
+       this.creditLimit = creditLimit;
+       this.address = address;
+    }
 
     @Temporal(TemporalType.DATE)
     @Column(name="birthdate", nullable=false, length=10)
@@ -89,10 +91,7 @@ public class Customer  extends User implements java.io.Serializable {
         this.address = address;
     }
 
-@ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="cart", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="customer_id", nullable=false) }, inverseJoinColumns = {
-        @JoinColumn(name="cart_item_id", nullable=false) })
+@OneToMany(fetch=FetchType.LAZY, mappedBy="customer")
     public Set<CartItem> getCartItems() {
         return this.cartItems;
     }
@@ -125,7 +124,7 @@ public class Customer  extends User implements java.io.Serializable {
         this.products = products;
     }
 
-@OneToMany(fetch=FetchType.EAGER, mappedBy="customer")
+@OneToMany(fetch=FetchType.LAZY, mappedBy="customer")
     public Set<Order> getOrders() {
         return this.orders;
     }

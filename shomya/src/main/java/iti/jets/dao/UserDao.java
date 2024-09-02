@@ -13,7 +13,7 @@ public class UserDao extends DAO<User,Integer>{
     public UserDao() {}
 
 
-    private String hashPassword(String password) {
+    public String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedHash = digest.digest(password.getBytes());
@@ -24,56 +24,55 @@ public class UserDao extends DAO<User,Integer>{
         }
     }
 
-
     @Override
     public List<User> search(User criteria) {
         return List.of();
     }
 
-//    public User checkUserCredintials(String uname,String pass)
-//    {
-//        User user;
-//        getConnection();
-//        try {
-//
-//            Query q = entityManager.createQuery("from User u where u.username=:name and u.password=:pass").setParameter(
-//                    "name", uname).setParameter("pass", pass);
-//            user = (User)q.getSingleResult();
-//            entityManager.close();
-//
-//        } catch (Exception e) {
-//            // TODO: handle exception
-//            user = null;
-//        }
-//        closeConnection();
-//        return user;
-//    }
-  public boolean validateCredentials(String uname, String pass) {
+    public User checkUserCredintials(String uname,String pass)
+    {
+        User user;
         getConnection();
-
         try {
-            // Retrieve the user by username
-            Query q = entityManager.createQuery("from User u where u.username = :name").setParameter("name", uname);
-            List<User> users = q.getResultList();
 
-            if (!users.isEmpty()) {
-                User user = users.get(0);
-                // Hash the entered password
-                String hashedEnteredPassword = hashPassword(pass);
+            Query q = entityManager.createQuery("from User u where u.username=:name and u.password=:pass").setParameter(
+                    "name", uname).setParameter("pass", pass);
+            user = (User)q.getSingleResult();
+            entityManager.close();
 
-                // Compare the hashed entered password with the stored hashed password
-                if (hashedEnteredPassword.equals(user.getPassword())) {
-                    // Passwords match, credentials are valid
-                    return true;
-                }
-            }
         } catch (Exception e) {
-            // Handle exception
+            // TODO: handle exception
+            user = null;
         }
-
         closeConnection();
-        return false;
+        return user;
     }
+//  public boolean validateCredentials(String uname, String pass) {
+//        getConnection();
+//
+//        try {
+//            // Retrieve the user by username
+//            Query q = entityManager.createQuery("from User u where u.username = :name").setParameter("name", uname);
+//            List<User> users = q.getResultList();
+//
+//            if (!users.isEmpty()) {
+//                User user = users.get(0);
+//                // Hash the entered password
+//                String hashedEnteredPassword = hashPassword(pass);
+//
+//                // Compare the hashed entered password with the stored hashed password
+//                if (hashedEnteredPassword.equals(user.getPassword())) {
+//                    // Passwords match, credentials are valid
+//                    return true;
+//                }
+//            }
+//        } catch (Exception e) {
+//            // Handle exception
+//        }
+//
+//        closeConnection();
+//        return false;
+//    }
 
 
 

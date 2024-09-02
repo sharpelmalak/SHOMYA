@@ -1,5 +1,5 @@
 package iti.jets.model;
-// Generated Aug 29, 2024, 10:26:43 PM by Hibernate Tools 6.5.1.Final
+// Generated Sep 2, 2024, 5:22:05 PM by Hibernate Tools 6.5.1.Final
 
 
 import jakarta.persistence.Column;
@@ -21,9 +21,7 @@ import java.util.Set;
 @Table(name="admin"
     ,catalog="shomya"
 )
-public class Admin  extends User implements java.io.Serializable {
-
-
+public class Admin extends User implements java.io.Serializable {
 
      private Date hireDate;
      private Set<Product> products = new HashSet<Product>(0);
@@ -32,7 +30,7 @@ public class Admin  extends User implements java.io.Serializable {
     }
 
 	
-    public Admin(Date hireDate) {
+    public Admin( Date hireDate) {
         this.hireDate = hireDate;
     }
 

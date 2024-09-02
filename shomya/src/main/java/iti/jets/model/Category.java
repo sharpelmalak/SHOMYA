@@ -1,5 +1,5 @@
 package iti.jets.model;
-// Generated Aug 29, 2024, 10:26:43 PM by Hibernate Tools 6.5.1.Final
+// Generated Sep 2, 2024, 5:22:05 PM by Hibernate Tools 6.5.1.Final
 
 
 import jakarta.persistence.Column;
@@ -11,7 +11,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +20,6 @@ import java.util.Set;
 @Entity
 @Table(name="category"
     ,catalog="shomya"
-    , uniqueConstraints = @UniqueConstraint(columnNames="name") 
 )
 public class Category  implements java.io.Serializable {
 
@@ -61,7 +59,7 @@ public class Category  implements java.io.Serializable {
     }
 
     
-    @Column(name="name", unique=true, nullable=false, length=45)
+    @Column(name="name", nullable=false, length=45)
     public String getName() {
         return this.name;
     }
