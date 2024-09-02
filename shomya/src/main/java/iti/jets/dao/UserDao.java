@@ -2,6 +2,7 @@ package iti.jets.dao;
 
 import iti.jets.model.Customer;
 import iti.jets.model.User;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -10,8 +11,11 @@ import java.sql.Date;
 import java.util.Base64;
 import java.util.List;
 public class UserDao extends DAO<User,Integer>{
-    public UserDao() {}
 
+
+    public UserDao(EntityManager entityManager) {
+        super(entityManager);
+    }
 
     public String hashPassword(String password) {
         try {
@@ -32,7 +36,6 @@ public class UserDao extends DAO<User,Integer>{
     public User checkUserCredintials(String uname,String pass)
     {
         User user;
-        getConnection();
         try {
 
             Query q = entityManager.createQuery("from User u where u.username=:name and u.password=:pass").setParameter(
@@ -44,7 +47,6 @@ public class UserDao extends DAO<User,Integer>{
             // TODO: handle exception
             user = null;
         }
-        closeConnection();
         return user;
     }
 //  public boolean validateCredentials(String uname, String pass) {
@@ -91,7 +93,6 @@ public class UserDao extends DAO<User,Integer>{
         user.setCreditLimit(creditLimit);
         user.setAddress(address);
 
-        getConnection();
 
         try {
             // Check if the username already exists
@@ -114,8 +115,6 @@ public class UserDao extends DAO<User,Integer>{
             // Handle exception
             user = null;
         }
-
-        closeConnection();
         return user;
     }
 

@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import iti.jets.dao.AdminDao;
 import iti.jets.dao.UserDao;
-import iti.jets.model.Admin;
-import iti.jets.model.Customer;
-import iti.jets.model.Order;
-import iti.jets.model.User;
+import iti.jets.model.*;
+import iti.jets.util.ConnectionInstance;
+import iti.jets.util.Factory;
+import jakarta.persistence.EntityManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -151,62 +152,77 @@ public class App {
 //            }
 
 
+       ConnectionInstance connectionInstance=new ConnectionInstance(Factory.getEntityMangerFactory());
+
+//       UserDao userDao = new UserDao(connectionInstance.getEntityManager());
+
+//       Customer customer = new Customer();
+//       customer.setName("customer1");
+//       customer.setUsername("customer1");
+//       customer.setEmail("customer1@gmail.com");
+//       customer.setPassword(userDao.hashPassword("1234"));
+//       customer.setBirthdate(new Date(2022,04,4));
+//       customer.setAddress("22 b sherman");
+//       customer.setCreditLimit(5000F);
+//       customer.setJob("wear");
+//
+//       if(userDao.save(customer))
+//       {
+//           System.out.println("Customer successfully added");
+//       }
+//       else
+//       {
+//           System.out.println("Customer not added");
+//       }
+//
+//
+//
+//       Admin admin = new Admin();
+//        admin.setName("admin11");
+//        admin.setUsername("admin11");
+//        admin.setEmail("admin11@gmail.com");
+//        admin.setPassword(userDao.hashPassword("1234"));
+//        admin.setHireDate(new Date(2022,04,4));
+//
+//        if(userDao.save(admin))
+//        {
+//            System.out.println("Admin successfully added");
+//        }
+//        else
+//        {
+//            System.out.println("Admin not added");
+//        }
+////        UserDao userDao = new UserDao();
+//        User user = userDao.checkUserCredintials("customer", userDao.hashPassword("1234"));
+//        System.out.println(user);
+//        if (user instanceof Admin) {
+//            System.out.println("Admin User");
+//            admin = (Admin) user;
+//        }
+//        else if (user instanceof Customer)
+//        {
+//            System.out.println("Customer User");
+//            customer = (Customer) user;
+//        }
+//        else
+//        {
+//            System.out.println("Invalid User");
+//        }
 
 
-       UserDao userDao = new UserDao();
+       Category category=new Category("cloths");
+       Category category2=new Category("electronics");
+       Category category3=new Category("books");
 
-       Customer customer = new Customer();
-       customer.setName("customer");
-       customer.setUsername("customer");
-       customer.setEmail("customer@gmail.com");
-       customer.setPassword(userDao.hashPassword("1234"));
-       customer.setBirthdate(new Date(2022,04,4));
-       customer.setAddress("22 b sherman");
-       customer.setCreditLimit(5000F);
-       customer.setJob("wear");
+       AdminDao adminDao=new AdminDao(connectionInstance.getEntityManager());
 
-       if(userDao.save(customer))
-       {
-           System.out.println("Customer successfully added");
-       }
-       else
-       {
-           System.out.println("Customer not added");
-       }
+       adminDao.addCategory(category);
+       adminDao.addCategory(category2);
+       adminDao.addCategory(category3);
 
+       connectionInstance.closeEntityManager();
+       Factory.closeEntityManagerFactory();
 
-
-       Admin admin = new Admin();
-        admin.setName("admin1");
-        admin.setUsername("admin1");
-        admin.setEmail("admin1@gmail.com");
-        admin.setPassword(userDao.hashPassword("1234"));
-        admin.setHireDate(new Date(2022,04,4));
-
-        if(userDao.save(admin))
-        {
-            System.out.println("Admin successfully added");
-        }
-        else
-        {
-            System.out.println("Admin not added");
-        }
-//        UserDao userDao = new UserDao();
-        User user = userDao.checkUserCredintials("customer", userDao.hashPassword("1234"));
-        System.out.println(user);
-        if (user instanceof Admin) {
-            System.out.println("Admin User");
-            admin = (Admin) user;
-        }
-        else if (user instanceof Customer)
-        {
-            System.out.println("Customer User");
-            customer = (Customer) user;
-        }
-        else
-        {
-            System.out.println("Invalid User");
-        }
 
    }
         }
