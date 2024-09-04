@@ -31,4 +31,26 @@ public class UserDao extends DAO<User,Integer>{
         return user;
     }
 
+ // Find User by userName
+    public User findByUsername(String username)
+    {
+        User user = null;
+        getConnection();
+        try {
+            user = entityManager.createQuery("FROM User WHERE username = :username", User.class)
+                    .setParameter("username", username)
+                    .getSingleResult();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error finding user with username: " + username, e);
+        }
+        closeConnection();
+        return user;
+    }
+
+
+
+
+
+
+
 }
