@@ -3,6 +3,7 @@ package iti.jets.dao;
 import iti.jets.model.Customer;
 import iti.jets.model.Order;
 import iti.jets.model.User;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 
@@ -12,9 +13,13 @@ import java.util.List;
 import java.util.Set;
 
 public class OrderDao extends DAO<Order,Integer>{
+    public OrderDao(EntityManager entityManager) {
+        super(entityManager);
+    }
+
     public List<Order> searchByUserId(int userId) {
         List<Order> orders=new ArrayList<>();
-        UserDao userDao= new UserDao();
+        UserDao userDao= new UserDao(entityManager);
         Customer user = (Customer) userDao.findById(1);
         if (user != null) {
             System.out.println(user.getJob());
@@ -31,7 +36,6 @@ public class OrderDao extends DAO<Order,Integer>{
     }
 
     public List<Order> getAllOrdersWithinTimestampRange(Timestamp startTime, Timestamp endTime) {
-        getConnection();
         List<Order> orders ;
         try {
             TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order o WHERE o.orderDate BETWEEN :start AND :end", Order.class);
@@ -41,7 +45,6 @@ public class OrderDao extends DAO<Order,Integer>{
         }catch (PersistenceException e ){
             orders=null;
         }
-        closeConnection();
         return orders;
     }
         @Override

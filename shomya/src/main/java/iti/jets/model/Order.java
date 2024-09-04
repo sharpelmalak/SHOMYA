@@ -1,5 +1,5 @@
 package iti.jets.model;
-// Generated Aug 29, 2024, 10:26:43 PM by Hibernate Tools 6.5.1.Final
+// Generated Sep 2, 2024, 5:22:05 PM by Hibernate Tools 6.5.1.Final
 
 
 import jakarta.persistence.Column;
@@ -7,9 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -29,24 +28,26 @@ public class Order  implements java.io.Serializable {
 
      private int id;
      private Customer customer;
-     private float totalPrice;
      private Timestamp orderDate;
-     private Set<CartItem> cartItems = new HashSet<CartItem>(0);
+     private float totalPrice;
+     private Set<OrderItem> orderItems = new HashSet<OrderItem>(0);
 
     public Order() {
     }
 
 	
-    public Order(int id, Customer customer, Timestamp orderDate) {
+    public Order(int id, Customer customer, Timestamp orderDate, float totalPrice) {
         this.id = id;
         this.customer = customer;
         this.orderDate = orderDate;
+        this.totalPrice = totalPrice;
     }
-    public Order(int id, Customer customer, Timestamp orderDate, Set<CartItem> cartItems) {
+    public Order(int id, Customer customer, Timestamp orderDate, float totalPrice, Set<OrderItem> orderItems) {
        this.id = id;
        this.customer = customer;
        this.orderDate = orderDate;
-       this.cartItems = cartItems;
+       this.totalPrice = totalPrice;
+       this.orderItems = orderItems;
     }
    
      @Id 
@@ -59,15 +60,6 @@ public class Order  implements java.io.Serializable {
     
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Column(name="total_price", nullable=false, precision=12)
-    public float getTotalPrice() {
-        return this.totalPrice;
-    }
-
-    public void setTotalPrice(float price) {
-        this.totalPrice = price;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
@@ -90,16 +82,23 @@ public class Order  implements java.io.Serializable {
         this.orderDate = orderDate;
     }
 
-@ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name="order_items", catalog="shomya", joinColumns = { 
-        @JoinColumn(name="order_id", nullable=false) }, inverseJoinColumns = {
-        @JoinColumn(name="cart_item_id", nullable=false) })
-    public Set<CartItem> getCartItems() {
-        return this.cartItems;
+    
+    @Column(name="total_price", nullable=false, precision=12)
+    public float getTotalPrice() {
+        return this.totalPrice;
     }
     
-    public void setCartItems(Set<CartItem> cartItems) {
-        this.cartItems = cartItems;
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="order")
+    public Set<OrderItem> getOrderItems() {
+        return this.orderItems;
+    }
+    
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
 

@@ -1,17 +1,9 @@
 package iti.jets.model;
-// Generated Aug 29, 2024, 10:26:43 PM by Hibernate Tools 6.5.1.Final
+// Generated Sep 2, 2024, 5:22:05 PM by Hibernate Tools 6.5.1.Final
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,37 +26,32 @@ public class Product  implements java.io.Serializable {
      private String description;
      private String image;
      private Set<CartItem> cartItems = new HashSet<CartItem>(0);
+     private Set<OrderItem> orderItems = new HashSet<OrderItem>(0);
      private Set<Customer> customers = new HashSet<Customer>(0);
 
     public Product() {
     }
 
 	
-    public Product(int id, Admin admin, Category category, String name, float price, int quantity) {
-        this.id = id;
+    public Product(Admin admin, Category category, String name, float price, int quantity) {
         this.admin = admin;
         this.category = category;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
     }
-    public Product(int id, Admin admin, Category category, String name, float price, int quantity, String description, String image, Set<CartItem> cartItems, Set<Customer> customers) {
-       this.id = id;
-       this.admin = admin;
-       this.category = category;
+    public Product(Admin admin, Category category,String name, float price, int quantity, String description, String image) {
+
+        this.admin = admin;
+        this.category = category;
        this.name = name;
        this.price = price;
        this.quantity = quantity;
        this.description = description;
        this.image = image;
-       this.cartItems = cartItems;
-       this.customers = customers;
     }
    
-     @Id 
-
-    
-    @Column(name="id", unique=true, nullable=false)
+     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return this.id;
     }
@@ -150,6 +137,15 @@ public class Product  implements java.io.Serializable {
     
     public void setCartItems(Set<CartItem> cartItems) {
         this.cartItems = cartItems;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="product")
+    public Set<OrderItem> getOrderItems() {
+        return this.orderItems;
+    }
+    
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
 @ManyToMany(fetch=FetchType.LAZY)

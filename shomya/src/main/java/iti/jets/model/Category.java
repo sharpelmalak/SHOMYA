@@ -1,17 +1,9 @@
 package iti.jets.model;
-// Generated Aug 29, 2024, 10:26:43 PM by Hibernate Tools 6.5.1.Final
+// Generated Sep 2, 2024, 5:22:05 PM by Hibernate Tools 6.5.1.Final
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,7 +13,6 @@ import java.util.Set;
 @Entity
 @Table(name="category"
     ,catalog="shomya"
-    , uniqueConstraints = @UniqueConstraint(columnNames="name") 
 )
 public class Category  implements java.io.Serializable {
 
@@ -32,36 +23,29 @@ public class Category  implements java.io.Serializable {
      private Set<Customer> customers = new HashSet<Customer>(0);
      private Set<Product> products = new HashSet<Product>(0);
 
-    public Category() {
-    }
-
-	
-    public Category(int id, String name) {
-        this.id = id;
+    public Category(){}
+    public Category( String name) {
         this.name = name;
     }
-    public Category(int id, String name, String image, Set<Customer> customers, Set<Product> products) {
+    public Category(int id, String name, String image) {
        this.id = id;
        this.name = name;
        this.image = image;
-       this.customers = customers;
-       this.products = products;
     }
    
-     @Id 
-
-    
-    @Column(name="id", unique=true, nullable=false)
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return this.id;
     }
-    
+
+
     public void setId(int id) {
         this.id = id;
     }
 
     
-    @Column(name="name", unique=true, nullable=false, length=45)
+    @Column(name="name", nullable=false, length=45)
     public String getName() {
         return this.name;
     }
