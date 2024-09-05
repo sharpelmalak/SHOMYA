@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public abstract class DAO<T, ID> {
 
-    private static final Logger LOGGER = Logger.getLogger(DAO.class.getName());
+    protected static final Logger LOGGER = Logger.getLogger(DAO.class.getName());
 
     protected EntityManager entityManager;
 

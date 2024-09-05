@@ -10,6 +10,8 @@ import java.sql.Date;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.logging.Level;
+
 public class UserDao extends DAO<User,Integer>{
 
 
@@ -123,7 +125,7 @@ public class UserDao extends DAO<User,Integer>{
     public User findByUsername(String username)
     {
         User user = null;
-        getConnection();
+
         try {
             user = entityManager.createQuery("FROM User WHERE username = :username", User.class)
                     .setParameter("username", username)
@@ -131,7 +133,7 @@ public class UserDao extends DAO<User,Integer>{
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error finding user with username: " + username, e);
         }
-        closeConnection();
+
         return user;
     }
 
