@@ -1,0 +1,18 @@
+-------------------------------------------------------------------------------
+Test set: iti.jets.dao.OrderDAOTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 6.118 s <<< FAILURE! - in iti.jets.dao.OrderDAOTest
+iti.jets.dao.OrderDAOTest.testSearchByUserId  Time elapsed: 0.123 s  <<< ERROR!
+java.lang.ExceptionInInitializerError
+	at iti.jets.dao.OrderDAOTest.<init>(OrderDAOTest.java:11)
+Caused by: jakarta.json.bind.JsonbException: JSON Binding provider org.eclipse.yasson.JsonBindingProvider not found
+	at iti.jets.dao.OrderDAOTest.<init>(OrderDAOTest.java:11)
+Caused by: java.lang.ClassNotFoundException: org.eclipse.yasson.JsonBindingProvider
+	at iti.jets.dao.OrderDAOTest.<init>(OrderDAOTest.java:11)
+
+iti.jets.dao.OrderDAOTest.testGetAllOrdersWithinTimestampRange  Time elapsed: 0.003 s  <<< ERROR!
+java.lang.NoClassDefFoundError: Could not initialize class iti.jets.util.Factory
+	at iti.jets.dao.OrderDAOTest.<init>(OrderDAOTest.java:11)
+Caused by: java.lang.ExceptionInInitializerError: Exception java.lang.ExceptionInInitializerError [in thread "main"]
+	at iti.jets.dao.OrderDAOTest.<init>(OrderDAOTest.java:11)
+
