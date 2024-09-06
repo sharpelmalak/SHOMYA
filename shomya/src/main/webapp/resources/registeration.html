@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>EShopper - Bootstrap Shop Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="/shomya/resources/img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="/shomya/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/shomya/resources/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+    <h2 class="text-center">Registration Form</h2>
+    <form method="post" action="/shomya/registration">
+        <!-- Name -->
+        <div class="control-group">
+            <input type="text" class="form-control" name="name" placeholder="Name" required="required"
+                   data-validation-required-message="Please enter your name" />
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Username -->
+        <div class="control-group">
+            <input type="text" class="form-control" name="username" placeholder="Username" required="required"
+                   data-validation-required-message="Please enter a username" />
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Email -->
+        <div class="control-group">
+            <input type="email" class="form-control" name="email" placeholder="Email" required="required"
+                   data-validation-required-message="Please enter a valid email" />
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Password -->
+        <div class="control-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" required="required"
+                   data-validation-required-message="Please enter your password" />
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- date -->
+        <div class="control-group">
+            <input type="date" class="form-control" name="date" placeholder="Birthdate" required="required"
+                   data-validation-required-message="Please select your birthdate" />
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Address -->
+        <div class="control-group">
+            <input type="text" class="form-control" name="address" placeholder="Address" required="required"
+                   data-validation-required-message="Please enter your address" />
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Credit Limit -->
+        <div class="control-group">
+            <input type="number" class="form-control" name="creditLimit" placeholder="Credit Limit" required="required"
+                   min="0" data-validation-required-message="Please enter a valid credit limit" />
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Job -->
+        <div class="control-group">
+            <input type="text" class="form-control" name="job" placeholder="Job" required="required"
+                   data-validation-required-message="Please enter your job title" />
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button class="btn btn-primary py-2 px-4" type="submit">Register</button>
+        </div>
+    </form>
+</div>
+</body>
+
+</html>

@@ -24,6 +24,8 @@ import java.util.Set;
 public class App {
    public static void main(String[] args) {
 
+//      ConnectionInstance connectionInstance = null;
+//
 //        Customer customer = new Customer();
 //        customer.setName("John Doe");
 //        customer.setUsername("JohnDoe");
@@ -33,7 +35,7 @@ public class App {
 //        customer.setAddress("22 b sherman");
 //        customer.setCreditLimit(5000F);
 //        customer.setJob("wear");
-//        UserDao userDao = new UserDao();
+//        UserDao userDao = new UserDao(connectionInstance.getEntityManager());
 //        if(userDao.save(customer))
 //        {
 //            System.out.println("Customer successfully added");
@@ -42,7 +44,7 @@ public class App {
 //        {
 //            System.out.println("Customer not added");
 //        }
-
+//
 //        Admin admin = new Admin();
 //        admin.setName("John Doe");
 //        admin.setUsername("JohnDoe");
@@ -50,7 +52,7 @@ public class App {
 //        admin.setPassword("1234");
 //        admin.setHireDate(new Date(2022,04,4));
 //
-//        UserDao userDao = new UserDao();
+//       // UserDao userDao = new UserDao();
 //        if(userDao.save(admin))
 //        {
 //            System.out.println("Admin successfully added");
