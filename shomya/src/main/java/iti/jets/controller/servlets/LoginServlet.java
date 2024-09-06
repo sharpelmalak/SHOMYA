@@ -4,6 +4,7 @@ import iti.jets.dao.UserDao;
 import iti.jets.model.Admin;
 import iti.jets.model.Customer;
 import iti.jets.model.User;
+import iti.jets.service.AuthService;
 import iti.jets.util.ConnectionInstance;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.servlet.RequestDispatcher;
@@ -20,31 +21,34 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        resp.sendRedirect("/shomya/resources/login.html");
-
+        req.getRequestDispatcher("/resources/login.html").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("welcome from post");
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        System.out.println(username);
-        System.out.println(password);
         // call service
-        ConnectionInstance connectionInstance = new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
-        UserDao userDao  = new UserDao(connectionInstance.getEntityManager());
-        User user = userDao.checkUserCredintials(username,userDao.hashPassword(password));
-        System.out.println(user);
-        if (user == null) {
-            resp.sendRedirect("/shomya/resources/login.html");
-        } else if (user instanceof Admin) {
-            resp.sendRedirect("/shomya/resources/contact.html");
-        }
-        else if (user instanceof Customer) {
-            resp.sendRedirect("/shomya/resources/index.html");
-        }
+        AuthService authService = new AuthService((EntityManagerFactory) getServletContext().getAttribute("emf"));
+        User user = authService.authUser(username, password);
+        if (user != null)
+        {
+            if(authService.getRole() == AuthService.UserRole.IS_ADMIN)
+            {
+                // admin redirect to admin home page
+                resp.sendRedirect("resources/checkout.html");
 
+            }
+            else
+            {
+                //customer
+                resp.sendRedirect("resources/index.html");
+            }
+        }
+        else
+        {
+            // invalid credentials // error no user
+            resp.sendRedirect("resources/detail.html");
+        }
     }
 }
