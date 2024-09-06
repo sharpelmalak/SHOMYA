@@ -1,4 +1,4 @@
-package iti.jets.controller;
+package iti.jets.controller.servlets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,12 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-
-@WebServlet(value = "/")
+@WebServlet(value = "/shomya/test")
 public class TestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
-        out.println("first Servlet");
+        out.println("Test Servlet");
     }
 }

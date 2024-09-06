@@ -158,42 +158,42 @@ public class App {
 
        UserDao userDao = new UserDao(connectionInstance.getEntityManager());
 
-//       Customer customer = new Customer();
-//       customer.setName("customer1");
-//       customer.setUsername("customer1");
-//       customer.setEmail("customer1@gmail.com");
-//       customer.setPassword(userDao.hashPassword("1234"));
-//       customer.setBirthdate(new Date(2022,04,4));
-//       customer.setAddress("22 b sherman");
-//       customer.setCreditLimit(5000F);
-//       customer.setJob("wear");
-//
-//       if(userDao.save(customer))
-//       {
-//           System.out.println("Customer successfully added");
-//       }
-//       else
-//       {
-//           System.out.println("Customer not added");
-//       }
-//
-//
-//
-//       Admin admin = new Admin();
-//        admin.setName("admin11");
-//        admin.setUsername("admin11");
-//        admin.setEmail("admin11@gmail.com");
-//        admin.setPassword(userDao.hashPassword("1234"));
-//        admin.setHireDate(new Date(2022,04,4));
-//
-//        if(userDao.save(admin))
-//        {
-//            System.out.println("Admin successfully added");
-//        }
-//        else
-//        {
-//            System.out.println("Admin not added");
-//        }
+       Customer customer = new Customer();
+       customer.setName("customer1");
+       customer.setUsername("customer1");
+       customer.setEmail("customer1@gmail.com");
+       customer.setPassword(userDao.hashPassword("1234"));
+       customer.setBirthdate(new Date(2022,04,4));
+       customer.setAddress("22 b sherman");
+       customer.setCreditLimit(5000F);
+       customer.setJob("wear");
+
+       if(userDao.save(customer))
+       {
+           System.out.println("Customer successfully added");
+       }
+       else
+       {
+           System.out.println("Customer not added");
+       }
+
+
+
+       Admin admin = new Admin();
+        admin.setName("admin11");
+        admin.setUsername("admin11");
+        admin.setEmail("admin11@gmail.com");
+        admin.setPassword(userDao.hashPassword("1234"));
+        admin.setHireDate(new Date(2022,04,4));
+
+        if(userDao.save(admin))
+        {
+            System.out.println("Admin successfully added");
+        }
+        else
+        {
+            System.out.println("Admin not added");
+        }
 ////        UserDao userDao = new UserDao();
 //        User user = userDao.checkUserCredintials("customer", userDao.hashPassword("1234"));
 //        System.out.println(user);
@@ -212,37 +212,37 @@ public class App {
 //        }
 
 
-       Admin user = (Admin)userDao.findById(2);
-       if (user instanceof Admin) {
-            System.out.println("Admin User");
-        }
-       else
-        {
-            System.out.println("Invalid User");
-        }
-
-           AdminDao adminDao=new AdminDao(connectionInstance.getEntityManager());
-       Category book = adminDao.getCategory(3);
-       if (book instanceof Category) {
-           System.out.println("Book Category");
-       }
-       else
-       {
-           System.out.println("Invalid Category");
-       }
+//       Admin user = (Admin)userDao.findById(2);
+//       if (user instanceof Admin) {
+//            System.out.println("Admin User");
+//        }
+//       else
+//        {
+//            System.out.println("Invalid User");
+//        }
+//
+//           AdminDao adminDao=new AdminDao(connectionInstance.getEntityManager());
+//       Category book = adminDao.getCategory(3);
+//       if (book instanceof Category) {
+//           System.out.println("Book Category");
+//       }
+//       else
+//       {
+//           System.out.println("Invalid Category");
+//       }
 //       Product product = new Product(user,book,"Tales of two cities",50.50F,10,"This is the book for language schoools","/resource/tales.jpg");
 //       Product product1 = new Product(user,book,"Journey to the center of the earth",29.19F,50,"this book is amazing","/resource/center.jpg");
 //        adminDao.addProduct(product);
 //        adminDao.addProduct(product1);
-        List<Customer> customers = adminDao.getAllCustomers();
-        for (Customer customer : customers) {
-            System.out.println(customer.getAddress());
-            System.out.println(customer.getName());
-        }
-        List<Product> products = adminDao.getallProducts();
-        for (Product product : products) {
-            System.out.println(product.getName());
-        }
+//        List<Customer> customers = adminDao.getAllCustomers();
+//        for (Customer customer : customers) {
+//            System.out.println(customer.getAddress());
+//            System.out.println(customer.getName());
+//        }
+//        List<Product> products = adminDao.getallProducts();
+//        for (Product product : products) {
+//            System.out.println(product.getName());
+//        }
        //       Category category=new Category("cloths");
 //       Category category2=new Category("electronics");
 //       Category category3=new Category("books");
