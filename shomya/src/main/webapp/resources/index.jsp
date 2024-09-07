@@ -1,3 +1,7 @@
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page import="iti.jets.service.AuthService" %>
+<%@ page import="iti.jets.service.helper.EnumHelper" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,36 +32,7 @@
 <body>
     <!-- Topbar Start -->
     <div class="container-fluid">
-        <!--div class="row bg-secondary py-2 px-xl-5">
-            <div class="col-lg-6 d-none d-lg-block">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-dark" href="">FAQs</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Help</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Support</a>
-                </div>
-            </div>
-            <div class="col-lg-6 text-center text-lg-right">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a class="text-dark pl-2" href="">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </div>
-            </div>
-        </div-->
+
         <div class="row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a href="" class="text-decoration-none">
@@ -76,16 +51,21 @@
                     </div>
                 </form>
             </div>
-            <div class="col-lg-3 col-6 text-right">
-                <a href="" class="btn border">
-                    <i class="fas fa-heart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
-                <a href="" class="btn border">
-                    <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
-            </div>
+
+                <c:if test="${user == null || userRole == EnumHelper.getCustomerRole()}">
+                    <div class="col-lg-3 col-6 text-right">
+                        <a href="" class="btn border">
+                            <i class="fas fa-heart text-primary"></i>
+                            <span class="badge">0</span>
+                        </a>
+                        <a href="" class="btn border">
+                            <i class="fas fa-shopping-cart text-primary"></i>
+                            <span class="badge">0</span>
+                        </a>
+                    </div>
+                </c:if>
+
+
         </div>
     </div>
     <!-- Topbar End -->
@@ -143,46 +123,65 @@
                             </div>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
-                        <div class="navbar-nav ml-auto py-0">
-                            <a href="/shomya/login" class="nav-item nav-link">Login</a>
-                            <a href="/shomya/registration" class="nav-item nav-link">Register</a>
-                        </div>
+
+                            <c:choose>
+                                <c:when test="${user != null}">
+                                    <div class="navbar-nav ml-auto py-0">
+                                        <a href="#" class="nav-item nav-link">Account</a>
+                                        <a href="/shomya/logout" class="nav-item nav-link">Logout</a>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="navbar-nav ml-auto py-0">
+                                        <a href="/shomya/login" class="nav-item nav-link">Login</a>
+                                        <a href="/shomya/registration" class="nav-item nav-link">Register</a>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+
+
+
                     </div>
                 </nav>
-                <div id="header-carousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active" style="height: 410px;">
-                            <img class="img-fluid" src="/shomya/resources/img/carousel-1.jpg" alt="Image">
-                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3" style="max-width: 700px;">
-                                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
-                                    <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+
+                    <c:if test="${userRole != EnumHelper.getAdminRole()}">
+                        <div id="header-carousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active" style="height: 410px;">
+                                    <img class="img-fluid" src="/shomya/resources/img/carousel-1.jpg" alt="Image">
+                                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                        <div class="p-3" style="max-width: 700px;">
+                                            <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
+                                            <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
+                                            <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="carousel-item" style="height: 410px;">
+                                    <img class="img-fluid" src="/shomya/resources/img/carousel-2.jpg" alt="Image">
+                                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                                        <div class="p-3" style="max-width: 700px;">
+                                            <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
+                                            <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
+                                            <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="carousel-item" style="height: 410px;">
-                            <img class="img-fluid" src="/shomya/resources/img/carousel-2.jpg" alt="Image">
-                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3" style="max-width: 700px;">
-                                    <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order</h4>
-                                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
-                                    <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
+                            <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
+                                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                                    <span class="carousel-control-prev-icon mb-n2"></span>
                                 </div>
-                            </div>
+                            </a>
+                            <a class="carousel-control-next" href="#header-carousel" data-slide="next">
+                                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                                    <span class="carousel-control-next-icon mb-n2"></span>
+                                </div>
+                            </a>
                         </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
-                        <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                            <span class="carousel-control-prev-icon mb-n2"></span>
-                        </div>
-                    </a>
-                    <a class="carousel-control-next" href="#header-carousel" data-slide="next">
-                        <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                            <span class="carousel-control-next-icon mb-n2"></span>
-                        </div>
-                    </a>
-                </div>
+                    </c:if>
+
+
             </div>
         </div>
     </div>

@@ -5,21 +5,31 @@ import jakarta.persistence.EntityManagerFactory;
 
 public class ConnectionInstance {
     private EntityManager entityManager;
+    private EntityManagerFactory entityManagerFactory;
 
     public ConnectionInstance(EntityManagerFactory entityManagerFactory) {
-        this.entityManager = entityManagerFactory.createEntityManager();
+        this.entityManagerFactory = entityManagerFactory;
     }
 
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
+    // Lazy initialization: EntityManager will be created only when needed
     public EntityManager getEntityManager() {
+        if (entityManager == null || !entityManager.isOpen()) {
+            entityManager = entityManagerFactory.createEntityManager();
+        }
         return entityManager;
     }
 
-    public void closeEntityManager(){
-        entityManager.close();
+    // Open a connection (EntityManager)
+    public void openEntityManager() {
+        if (entityManager == null || !entityManager.isOpen()) {
+            entityManager = entityManagerFactory.createEntityManager();
+        }
     }
 
+    // Close the EntityManager safely
+    public void closeEntityManager() {
+        if (entityManager != null && entityManager.isOpen()) {
+            entityManager.close();
+        }
+    }
 }

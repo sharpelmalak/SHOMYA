@@ -16,9 +16,7 @@ import java.io.PrintWriter;
 public class WelcomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {resp.setContentType("text/html");
-       RequestDispatcher rd = req.getRequestDispatcher("/resources/index.html");
+       RequestDispatcher rd = req.getRequestDispatcher("/resources/index.jsp");
        rd.forward(req, resp);
-       //resp.sendRedirect("/shomya/resources/index.html");
-
     }
 }

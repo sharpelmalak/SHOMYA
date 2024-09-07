@@ -44,7 +44,7 @@ public class RegisterationServlet extends HttpServlet
         RegisterationService registerationService=new RegisterationService((EntityManagerFactory) getServletContext().getAttribute("emf"));
         User user =registerationService.registerUser(name,username,email, Date.valueOf(Bdate),password,address,creditLimit,job);
         registerationService.AddingUserToDB(user);
-        resp.sendRedirect("resources/index.html");
+        resp.sendRedirect("resources/index.jsp");
 
     }
 

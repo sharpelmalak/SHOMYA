@@ -12,32 +12,32 @@ import jakarta.persistence.EntityManagerFactory;
 
 public class AuthService {
 
-    EntityManagerFactory emf;
+
     UserRole useRole;
+    User user;
     public enum UserRole{
         IS_ADMIN,
         IS_CUSTOMER
     };
     //EntityManager em;
-    public AuthService(EntityManagerFactory emf)
+    public AuthService()
+    {}
+    public void authUser(String username, String pass,ConnectionInstance connectionInstance)
     {
-        this.emf = emf;
-    }
-    public User authUser(String username, String pass)
-    {
-        ConnectionInstance connectionInstance = new ConnectionInstance(emf);
-        UserDao userDao  = new UserDao(connectionInstance.getEntityManager());
-        User user = userDao.checkUserCredintials(username,userDao.hashPassword(pass));
-        if (user==null)
-            return null;
-        else if (user instanceof Admin) {
+         UserDao userDao  = new UserDao(connectionInstance.getEntityManager());
+         user = userDao.checkUserCredintials(username,userDao.hashPassword(pass));
+         if (user instanceof Admin) {
             useRole = UserRole.IS_ADMIN;
-        }
+         }
         else if (user instanceof Customer) {
             useRole = UserRole.IS_CUSTOMER;
         }
+    }
+
+    public User getUser() {
         return user;
     }
+
     public UserRole getRole()
     {
         return  useRole;
