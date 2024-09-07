@@ -24,7 +24,7 @@ import java.util.Set;
 public class App {
    public static void main(String[] args) {
 
-//      ConnectionInstance connectionInstance = null;
+//     // ConnectionInstance connectionInstance = null;
 //
 //        Customer customer = new Customer();
 //        customer.setName("John Doe");
@@ -160,42 +160,45 @@ public class App {
 
        UserDao userDao = new UserDao(connectionInstance.getEntityManager());
 
-       Customer customer = new Customer();
-       customer.setName("customer1");
-       customer.setUsername("customer1");
-       customer.setEmail("customer1@gmail.com");
-       customer.setPassword(userDao.hashPassword("1234"));
-       customer.setBirthdate(new Date(2022,04,4));
-       customer.setAddress("22 b sherman");
-       customer.setCreditLimit(5000F);
-       customer.setJob("wear");
+       //Customer customer = new Customer();
+       Customer customer = (Customer) userDao.findByUsername("customer11");
+       System.out.println(customer.getJob());
 
-       if(userDao.save(customer))
-       {
-           System.out.println("Customer successfully added");
-       }
-       else
-       {
-           System.out.println("Customer not added");
-       }
+//       customer.setName("customer11");
+//       customer.setUsername("customer11");
+//       customer.setEmail("customer11@gmail.com");
+//       customer.setPassword(userDao.hashPassword("1234"));
+//       customer.setBirthdate(new Date(2022,04,4));
+//       customer.setAddress("22 b sherman");
+//       customer.setCreditLimit(5000F);
+//       customer.setJob("wear");
+//
+//       if(userDao.save(customer))
+//       {
+//           System.out.println("Customer successfully added");
+//       }
+//       else
+//       {
+//           System.out.println("Customer not added");
+//       }
 
 
 
-       Admin admin = new Admin();
-        admin.setName("admin11");
-        admin.setUsername("admin11");
-        admin.setEmail("admin11@gmail.com");
-        admin.setPassword(userDao.hashPassword("1234"));
-        admin.setHireDate(new Date(2022,04,4));
-
-        if(userDao.save(admin))
-        {
-            System.out.println("Admin successfully added");
-        }
-        else
-        {
-            System.out.println("Admin not added");
-        }
+//       Admin admin = new Admin();
+//        admin.setName("admin111");
+//        admin.setUsername("admin111");
+//        admin.setEmail("admin111@gmail.com");
+//        admin.setPassword(userDao.hashPassword("1234"));
+//        admin.setHireDate(new Date(2022,04,4));
+//
+//        if(userDao.save(admin))
+//        {
+//            System.out.println("Admin successfully added");
+//        }
+//        else
+//        {
+//            System.out.println("Admin not added");
+//        }
 ////        UserDao userDao = new UserDao();
 //        User user = userDao.checkUserCredintials("customer", userDao.hashPassword("1234"));
 //        System.out.println(user);

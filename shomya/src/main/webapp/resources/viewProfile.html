@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Profile</title>
+    <script>
+        function viewProfile() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "ViewProfileServlet?username=" + document.getElementById("username").value, true);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var profile = JSON.parse(xhr.responseText);
+                        // Display profile information
+                        document.getElementById("profileInfo").innerText = JSON.stringify(profile, null, 2);
+                    } else {
+                        alert("Error retrieving profile");
+                    }
+                }
+            };
+
+            xhr.send();
+        }
+    </script>
+</head>
+<body>
+<h1>View Profile</h1>
+<input type="text" id="username" placeholder="Username" />
+<button onclick="viewProfile()">View Profile</button>
+<pre id="profileInfo"></pre>
+</body>
+</html>
