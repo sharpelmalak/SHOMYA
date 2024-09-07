@@ -25,15 +25,16 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        // case user already loged in
-        if (session != null && session.getAttribute("isLoged") == "true") {
-            req.getRequestDispatcher("/resources/index.jsp").forward(req, resp);
-        }
-        // case user have no session
-        else {
-            req.getRequestDispatcher("/resources/login.html").forward(req, resp);
-        }
 
+        // case user already loged in
+        if (session != null && session.getAttribute("isLoged") != null) {
+            if (session.getAttribute("isLoged").equals("true")) {
+                req.getRequestDispatcher("/resources/index.jsp").forward(req, resp);
+            }
+            // case user have no session
+
+        }
+        req.getRequestDispatcher("/resources/login.html").forward(req, resp);
     }
 
     @Override

@@ -1,11 +1,20 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="iti.jets.service.helper.EnumHelper" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page import="iti.jets.model.User" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>View Profile</title>
+    <title>EShopper - Bootstrap Shop Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="/shomya/resources/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -14,77 +23,89 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Libraries Stylesheet -->
+    <link href="/shomya/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-    <!-- Custom Stylesheet -->
-    <link href="<%= request.getContextPath() %>/resources/css/style.css" rel="stylesheet">
-
-    <script>
-        function viewProfile() {
-            var username = document.getElementById("username").value;
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "<%= request.getContextPath() %>/ViewProfileServlet?username=" + username, true);
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        var profile = JSON.parse(xhr.responseText);
-                        document.getElementById("profileInfo").innerHTML = `
-                            <h4>Name: ${profile.name}</h4>
-                            <h4>Username: ${profile.username}</h4>
-                            <h4>Email: ${profile.email}</h4>
-                            <h4>Birthdate: ${profile.birthdate}</h4>
-                            <h4>Job: ${profile.job}</h4>
-                            <h4>Credit Limit: ${profile.creditLimit}</h4>
-                            <h4>Address: ${profile.address}</h4>
-                        `;
-                    } else {
-                        alert("Error retrieving profile.");
-                    }
-                }
-            };
-
-            xhr.send();
-        }
-    </script>
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/shomya/resources/css/style.css" rel="stylesheet">
 </head>
 
 <body>
-
-    <!-- View Profile Form -->
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <h2 class="text-center mb-4">View Profile</h2>
-
-                <!-- Username Input -->
-                <div class="form-group mb-3">
-                    <input type="text" class="form-control" id="username" placeholder="Enter Username" required>
-                </div>
-
-                <!-- Button to Fetch Profile -->
-                <div class="text-center">
-                    <button class="btn btn-primary py-2 px-4" onclick="viewProfile()">View Profile</button>
-                </div>
-
-                <!-- Display Profile Info -->
-                <div class="mt-4" id="profileInfo"></div>
-            </div>
+<div class="container">
+    <h2 class="text-center">VIEW AND UPDATE</h2>
+    <form method="post" action="/shomya/UpdateProfileServlet">
+        <!-- Name -->
+        <div class="control-group">
+            <input type="text" class="form-control" name="name" placeholder="Name" required="required"
+                   data-validation-required-message="Please enter your name" value="${user.name}" />
+            <p class="help-block text-danger"></p>
         </div>
-    </div>
 
-    <!-- Footer (Optional) -->
-    <footer class="bg-dark text-white mt-5 py-4">
-        <div class="container text-center">
-            <p>&copy; 2024 EShopper. All Rights Reserved.</p>
+        <!-- Username -->
+        <div class="control-group">
+            <input type="text" class="form-control" name="username" placeholder="Username" required="required"
+                   data-validation-required-message="Please enter a username" value="${user.username}" />
+            <p class="help-block text-danger"></p>
         </div>
-    </footer>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+        <!-- Email -->
+        <div class="control-group">
+            <input type="email" class="form-control" name="email" placeholder="Email" required="required"
+                   data-validation-required-message="Please enter a valid email" value="${user.email}"/>
+            <p class="help-block text-danger"></p>
+        </div>
 
+        <!-- Password -->
+        <div class="control-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" required="required"
+                   data-validation-required-message="Please enter your password" />
+            <p class="help-block text-danger"></p>
+        </div>
+
+<c:if test="${userRole == EnumHelper.getCustomerRole()}">
+        <!-- date -->
+        <div class="control-group">
+            <input type="date" class="form-control" name="date" placeholder="Birthdate" required="required"
+                   data-validation-required-message="Please select your birthdate" value="${user.birthdate}"/>
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Address -->
+        <div class="control-group">
+            <input type="text" class="form-control" name="address" placeholder="Address" required="required"
+                   data-validation-required-message="Please enter your address "  value="${user.address}"/>
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Credit Limit -->
+        <div class="control-group">
+            <input type="number" class="form-control" name="creditLimit" placeholder="Credit Limit" required="required"
+                   min="0" data-validation-required-message="Please enter a valid credit limit" value="${user.creditLimit}" />
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Job -->
+        <div class="control-group">
+            <input type="text" class="form-control" name="job" placeholder="Job" required="required"
+                   data-validation-required-message="Please enter your job title" value="${user.job}" />
+            <p class="help-block text-danger"></p>
+        </div>
+
+        </c:if>
+        <c:if test="${userRole == EnumHelper.getAdminRole()}">
+        <div class="control-group">
+                    <input type="date" class="form-control" name="hiredate" placeholder="hireDate" required="required"
+                           data-validation-required-message="Please select your hireDate" value="${user.hireDate}"/>
+                    <p class="help-block text-danger"></p>
+                </div>
+        </c:if>
+
+        <!-- Submit Button -->
+        <div>
+            <button class="btn btn-primary py-2 px-4" type="submit">Update</button>
+        </div>
+    </form>
+</div>
 </body>
 
 </html>

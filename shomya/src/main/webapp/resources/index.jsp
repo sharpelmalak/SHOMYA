@@ -5,7 +5,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head><%@ taglib prefix="c" uri="jakarta.tags.core" %>
+      <%@ page import="iti.jets.service.AuthService" %>
+      <%@ page import="iti.jets.service.helper.EnumHelper" %>
     <meta charset="utf-8">
     <title>SHOMYA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -127,7 +129,7 @@
                             <c:choose>
                                 <c:when test="${user != null}">
                                     <div class="navbar-nav ml-auto py-0">
-                                        <a href="#" class="nav-item nav-link">Account</a>
+                                        <a href="/shomya/ViewProfileServlet" class="nav-item nav-link">Account</a>
                                         <a href="/shomya/logout" class="nav-item nav-link">Logout</a>
                                     </div>
                                 </c:when>
@@ -143,7 +145,6 @@
 
                     </div>
                 </nav>
-
                     <c:if test="${userRole != EnumHelper.getAdminRole()}">
                         <div id="header-carousel" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
