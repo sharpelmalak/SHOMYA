@@ -80,45 +80,45 @@ public class UserDao extends DAO<User,Integer>{
 
 
 
-    public Customer Register(String uname, String pass, String name, Date birthday, String job, String email, float creditLimit, String address)
-    {
-        Customer user = new Customer();
-        user.setUsername(uname);
-
-        // Hash the password using SHA-256
-        String hashedPassword = hashPassword(pass);
-        user.setPassword(hashedPassword);
-
-        user.setName(name);
-        user.setBirthdate(birthday);
-        user.setJob(job);
-        user.setEmail(email);
-        user.setCreditLimit(creditLimit);
-        user.setAddress(address);
-
-
-//        try {
-//            // Check if the username already exists
-//            Query q = entityManager.createQuery("from User u where u.username = :name").setParameter("name", uname);
-//            List<User> existingUsers = q.getResultList();
+//    public Customer Register(String uname, String pass, String name, Date birthday, String job, String email, float creditLimit, String address)
+//    {
+//        Customer user = new Customer();
+//        user.setUsername(uname);
 //
-//            if (existingUsers.isEmpty()) {
-//                // Username is available, proceed with registration
-//                entityManager.getTransaction().begin();
-//                entityManager.persist(user);
-//                entityManager.getTransaction().commit();
-//            } else {
-//                // Username already exists, present a message
-//                System.out.println("Username already exists. Please choose a different username.");
-//                user = null;
-//            }
-//            entityManager.close();
-//        } catch (Exception e) {
-//            // Handle exception
-//            user = null;
-//        }
-        return user;
-    }
+//        // Hash the password using SHA-256
+//        String hashedPassword = hashPassword(pass);
+//        user.setPassword(hashedPassword);
+//
+//        user.setName(name);
+//        user.setBirthdate(birthday);
+//        user.setJob(job);
+//        user.setEmail(email);
+//        user.setCreditLimit(creditLimit);
+//        user.setAddress(address);
+//
+//
+////        try {
+////            // Check if the username already exists
+////            Query q = entityManager.createQuery("from User u where u.username = :name").setParameter("name", uname);
+////            List<User> existingUsers = q.getResultList();
+////
+////            if (existingUsers.isEmpty()) {
+////                // Username is available, proceed with registration
+////                entityManager.getTransaction().begin();
+////                entityManager.persist(user);
+////                entityManager.getTransaction().commit();
+////            } else {
+////                // Username already exists, present a message
+////                System.out.println("Username already exists. Please choose a different username.");
+////                user = null;
+////            }
+////            entityManager.close();
+////        } catch (Exception e) {
+////            // Handle exception
+////            user = null;
+////        }
+//        return user;
+//    }
 
 
  // Find User by userName
