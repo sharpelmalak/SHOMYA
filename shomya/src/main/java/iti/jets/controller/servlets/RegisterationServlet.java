@@ -42,7 +42,7 @@ public class RegisterationServlet extends HttpServlet
         String job = req.getParameter("job");
 
         RegisterationService registerationService=new RegisterationService((EntityManagerFactory) getServletContext().getAttribute("emf"));
-        User user =registerationService.registerUser(name,username,email, Date.valueOf(Bdate),password,address,creditLimit,job);
+        User user =registerationService.registerUser(username, password, name, Date.valueOf(Bdate), job, email, creditLimit, address);
         registerationService.AddingUserToDB(user);
         resp.sendRedirect("resources/index.jsp");
 
