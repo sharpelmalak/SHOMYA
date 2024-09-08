@@ -87,10 +87,7 @@
 <div class="container">
     <h2>VIEW AND UPDATE</h2>
 
-    <!-- Back Button -->
-    <form action="/shomya/resources/index.jsp">
-        <button class="btn btn-back py-2 px-4" type="submit"><i class="fas fa-arrow-left"></i> Back</button>
-    </form>
+<jsp:include page="/resources/jsp/BackButton.jsp" />
 
     <form method="post" action="/shomya/UpdateProfileServlet">
         <!-- Name -->
