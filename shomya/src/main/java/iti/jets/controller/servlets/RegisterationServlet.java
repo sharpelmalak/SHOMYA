@@ -59,7 +59,7 @@ public class RegisterationServlet extends HttpServlet
 
     }
 
-    }
+}
 
 
 
