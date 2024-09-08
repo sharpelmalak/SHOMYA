@@ -114,12 +114,17 @@
             <p class="help-block text-danger"></p>
         </div>
 
-        <!-- Password -->
-        <div class="control-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required="required"/>
-            <p class="help-block text-danger"></p>
-        </div>
+        <!-- Current Password (required for updating profile) -->
+           <div class="control-group">
+               <label for="currentPassword">Current Password</label>
+               <input type="password" class="form-control" name="currentPassword" id="currentPassword" placeholder="Current Password" required="required"/>
+           </div>
+
+            <!-- New Password -->
+               <div class="control-group">
+                   <label for="password">New Password</label>
+                   <input type="password" class="form-control" name="password" id="password" placeholder="New Password" required="required"/>
+               </div>
 
         <c:if test="${userRole == EnumHelper.getCustomerRole()}">
         <!-- Date -->

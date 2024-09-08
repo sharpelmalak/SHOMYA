@@ -2,8 +2,11 @@ package iti.jets.dao;
 
 import iti.jets.model.Customer;
 import iti.jets.model.User;
+import iti.jets.util.ConnectionInstance;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
@@ -96,27 +99,6 @@ public class UserDao extends DAO<User,Integer>{
         user.setCreditLimit(creditLimit);
         user.setAddress(address);
 
-
-//        try {
-//            // Check if the username already exists
-//            Query q = entityManager.createQuery("from User u where u.username = :name").setParameter("name", uname);
-//            List<User> existingUsers = q.getResultList();
-//
-//            if (existingUsers.isEmpty()) {
-//                // Username is available, proceed with registration
-//                entityManager.getTransaction().begin();
-//                entityManager.persist(user);
-//                entityManager.getTransaction().commit();
-//            } else {
-//                // Username already exists, present a message
-//                System.out.println("Username already exists. Please choose a different username.");
-//                user = null;
-//            }
-//            entityManager.close();
-//        } catch (Exception e) {
-//            // Handle exception
-//            user = null;
-//        }
         return user;
     }
 
@@ -139,7 +121,15 @@ public class UserDao extends DAO<User,Integer>{
 
 
 
-
+    public User findUserByEmail(String email) {
+        try {
+            TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class);
+            query.setParameter("email", email);
+            return query.getResultStream().findFirst().orElse(null);
+        } finally {
+            entityManager.close();
+        }
+    }
 
 
 

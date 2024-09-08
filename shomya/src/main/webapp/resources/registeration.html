@@ -69,12 +69,13 @@
             color: #dc3545;
         }
     </style>
+
 </head>
 
 <body>
 <div class="container">
     <h2 class="text-center">Registration Form</h2>
-    <form method="post" action="/shomya/registration">
+    <form method="post" action="/shomya/registration" onsubmit="return validatePasswords()">
         <!-- Name -->
         <div class="control-group">
             <label for="name">Name</label>
@@ -87,27 +88,16 @@
         <!-- Username -->
         <div class="control-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control" name="username" id="username" placeholder="Username" required="required"
-                   data-validation-required-message="Please enter a username" />
-
+            <input type="text" class="form-control" name="username" id="username" placeholder="Username" required="required" />
+            <small class="form-text text-danger" id="usernameError"></small>
             <p class="help-block text-danger"></p>
-        </div><small class="form-text text-danger">Please enter a username</small>
+        </div>
 
         <!-- Email -->
         <div class="control-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required"
-                   data-validation-required-message="Please enter a valid email" />
-            <small class="form-text text-danger">Please enter a valid email</small>
-            <p class="help-block text-danger"></p>
-        </div>
-
-        <!-- Password -->
-        <div class="control-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required="required"
-                   data-validation-required-message="Please enter your password" />
-            <small class="form-text text-danger">Please enter your password</small>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required" />
+            <small class="form-text text-danger" id="emailError"></small>
             <p class="help-block text-danger"></p>
         </div>
 
@@ -135,7 +125,6 @@
             <input type="number" class="form-control" name="creditLimit" id="creditLimit" placeholder="Credit Limit" required="required"
                    min="0" data-validation-required-message="Please enter a valid credit limit" />
             <small class="form-text text-danger">Please enter a valid credit limit</small>
-
             <p class="help-block text-danger"></p>
         </div>
 
@@ -145,8 +134,25 @@
             <input type="text" class="form-control" name="job" id="job" placeholder="Job" required="required"
                    data-validation-required-message="Please enter your job title" />
             <small class="form-text text-danger">Please enter your job title</small>
-
             <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Password -->
+        <div class="control-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required="required"
+                   data-validation-required-message="Please enter your password" />
+            <small class="form-text text-danger">Please enter your password</small>
+            <p class="help-block text-danger"></p>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="control-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required="required"
+                   data-validation-required-message="Please confirm your password" />
+            <small class="form-text text-danger">Please confirm your password</small>
+            <p class="help-block text-danger" id="passwordError"></p>
         </div>
 
         <!-- Submit Button -->
@@ -155,6 +161,45 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById('username').addEventListener('blur', checkUsername);
+    document.getElementById('email').addEventListener('blur', checkEmail);
+
+    function checkUsername() {
+        var username = document.getElementById('username').value;
+        var usernameError = document.getElementById('usernameError');
+
+        if (username) {
+            fetch('/shomya/check-unique?username=' + encodeURIComponent(username))
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.usernameUnique) {
+                        usernameError.textContent = "Username is already taken.";
+                    } else {
+                        usernameError.textContent = "";
+                    }
+                });
+        }
+    }
+
+    function checkEmail() {
+        var email = document.getElementById('email').value;
+        var emailError = document.getElementById('emailError');
+
+        if (email) {
+            fetch('/shomya/check-unique?email=' + encodeURIComponent(email))
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.emailUnique) {
+                        emailError.textContent = "Email is already taken.";
+                    } else {
+                        emailError.textContent = "";
+                    }
+                });
+        }
+    }
+</script>
 </body>
 
 </html>

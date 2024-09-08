@@ -1,6 +1,5 @@
 package iti.jets.controller.servlets;
 
-import iti.jets.model.Product;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

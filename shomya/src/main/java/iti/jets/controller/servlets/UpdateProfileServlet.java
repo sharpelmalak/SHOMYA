@@ -9,50 +9,79 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @WebServlet(value = "/UpdateProfileServlet")
 public class UpdateProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+       // check user is logged in
+        HttpSession session=request.getSession(false);
+
         String username = request.getParameter("username");
+        String currentPassword = request.getParameter("currentPassword");  // Retrieve the current password
+        String newPassword = request.getParameter("password");
         String name = request.getParameter("name");
-        String password = request.getParameter("password");
         String email = request.getParameter("email");
-        String birthdateStr = request.getParameter("birthdate");
+        String birthdateStr = request.getParameter("date");
         String job = request.getParameter("job");
         Float creditLimit = Float.parseFloat(request.getParameter("creditLimit"));
         String address = request.getParameter("address");
 
-        java.sql.Date birthdate = null;
-        if (birthdateStr != null && !birthdateStr.isEmpty()) {
-            birthdate = java.sql.Date.valueOf(birthdateStr);
-        }
+        LocalDate birthdate = LocalDate.parse(birthdateStr);
 
-        ConnectionInstance connectionInstance=new ConnectionInstance(Factory.getEntityMangerFactory());
 
+        System.out.println(birthdate);
+
+        ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
         UserDao userDao = new UserDao(connectionInstance.getEntityManager());
+        connectionInstance.openEntityManager();
 
-
-        Customer customer = (Customer) userDao.findByUsername(username);
+       Customer customer= (Customer)session.getAttribute("user");
+        System.out.println(customer.getName());
+        response.setContentType("application/json");
 
         if (customer != null) {
+            // Check if the current password matches the stored hashed password
+            if (!customer.getPassword().equals(userDao.hashPassword(currentPassword))) {
+                response.sendRedirect("/shomya/resources/index.jsp");
+            }
+
+            // Optional: Add any additional password validation rules (e.g., new password cannot contain username)
+            if (newPassword.toLowerCase().contains(username.toLowerCase())) {
+                response.sendRedirect("/shomya/resources/index.jsp");
+            }
+
+            // Hash the new password before saving
+            String hashedNewPassword = userDao.hashPassword(newPassword);
+
+            // Update the profile if the password is valid
             customer.setName(name);
-            customer.setPassword(password);
+            customer.setPassword(hashedNewPassword);
             customer.setEmail(email);
-            customer.setBirthdate(birthdate);
+            customer.setBirthdate(Date.valueOf(birthdate));
+            System.out.println(customer.getBirthdate());
             customer.setJob(job);
             customer.setCreditLimit(creditLimit);
             customer.setAddress(address);
 
+            System.out.println(customer.getName());
+
+
 
             userDao.update(customer);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"status\":\"success\"}");
+            connectionInstance.closeEntityManager();
+
+
+            response.sendRedirect("/shomya/resources/index.jsp");
         } else {
-            response.setContentType("application/json");
-            response.getWriter().write("{\"status\":\"error\", \"message\":\"User not found\"}");
+
+            response.sendRedirect("/shomya/resources/index.jsp");
         }
+
     }
 }
