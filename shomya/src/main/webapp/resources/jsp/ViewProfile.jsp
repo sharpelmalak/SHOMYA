@@ -2,13 +2,12 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page import="iti.jets.model.User" %>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>EShopper - Bootstrap Shop Template</title>
+    <title>View and Update</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -28,6 +27,48 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/shomya/resources/css/style.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #d19c97;
+            margin-bottom: 30px;
+        }
+        .form-control {
+            border-color: #d19c97;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .form-control:focus {
+            border-color: #d19c97;
+            box-shadow: 0 0 0 0.2rem rgba(209, 156, 151, 0.25);
+        }
+        .btn-primary {
+            background-color: #d19c97;
+            border-color: #d19c97;
+        }
+        .btn-primary:hover {
+            background-color: #b1897f;
+            border-color: #b1897f;
+        }
+        .control-group {
+            margin-bottom: 20px;
+        }
+        .help-block {
+            font-size: 0.875rem;
+            color: #dc3545;
+        }
+    </style>
 </head>
 
 <body>
@@ -36,68 +77,77 @@
     <form method="post" action="/shomya/UpdateProfileServlet">
         <!-- Name -->
         <div class="control-group">
-            <input type="text" class="form-control" name="name" placeholder="Name" required="required"
+            <label for="name">Name</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Name" required="required"
                    data-validation-required-message="Please enter your name" value="${user.name}" />
             <p class="help-block text-danger"></p>
         </div>
 
         <!-- Username -->
         <div class="control-group">
-            <input type="text" class="form-control" name="username" placeholder="Username" required="required"
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="Username" required="required"
                    data-validation-required-message="Please enter a username" value="${user.username}" />
             <p class="help-block text-danger"></p>
         </div>
 
         <!-- Email -->
         <div class="control-group">
-            <input type="email" class="form-control" name="email" placeholder="Email" required="required"
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required"
                    data-validation-required-message="Please enter a valid email" value="${user.email}"/>
             <p class="help-block text-danger"></p>
         </div>
 
         <!-- Password -->
         <div class="control-group">
-            <input type="password" class="form-control" name="password" placeholder="Password" required="required"
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required="required"
                    data-validation-required-message="Please enter your password" />
             <p class="help-block text-danger"></p>
         </div>
 
-<c:if test="${userRole == EnumHelper.getCustomerRole()}">
-        <!-- date -->
+        <c:if test="${userRole == EnumHelper.getCustomerRole()}">
+        <!-- Date -->
         <div class="control-group">
-            <input type="date" class="form-control" name="date" placeholder="Birthdate" required="required"
+            <label for="date">Birthdate</label>
+            <input type="date" class="form-control" name="date" id="date" placeholder="Birthdate" required="required"
                    data-validation-required-message="Please select your birthdate" value="${user.birthdate}"/>
             <p class="help-block text-danger"></p>
         </div>
 
         <!-- Address -->
         <div class="control-group">
-            <input type="text" class="form-control" name="address" placeholder="Address" required="required"
-                   data-validation-required-message="Please enter your address "  value="${user.address}"/>
+            <label for="address">Address</label>
+            <input type="text" class="form-control" name="address" id="address" placeholder="Address" required="required"
+                   data-validation-required-message="Please enter your address" value="${user.address}"/>
             <p class="help-block text-danger"></p>
         </div>
 
         <!-- Credit Limit -->
         <div class="control-group">
-            <input type="number" class="form-control" name="creditLimit" placeholder="Credit Limit" required="required"
+            <label for="creditLimit">Credit Limit</label>
+            <input type="number" class="form-control" name="creditLimit" id="creditLimit" placeholder="Credit Limit" required="required"
                    min="0" data-validation-required-message="Please enter a valid credit limit" value="${user.creditLimit}" />
             <p class="help-block text-danger"></p>
         </div>
 
         <!-- Job -->
         <div class="control-group">
-            <input type="text" class="form-control" name="job" placeholder="Job" required="required"
+            <label for="job">Job</label>
+            <input type="text" class="form-control" name="job" id="job" placeholder="Job" required="required"
                    data-validation-required-message="Please enter your job title" value="${user.job}" />
             <p class="help-block text-danger"></p>
         </div>
-
         </c:if>
+
         <c:if test="${userRole == EnumHelper.getAdminRole()}">
         <div class="control-group">
-                    <input type="date" class="form-control" name="hiredate" placeholder="hireDate" required="required"
-                           data-validation-required-message="Please select your hireDate" value="${user.hireDate}"/>
-                    <p class="help-block text-danger"></p>
-                </div>
+            <label for="hiredate">Hire Date</label>
+            <input type="date" class="form-control" name="hiredate" id="hiredate" placeholder="Hire Date" required="required"
+                   data-validation-required-message="Please select your hire date" value="${user.hireDate}"/>
+            <p class="help-block text-danger"></p>
+        </div>
         </c:if>
 
         <!-- Submit Button -->
