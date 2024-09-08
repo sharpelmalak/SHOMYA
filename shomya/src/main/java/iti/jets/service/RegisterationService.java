@@ -10,27 +10,40 @@ import java.sql.Date;
 
 
 public class RegisterationService {
-    EntityManagerFactory emf;
+
     boolean isUser;
     User user;
 
-    public RegisterationService(EntityManagerFactory emf)
-    {
-        this.emf = emf;
-    }
 
-    public User registerUser(String username, String password, String name, Date date, String job, String email, float creditLimit, String address)
+
+    public boolean registerUser(String username, String password, String name,
+                             Date date, String job, String email, float creditLimit,
+                             String address,ConnectionInstance connectionInstance)
     {
-        ConnectionInstance connectionInstance = new ConnectionInstance(emf);
         UserDao userDao  = new UserDao(connectionInstance.getEntityManager());
-        return user = userDao.Register(username, password, name, date, job, email, creditLimit, address);
+        Customer user = new Customer();
+        user.setUsername(username);
+
+        // Hash the password using SHA-256
+        String hashedPassword = userDao.hashPassword(password);
+        user.setPassword(hashedPassword);
+
+        user.setName(name);
+        user.setBirthdate(date);
+        user.setJob(job);
+        user.setEmail(email);
+        user.setCreditLimit(creditLimit);
+        user.setAddress(address);
+
+
+        return userDao.save(user);
     }
-    public void AddingUserToDB(User user)
-    {
-        ConnectionInstance connectionInstance = new ConnectionInstance(emf);
-        UserDao userDao  = new UserDao(connectionInstance.getEntityManager());
-        userDao.save(user);
-    }
+//    public void AddingUserToDB(User user)
+//    {
+//        ConnectionInstance connectionInstance = new ConnectionInstance(emf);
+//        UserDao userDao  = new UserDao(connectionInstance.getEntityManager());
+//        userDao.save(user);
+//    }
 
 
     private UserDao userDao;

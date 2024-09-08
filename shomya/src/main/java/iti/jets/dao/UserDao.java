@@ -54,35 +54,6 @@ public class UserDao extends DAO<User,Integer>{
         }
         return user;
     }
-//  public boolean validateCredentials(String uname, String pass) {
-//        getConnection();
-//
-//        try {
-//            // Retrieve the user by username
-//            Query q = entityManager.createQuery("from User u where u.username = :name").setParameter("name", uname);
-//            List<User> users = q.getResultList();
-//
-//            if (!users.isEmpty()) {
-//                User user = users.get(0);
-//                // Hash the entered password
-//                String hashedEnteredPassword = hashPassword(pass);
-//
-//                // Compare the hashed entered password with the stored hashed password
-//                if (hashedEnteredPassword.equals(user.getPassword())) {
-//                    // Passwords match, credentials are valid
-//                    return true;
-//                }
-//            }
-//        } catch (Exception e) {
-//            // Handle exception
-//        }
-//
-//        closeConnection();
-//        return false;
-//    }
-
-
-
     public Customer Register(String uname, String pass, String name, Date birthday, String job, String email, float creditLimit, String address)
     {
         Customer user = new Customer();
@@ -101,7 +72,6 @@ public class UserDao extends DAO<User,Integer>{
 
         return user;
     }
-
 
  // Find User by userName
     public User findByUsername(String username)
