@@ -46,21 +46,17 @@ public class RegisterationService {
 //    }
 
 
-//    public boolean checkUsername(String username)
-//    {
-//
-//        ConnectionInstance connectionInstance = new ConnectionInstance(emf);
-//        UserDao userDao  = new UserDao(connectionInstance.getEntityManager());
-//         user =userDao.findByUsername(username) ;
-//        if (user==null)
-//        {
-//            isUser=false;
-//        }
-//        else
-//        {isUser=true;}
-//
-//        return isUser;
-//    }
+    private UserDao userDao;
+
+
+
+    public boolean isUsernameUnique(String username) {
+        return userDao.findByUsername(username) == null;
+    }
+
+    public boolean isEmailUnique(String email) {
+        return userDao.findUserByEmail(email) == null;
+    }
 
 
 

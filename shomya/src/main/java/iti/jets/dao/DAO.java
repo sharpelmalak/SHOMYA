@@ -66,6 +66,8 @@ public abstract class DAO<T, ID> {
         T updatedEntity = null;
         try {
             entityManager.getTransaction().begin();
+            System.out.println("inside update");
+
             updatedEntity = entityManager.merge(entity);
             entityManager.getTransaction().commit();
         } catch (PersistenceException e) {
