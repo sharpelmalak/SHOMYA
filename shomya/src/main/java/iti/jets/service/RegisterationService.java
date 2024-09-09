@@ -9,7 +9,8 @@ import jakarta.persistence.EntityManagerFactory;
 import java.sql.Date;
 
 
-public class RegisterationService {
+public class RegisterationService
+{
 
     boolean isUser;
     User user;

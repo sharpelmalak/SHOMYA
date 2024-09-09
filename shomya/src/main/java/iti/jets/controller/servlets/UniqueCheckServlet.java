@@ -19,7 +19,7 @@ public class UniqueCheckServlet extends HttpServlet {
         String username = req.getParameter("username");
         String email = req.getParameter("email");
 
-        RegisterationService registrationService = new RegisterationService((EntityManagerFactory) getServletContext().getAttribute("emf"));
+        RegisterationService registrationService = new RegisterationService();
         boolean isUsernameUnique = registrationService.isUsernameUnique(username);
         boolean isEmailUnique = registrationService.isEmailUnique(email);
 
