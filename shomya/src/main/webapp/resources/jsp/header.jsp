@@ -81,7 +81,7 @@
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
-                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">S</span>HOMYA</h1>
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
@@ -92,13 +92,13 @@
                             <a href="/shomya/" class="nav-item nav-link active">Home</a>
                             <c:if test="${userRole == EnumHelper.getAdminRole()}">
                                 <a href="/shomya/categories" class="nav-item nav-link">Categories</a>
-                                <a href="detail.html" class="nav-item nav-link">Products</a>
-                                <a href="detail.html" class="nav-item nav-link">Customers</a>
+                                <a href="#" class="nav-item nav-link">Products</a>
+                                <a href="#" class="nav-item nav-link">Customers</a>
                             </c:if>
                             <c:if test="${userRole == EnumHelper.getCustomerRole()}">
-                                <a href="shop.html" class="nav-item nav-link">view products</a>
-                                <a href="detail.html" class="nav-item nav-link">my cart</a>
-                                <a href="detail.html" class="nav-item nav-link">my orders</a>
+                                <a href="#" class="nav-item nav-link">view products</a>
+                                <a href="#" class="nav-item nav-link">my cart</a>
+                                <a href="#" class="nav-item nav-link">my orders</a>
                             </c:if>
 
 

@@ -72,7 +72,7 @@ public class Category  implements java.io.Serializable {
         this.customers = customers;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="category")
+@OneToMany(fetch=FetchType.EAGER, mappedBy="category")
     public Set<Product> getProducts() {
         return this.products;
     }

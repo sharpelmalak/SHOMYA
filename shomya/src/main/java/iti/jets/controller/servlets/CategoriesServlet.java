@@ -28,15 +28,20 @@ public class CategoriesServlet extends HttpServlet {
                 connectionInstance.openEntityManager();
                 List<Category> categoryList = categoryDao.findAll();
                 System.out.println(categoryList.size());
+                System.out.println(categoryList.get(0));
                 req.setAttribute("categoryList", categoryList);
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/categories.jsp");
                 connectionInstance.closeEntityManager();
                 requestDispatcher.forward(req, resp);
 
             }
+            else resp.sendRedirect("/shomya/login");
 
         }
-        resp.sendRedirect("/shomya/login");
+        else {
+            resp.sendRedirect("/shomya/login");
+        }
+
 
 
     }

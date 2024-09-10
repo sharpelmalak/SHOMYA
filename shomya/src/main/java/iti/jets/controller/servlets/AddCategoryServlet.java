@@ -22,11 +22,15 @@ public class AddCategoryServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        if (session.getAttribute("user") == null) {
-            resp.sendRedirect("/login");
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            if(session.getAttribute("user")!=null)
+            {
+                resp.sendRedirect("/categories");
+            }
+            else resp.sendRedirect("/shomya/login");
         }
-        resp.sendRedirect("/categories");
+        else  resp.sendRedirect("/shomya/login");
     }
 
     @Override
@@ -44,7 +48,7 @@ public class AddCategoryServlet extends HttpServlet {
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
         // Save the file to the specified directory
-        String realPath = getServletContext().getRealPath("/resources/img/category/");
+        String realPath = getServletContext().getRealPath("/resources/img/");
         File imageFolder = new File(realPath);
         if (!imageFolder.exists()) {
             imageFolder.mkdirs();  // Create directory if it doesn't exist
