@@ -1,37 +1,108 @@
-//package iti.jets.controller.servlets;
-//
-//import iti.jets.dao.ProductDao;
-//import iti.jets.model.Admin;
-//import iti.jets.model.Category;
-//import iti.jets.model.Product;
-//import jakarta.servlet.ServletConfig;
-//import jakarta.servlet.ServletException;
-//import jakarta.servlet.http.HttpServlet;
-//import jakarta.servlet.http.HttpServletRequest;
-//import jakarta.servlet.http.HttpServletResponse;
-//import jakarta.servlet.http.HttpSession;
-//
-//import java.io.IOException;
-//
-//public class AddProductServlet extends HttpServlet {
-//
-//ProductDao productDao;
-//
-//    @Override
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        HttpSession session= req.getSession();
-//        Category cat = null;
-//        String name = req.getParameter("name");
-//        float price = Float.parseFloat(req.getParameter("price"));
-//        int quantity = Integer.parseInt(req.getParameter("quantity"));
-//        String description = req.getParameter("description");
-//        Product product = new Product((Admin)session.getAttribute("user"),cat,name, price, quantity, description, image);
-//        productDao.save(product);
-//        resp.getWriter().write("Product added successfully!");
-//
-//    }
-//
-//
+package iti.jets.controller.servlets;
+
+import iti.jets.dao.CategoryDao;
+import iti.jets.dao.ProductDao;
+import iti.jets.model.Admin;
+import iti.jets.model.Category;
+import iti.jets.model.Product;
+import iti.jets.service.helper.EnumHelper;
+import iti.jets.util.ConnectionInstance;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+
+@WebServlet(value = "/addproduct")
+@MultipartConfig
+public class AddProductServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            if(session.getAttribute("user")!=null&& session.getAttribute("userRole")== EnumHelper.getAdminRole())
+            {
+                ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+                CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
+                connectionInstance.openEntityManager();
+                List<Category> categoryList = categoryDao.findAll();
+                connectionInstance.closeEntityManager();
+                req.setAttribute("categoryList", categoryList);
+                req.getRequestDispatcher("/resources/jsp/addProducts.jsp").forward(req,resp);
+
+            }
+            else resp.sendRedirect("/shomya/login");
+        }
+        else  resp.sendRedirect("/shomya/login");
+    }
+
+
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session= req.getSession(false);
+        if (session !=null)
+        {
+            if(session.getAttribute("user")!=null && session.getAttribute("userRole")== EnumHelper.getAdminRole())
+            {
+
+
+                String name = req.getParameter("pname");
+                int catId = Integer.parseInt(req.getParameter("categoryId"));
+                float price = Float.parseFloat(req.getParameter("pprice"));
+                int quantity = Integer.parseInt(req.getParameter("pquantity"));
+                String description = req.getParameter("pdesc");
+                Part filePart = req.getPart("pimage");
+                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+
+                // Save the file to the specified directory
+                String realPath = getServletContext().getRealPath("/resources/img/");
+                File imageFolder = new File(realPath);
+                if (!imageFolder.exists()) {
+                    imageFolder.mkdirs();  // Create directory if it doesn't exist
+                }
+                File file = new File(realPath + fileName);
+                Files.copy(filePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+
+                CategoryDao categoryDao= new CategoryDao(connectionInstance.getEntityManager());
+                connectionInstance.openEntityManager();
+                Category category =categoryDao.findById(catId);
+                ProductDao productDao=new ProductDao(connectionInstance.getEntityManager());
+                Product product = new Product((Admin)session.getAttribute("user"),category,name, price, quantity, description, fileName);
+                productDao.save(product);
+                connectionInstance.closeEntityManager();
+                resp.sendRedirect("/shomya/products");
+
+
+            }
+
+            else
+            {
+                resp.sendRedirect("/shomya/login");
+            }
+        }
+
+        else
+        {
+            resp.sendRedirect("/shomya/login");
+        }
+
+
+    }
+
+
 //    private void EditProduct(HttpServletRequest req, HttpServletResponse resp) throws IOException
 //    {
 //        int productId = Integer.parseInt(req.getParameter("productId"));
@@ -62,6 +133,6 @@
 //        productDao.deleteById(productId);
 //        resp.getWriter().write("Product removed successfully!");
 //    }
-//}
-//
-//
+}
+
+

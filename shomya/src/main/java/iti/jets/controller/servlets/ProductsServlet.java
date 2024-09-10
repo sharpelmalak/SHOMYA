@@ -1,7 +1,9 @@
 package iti.jets.controller.servlets;
 
 import iti.jets.dao.CategoryDao;
+import iti.jets.dao.ProductDao;
 import iti.jets.model.Category;
+import iti.jets.model.Product;
 import iti.jets.util.ConnectionInstance;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -12,11 +14,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(value = "/categories")
-public class CategoriesServlet extends HttpServlet {
+@WebServlet(value = "/products")
+public class ProductsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
@@ -24,12 +25,12 @@ public class CategoriesServlet extends HttpServlet {
             if (session.getAttribute("user") != null)
             {
                 ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-                CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
+                ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
                 connectionInstance.openEntityManager();
-                List<Category> categoryList = categoryDao.findAll();
+                List<Product> productList = productDao.findAll();
                 connectionInstance.closeEntityManager();
-                req.setAttribute("categoryList", categoryList);
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/categories.jsp");
+                req.setAttribute("productList", productList);
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/products.jsp");
                 requestDispatcher.forward(req, resp);
 
             }
@@ -40,12 +41,6 @@ public class CategoriesServlet extends HttpServlet {
             resp.sendRedirect("/shomya/login");
         }
 
-
-
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-    }
 }

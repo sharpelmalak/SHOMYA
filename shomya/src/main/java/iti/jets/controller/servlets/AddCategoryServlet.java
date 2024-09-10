@@ -55,7 +55,7 @@ public class AddCategoryServlet extends HttpServlet {
         }
         File file = new File(realPath + fileName);
         Files.copy(filePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
+        /////////////////////////////
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
         Category category = new Category(name,fileName);
         CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());

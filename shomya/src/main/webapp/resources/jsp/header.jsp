@@ -92,11 +92,12 @@
                             <a href="/shomya/" class="nav-item nav-link active">Home</a>
                             <c:if test="${userRole == EnumHelper.getAdminRole()}">
                                 <a href="/shomya/categories" class="nav-item nav-link">Categories</a>
-                                <a href="#" class="nav-item nav-link">Products</a>
+                                <a href="/shomya/products" class="nav-item nav-link">Products</a>
+                                <a href="/shomya/addproduct" class="nav-item nav-link">Add Products</a>
                                 <a href="#" class="nav-item nav-link">Customers</a>
                             </c:if>
                             <c:if test="${userRole == EnumHelper.getCustomerRole()}">
-                                <a href="#" class="nav-item nav-link">view products</a>
+                                <a href="/shomya/products" class="nav-item nav-link">view products</a>
                                 <a href="#" class="nav-item nav-link">my cart</a>
                                 <a href="#" class="nav-item nav-link">my orders</a>
                             </c:if>
