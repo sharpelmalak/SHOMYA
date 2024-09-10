@@ -4,6 +4,7 @@ import iti.jets.dao.UserDao;
 import iti.jets.model.Customer;
 import iti.jets.model.User;
 import iti.jets.util.ConnectionInstance;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 import java.sql.Date;
@@ -39,23 +40,19 @@ public class RegisterationService
 
         return userDao.save(user);
     }
-//    public void AddingUserToDB(User user)
-//    {
-//        ConnectionInstance connectionInstance = new ConnectionInstance(emf);
-//        UserDao userDao  = new UserDao(connectionInstance.getEntityManager());
-//        userDao.save(user);
-//    }
-
-
-    private UserDao userDao;
 
 
 
-    public boolean isUsernameUnique(String username) {
+
+
+        public boolean isUsernameUnique(String username, EntityManager entityManager)
+    {
+        UserDao userDao  = new UserDao(entityManager);
         return userDao.findByUsername(username) == null;
     }
 
-    public boolean isEmailUnique(String email) {
+    public boolean isEmailUnique(String email,EntityManager entityManager) {
+        UserDao userDao  = new UserDao(entityManager);
         return userDao.findUserByEmail(email) == null;
     }
 

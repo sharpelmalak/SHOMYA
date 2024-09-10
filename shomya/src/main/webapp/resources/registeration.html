@@ -75,7 +75,7 @@
 <body>
 <div class="container">
     <h2 class="text-center">Registration Form</h2>
-    <form method="post" action="/shomya/registration" onsubmit="return validatePasswords()">
+    <form method="post" action="/shomya/registration"  id="registrationForm">
         <!-- Name -->
         <div class="control-group">
             <label for="name">Name</label>
@@ -88,17 +88,18 @@
         <!-- Username -->
         <div class="control-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control" name="username" id="username" placeholder="Username" required="required" />
-            <small class="form-text text-danger" id="usernameError"></small>
+            <input type="text" class="form-control" name="username" onblur="checkUsername()" id="username" placeholder="Username" required="required" />
             <p class="help-block text-danger"></p>
+            <span class="form-text text-danger" id="usernameError"></span><br>
         </div>
 
         <!-- Email -->
         <div class="control-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required" />
-            <small class="form-text text-danger" id="emailError"></small>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required="required"  onblur="checkEmail()"/>
             <p class="help-block text-danger"></p>
+            <span id="emailError"></span><br>
+
         </div>
 
         <!-- Date -->
@@ -163,43 +164,59 @@
 </div>
 
 <script>
-    document.getElementById('username').addEventListener('blur', checkUsername);
-    document.getElementById('email').addEventListener('blur', checkEmail);
 
-    function checkUsername() {
-        var username = document.getElementById('username').value;
+    function check(param) {
+        var emailError = document.getElementById('emailError');
         var usernameError = document.getElementById('usernameError');
 
-        if (username) {
-            fetch('/shomya/check-unique?username=' + encodeURIComponent(username))
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.usernameUnique) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:8080/shomya/check-unique?' + param, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                const status = xhr.status;
+                if (status === 0 || (status >= 200 && status < 400)) {
+
+                    var data = xhr.responseText.trim();
+                    console.log(data);
+
+                    if(data === "email_found"){
+                        emailError.textContent = "Email is already taken.";
+                    }
+                    else if(data==="email_notfound"){
+                        emailError.textContent = "";
+                    }
+                    else if(data==="user_found")
+                    {
                         usernameError.textContent = "Username is already taken.";
-                    } else {
+                    }
+                    else {
                         usernameError.textContent = "";
                     }
-                });
+                }
+
+            }
+
+        };
+        xhr.send();
+    }
+
+    function checkUsername(){
+        var username = document.getElementById('username').value;
+        if (username) {
+          check("username="+ encodeURIComponent(username));
+        }
+        else {
+            console.log("username is null")
         }
     }
 
+
     function checkEmail() {
         var email = document.getElementById('email').value;
-        var emailError = document.getElementById('emailError');
-
         if (email) {
-            fetch('/shomya/check-unique?email=' + encodeURIComponent(email))
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.emailUnique) {
-                        emailError.textContent = "Email is already taken.";
-                    } else {
-                        emailError.textContent = "";
-                    }
-                });
+        check("email="+encodeURIComponent(email));
         }
     }
 </script>
 </body>
-
 </html>

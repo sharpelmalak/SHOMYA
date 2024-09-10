@@ -101,7 +101,43 @@ public class UserDao extends DAO<User,Integer>{
         }
     }
 
+    public boolean checkUserName(String username)
+    {
+        boolean result;
+        try {
+
+            Query q = entityManager.createQuery("from User u where u.username=:name").setParameter(
+                    "name", username);
+            User user = (User)q.getSingleResult();
+            result = true;
+            entityManager.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            result = false;
+        }
+
+        return result;
+    }
 
 
+    public boolean checkEmail(String email)
+    {
+        boolean result;
+        try {
+
+            Query q = entityManager.createQuery("from User u where u.email=:email").setParameter(
+                    "email", email);
+            User user = (User)q.getSingleResult();
+            result = true;
+            entityManager.close();
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            result = false;
+        }
+
+        return result;
+    }
 
 }
