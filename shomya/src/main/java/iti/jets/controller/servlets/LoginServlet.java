@@ -27,14 +27,10 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
 
         // case user already loged in
-        if (session != null && session.getAttribute("isLoged") != null) {
-            if (session.getAttribute("isLoged").equals("true")) {
-                req.getRequestDispatcher("/resources/index.jsp").forward(req, resp);
-            }
-            // case user have no session
-
+        if (session != null && session.getAttribute("user") != null) {
+            resp.sendRedirect("/shomya");
         }
-        req.getRequestDispatcher("/resources/login.html").forward(req, resp);
+        else req.getRequestDispatcher("/resources/login.html").forward(req, resp);
     }
 
     @Override
@@ -59,9 +55,8 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("user", authService.getUser());
                 session.setAttribute("userRole", authService.getRole());
                 session.setAttribute("userConnection", connectionInstance);
-                session.setAttribute("isLoged", "true");
                 connectionInstance.closeEntityManager();
-                req.getRequestDispatcher("/resources/index.jsp").forward(req, resp);
+                resp.sendRedirect("/shomya");
             }
         }
         else

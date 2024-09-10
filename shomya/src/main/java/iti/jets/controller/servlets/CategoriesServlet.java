@@ -19,33 +19,16 @@ import java.util.List;
 public class CategoriesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession(false);
-        if (session != null) {
-            if (session.getAttribute("user") != null)
-            {
-                ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-                CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-                connectionInstance.openEntityManager();
-                List<Category> categoryList = categoryDao.findAll();
-                connectionInstance.closeEntityManager();
-                req.setAttribute("categoryList", categoryList);
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/categories.jsp");
-                requestDispatcher.forward(req, resp);
 
-            }
-            else resp.sendRedirect("/shomya/login");
-
-        }
-        else {
-            resp.sendRedirect("/shomya/login");
-        }
-
-
-
+        HttpSession session = req.getSession();
+        ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+        CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
+        connectionInstance.openEntityManager();
+        List<Category> categoryList = categoryDao.findAll();
+        connectionInstance.closeEntityManager();
+        req.setAttribute("categoryList", categoryList);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/categories.jsp");
+        requestDispatcher.forward(req, resp);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-    }
 }

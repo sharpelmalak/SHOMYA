@@ -48,12 +48,12 @@ public class UpdateProfileServlet extends HttpServlet {
         if (customer != null) {
             // Check if the current password matches the stored hashed password
             if (!customer.getPassword().equals(userDao.hashPassword(currentPassword))) {
-                response.sendRedirect("/shomya/resources/index.jsp");
+                response.sendRedirect("/shomya");
             }
 
             // Optional: Add any additional password validation rules (e.g., new password cannot contain username)
             if (newPassword.toLowerCase().contains(username.toLowerCase())) {
-                response.sendRedirect("/shomya/resources/index.jsp");
+                response.sendRedirect("/shomya");
             }
 
             // Hash the new password before saving
@@ -75,13 +75,10 @@ public class UpdateProfileServlet extends HttpServlet {
 
             userDao.update(customer);
             connectionInstance.closeEntityManager();
-
-
-            response.sendRedirect("/shomya/resources/index.jsp");
-        } else {
-
-            response.sendRedirect("/shomya/resources/index.jsp");
         }
+
+        response.sendRedirect("/shomya");
+
 
     }
 }

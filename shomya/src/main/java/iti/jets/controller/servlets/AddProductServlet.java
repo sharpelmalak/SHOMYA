@@ -30,21 +30,17 @@ public class AddProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         HttpSession session = req.getSession(false);
-        if (session != null) {
-            if(session.getAttribute("user")!=null&& session.getAttribute("userRole")== EnumHelper.getAdminRole())
-            {
-                ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-                CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-                connectionInstance.openEntityManager();
-                List<Category> categoryList = categoryDao.findAll();
-                connectionInstance.closeEntityManager();
-                req.setAttribute("categoryList", categoryList);
-                req.getRequestDispatcher("/resources/jsp/addProducts.jsp").forward(req,resp);
-
-            }
-            else resp.sendRedirect("/shomya/login");
+        if(session.getAttribute("userRole")== EnumHelper.getAdminRole())
+        {
+            ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+            CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
+            connectionInstance.openEntityManager();
+            List<Category> categoryList = categoryDao.findAll();
+            connectionInstance.closeEntityManager();
+            req.getRequestDispatcher("/resources/jsp/addProducts.jsp").forward(req,resp);
+            req.setAttribute("categoryList", categoryList);
         }
-        else  resp.sendRedirect("/shomya/login");
+        else resp.sendRedirect("/shomya");
     }
 
 
@@ -52,54 +48,42 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session= req.getSession(false);
-        if (session !=null)
+        if(session.getAttribute("userRole")== EnumHelper.getAdminRole())
         {
-            if(session.getAttribute("user")!=null && session.getAttribute("userRole")== EnumHelper.getAdminRole())
-            {
+            String name = req.getParameter("pname");
+            int catId = Integer.parseInt(req.getParameter("categoryId"));
+            float price = Float.parseFloat(req.getParameter("pprice"));
+            int quantity = Integer.parseInt(req.getParameter("pquantity"));
+            String description = req.getParameter("pdesc");
+            Part filePart = req.getPart("pimage");
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
-
-                String name = req.getParameter("pname");
-                int catId = Integer.parseInt(req.getParameter("categoryId"));
-                float price = Float.parseFloat(req.getParameter("pprice"));
-                int quantity = Integer.parseInt(req.getParameter("pquantity"));
-                String description = req.getParameter("pdesc");
-                Part filePart = req.getPart("pimage");
-                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-
-                // Save the file to the specified directory
-                String realPath = getServletContext().getRealPath("/resources/img/");
-                File imageFolder = new File(realPath);
-                if (!imageFolder.exists()) {
-                    imageFolder.mkdirs();  // Create directory if it doesn't exist
-                }
-                File file = new File(realPath + fileName);
-                Files.copy(filePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-
-                CategoryDao categoryDao= new CategoryDao(connectionInstance.getEntityManager());
-                connectionInstance.openEntityManager();
-                Category category =categoryDao.findById(catId);
-                ProductDao productDao=new ProductDao(connectionInstance.getEntityManager());
-                Product product = new Product((Admin)session.getAttribute("user"),category,name, price, quantity, description, fileName);
-                productDao.save(product);
-                connectionInstance.closeEntityManager();
-                resp.sendRedirect("/shomya/products");
-
-
+            // Save the file to the specified directory
+            String realPath = getServletContext().getRealPath("/resources/img/");
+            File imageFolder = new File(realPath);
+            if (!imageFolder.exists()) {
+                imageFolder.mkdirs();  // Create directory if it doesn't exist
             }
+            File file = new File(realPath + fileName);
+            Files.copy(filePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
 
-            else
-            {
-                resp.sendRedirect("/shomya/login");
-            }
+            CategoryDao categoryDao= new CategoryDao(connectionInstance.getEntityManager());
+            connectionInstance.openEntityManager();
+            Category category =categoryDao.findById(catId);
+            ProductDao productDao=new ProductDao(connectionInstance.getEntityManager());
+            Product product = new Product((Admin)session.getAttribute("user"),category,name, price, quantity, description, fileName);
+            productDao.save(product);
+            connectionInstance.closeEntityManager();
+            resp.sendRedirect("/shomya/products");
+
+
         }
 
         else
         {
-            resp.sendRedirect("/shomya/login");
+            resp.sendRedirect("/shomya");
         }
-
-
     }
 
 

@@ -21,17 +21,6 @@ public class ViewProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        HttpSession session = request.getSession(false);
-        System.out.println(session.getAttribute("isLoged"));
-        if (session != null && session.getAttribute("isLoged") !=null) {
-            if ( session.getAttribute("isLoged").equals("true")) {
-                request.getRequestDispatcher("/resources/jsp/ViewProfile.jsp").forward(request, response);
-            }
-        }
-        else {
-            request.getRequestDispatcher("/resources/login.html").forward(request, response);
-        }
-
+        request.getRequestDispatcher("/resources/jsp/ViewProfile.jsp").forward(request, response);
     }
 }
