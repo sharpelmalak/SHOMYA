@@ -34,39 +34,39 @@
 
                 <!-- Product Name -->
                 <div class="control-group">
-                    <input type="text" class="form-control" name="pname" id="pname" placeholder="Enter Product Name"
+                    <input type="text" class="form-control" name="pname"  placeholder="Enter Product Name"
                            required="required" />
                     <p class="help-block text-danger"></p>
                 </div>
 
                 <!-- Product Price -->
                 <div class="control-group">
-                    <input type="number" class="form-control" name="pprice" id="pprice" placeholder="Enter Product Price"
+                    <input type="number" class="form-control" name="pprice"  placeholder="Enter Product Price"
                            required="required" />
                     <p class="help-block text-danger"></p>
                 </div>
 
                 <!-- Product Quantity -->
                 <div class="control-group">
-                    <input type="number" class="form-control" name="pquantity" id="pquantity" placeholder="Enter Product Quantity"
+                    <input type="number" class="form-control" name="pquantity"  placeholder="Enter Product Quantity"
                            required="required" />
                     <p class="help-block text-danger"></p>
                 </div>
 
                 <!-- Product Description -->
                 <div class="control-group">
-                    <input type="text" class="form-control" name="pdesc" id="pdesc" placeholder="Enter Product Description"
+                    <input type="text" class="form-control" name="pdesc"  placeholder="Enter Product Description"
                            required="required" />
                     <p class="help-block text-danger"></p>
                 </div>
 
                 <!-- Category Selection -->
                 <div class="control-group">
-                    <label for="categorySelect">Select Category</label>
+                    <label for="categoryId">Select Category</label>
                     <select class="form-control" id="categoryId" name="categoryId" required="required">
                     <c:if test="${categoryList != null}">
                                     <c:forEach items="${categoryList}" var="category">
-                                           <option value="5">${category.name}</option>
+                                           <option value="${category.id}">${category.name}</option>
                                     </c:forEach>
                                 </c:if>
                     </select>
@@ -75,7 +75,7 @@
                 <!-- Product Image -->
                 <div class="control-group">
                     <label for="pimage">Product Image</label>
-                    <input type="file" name="pimage" id="pimage" required="pimage" />
+                    <input type="file" name="pimage" id="pimage" required/>
                     <p class="help-block text-danger"></p>
                 </div>
 

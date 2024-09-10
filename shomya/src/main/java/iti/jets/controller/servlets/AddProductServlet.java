@@ -9,6 +9,7 @@ import iti.jets.service.helper.EnumHelper;
 import iti.jets.util.ConnectionInstance;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
@@ -17,9 +18,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 
 @WebServlet(value = "/addproduct")
+@MultipartConfig
 public class AddProductServlet extends HttpServlet {
 
     @Override
@@ -52,15 +56,14 @@ public class AddProductServlet extends HttpServlet {
         {
             if(session.getAttribute("user")!=null && session.getAttribute("userRole")== EnumHelper.getAdminRole())
             {
-                String categoryId = req.getParameter("categoryId");
-                System.out.println("Selected Category ID: " + categoryId);
-                int catId = Integer.parseInt(categoryId);
+
+
                 String name = req.getParameter("pname");
+                int catId = Integer.parseInt(req.getParameter("categoryId"));
                 float price = Float.parseFloat(req.getParameter("pprice"));
                 int quantity = Integer.parseInt(req.getParameter("pquantity"));
                 String description = req.getParameter("pdesc");
-                Part filePart = req.getPart("categoryImage");
-                System.out.println(filePart.getSubmittedFileName());
+                Part filePart = req.getPart("pimage");
                 String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
                 // Save the file to the specified directory
@@ -79,8 +82,8 @@ public class AddProductServlet extends HttpServlet {
                 ProductDao productDao=new ProductDao(connectionInstance.getEntityManager());
                 Product product = new Product((Admin)session.getAttribute("user"),category,name, price, quantity, description, fileName);
                 productDao.save(product);
-                resp.getWriter().write("Product added successfully!");
                 connectionInstance.closeEntityManager();
+                resp.sendRedirect("/shomya/products");
 
 
             }
