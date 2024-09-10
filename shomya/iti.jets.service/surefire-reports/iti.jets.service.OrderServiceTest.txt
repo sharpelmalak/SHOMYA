@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: iti.jets.service.OrderServiceTest
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.387 s - in iti.jets.service.OrderServiceTest

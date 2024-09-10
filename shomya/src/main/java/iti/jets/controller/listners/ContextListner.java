@@ -25,6 +25,8 @@ public class ContextListner implements ServletContextListener{
         sce.getServletContext().setAttribute("emf", Factory.getEntityMangerFactory());
         System.out.println("EntityManagerFactory created");
 
+        System.out.println("MAX SIZE "+Factory.getMaxPoolSize());
+        System.out.println("MIN SIZE "+Factory.getMinPoolSize());
     }
 
 
