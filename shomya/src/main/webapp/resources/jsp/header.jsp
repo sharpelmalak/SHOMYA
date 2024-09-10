@@ -93,6 +93,7 @@
                             <c:if test="${userRole == EnumHelper.getAdminRole()}">
                                 <a href="/shomya/categories" class="nav-item nav-link">Categories</a>
                                 <a href="#" class="nav-item nav-link">Products</a>
+                                  <a href="/shomya/addproduct" class="nav-item nav-link">Add Products</a>
                                 <a href="#" class="nav-item nav-link">Customers</a>
                             </c:if>
                             <c:if test="${userRole == EnumHelper.getCustomerRole()}">
