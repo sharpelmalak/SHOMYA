@@ -16,18 +16,29 @@ public class ContextListner implements ServletContextListener{
     public void contextDestroyed(ServletContextEvent sce) {
 
         Factory.closeEntityManagerFactory();
-        System.out.println("EntityManagerFactory Destroyed");
+
+        // Close HikariDataSource
+        Factory.closeHikariDataSource();
+
+        // Log destruction
+        System.out.println("EntityManagerFactory and HikariDataSource destroyed");
     }
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ecommerce");
+        // Initialize EntityManagerFactory
+        Factory.getEntityMangerFactory(); // Ensures it's created
+
+        // Initialize HikariDataSource
+        Factory.getHikariDataSource(); // Ensures it's created
+
+        // Set EntityManagerFactory in servlet context
         sce.getServletContext().setAttribute("emf", Factory.getEntityMangerFactory());
+
+        // Log pool size information
         System.out.println("EntityManagerFactory created");
-
-        System.out.println("MAX SIZE "+Factory.getMaxPoolSize());
-        System.out.println("MIN SIZE "+Factory.getMinPoolSize());
+        System.out.println("MAX SIZE " + Factory.getMaxPoolSize());
+        System.out.println("MIN SIZE " + Factory.getMinPoolSize());
     }
-
-
 }
+
