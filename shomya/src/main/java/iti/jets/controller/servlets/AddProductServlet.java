@@ -37,8 +37,9 @@ public class AddProductServlet extends HttpServlet {
             connectionInstance.openEntityManager();
             List<Category> categoryList = categoryDao.findAll();
             connectionInstance.closeEntityManager();
-            req.getRequestDispatcher("/resources/jsp/addProducts.jsp").forward(req,resp);
             req.setAttribute("categoryList", categoryList);
+            req.getRequestDispatcher("/resources/jsp/addProducts.jsp").forward(req,resp);
+
         }
         else resp.sendRedirect("/shomya");
     }

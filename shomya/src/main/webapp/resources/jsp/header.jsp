@@ -8,8 +8,8 @@
 
         <div class="row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a href="" class="text-decoration-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                <a href="/shomya" class="text-decoration-none">
+                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">S</span>HOMYA</h1>
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
@@ -32,7 +32,7 @@
             <i class="fas fa-heart text-primary"></i>
             <span class="badge">0</span>
         </a>
-        <a href="" class="btn border">
+        <a href="/shomya/viewcart" class="btn border">
             <i class="fas fa-shopping-cart text-primary"></i>
             <span class="badge">0</span>
         </a>
@@ -98,7 +98,7 @@
                             </c:if>
                             <c:if test="${userRole == EnumHelper.getCustomerRole()}">
                                 <a href="/shomya/products" class="nav-item nav-link">view products</a>
-                                <a href="#" class="nav-item nav-link">my cart</a>
+                                <a href="/shomya/viewcart" class="nav-item nav-link">my cart</a>
                                 <a href="#" class="nav-item nav-link">my orders</a>
                             </c:if>
 

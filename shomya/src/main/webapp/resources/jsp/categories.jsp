@@ -63,6 +63,9 @@
                                 <img class="img-fluid fixed-size" src="/shomya/resources/img/${category.image}" alt="not found">
                             </a>
                             <h5 class="font-weight-semi-bold m-0">${category.name}</h5>
+                            <div class="card-footer d-flex justify-content-between bg-light border">
+                                <a href="/shomya/deletecategory?catId=${category.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-trash text-danger mr-1"></i>Delete</a>
+                            </div>
                         </div>
                     </div>
                 </c:forEach>
@@ -72,5 +75,6 @@
 <%--    <!-- Categories End -->--%>
 
 <jsp:include page="/resources/jsp/footer.jsp" />
+<jsp:directive.include file="/resources/script.html"/>
 </body>
 </html>

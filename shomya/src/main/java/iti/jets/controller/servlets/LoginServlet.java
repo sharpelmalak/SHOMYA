@@ -2,9 +2,11 @@ package iti.jets.controller.servlets;
 
 import iti.jets.dao.UserDao;
 import iti.jets.model.Admin;
+import iti.jets.model.CartItem;
 import iti.jets.model.Customer;
 import iti.jets.model.User;
 import iti.jets.service.AuthService;
+import iti.jets.service.helper.EnumHelper;
 import iti.jets.util.ConnectionInstance;
 import iti.jets.util.Factory;
 import jakarta.persistence.EntityManager;
@@ -18,6 +20,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @WebServlet(value = "/login")
@@ -55,6 +59,12 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("user", authService.getUser());
                 session.setAttribute("userRole", authService.getRole());
                 session.setAttribute("userConnection", connectionInstance);
+                if(authService.getRole() == EnumHelper.getCustomerRole())
+                {
+                    // check on db later
+                    List<CartItem> cart = new ArrayList<>();
+                    session.setAttribute("cart", cart);
+                }
                 connectionInstance.closeEntityManager();
                 resp.sendRedirect("/shomya");
             }

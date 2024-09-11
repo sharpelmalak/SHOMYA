@@ -1,7 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
 <%@ page import="iti.jets.model.Product" %>
 <%@ page import="iti.jets.model.Category" %>
+<!DOCTYPE html>
+<html lang="en">
+
 <jsp:directive.include file="/resources/head.html"/>
 
 <style>
@@ -99,6 +100,7 @@
 <!-- Add Product Section End -->
 
 <jsp:include page="/resources/jsp/footer.jsp" />
+<jsp:directive.include file="/resources/script.html"/>
 
 </body>
 </html>

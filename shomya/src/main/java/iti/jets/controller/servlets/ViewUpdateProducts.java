@@ -27,7 +27,6 @@ public class ViewUpdateProducts extends HttpServlet {
         HttpSession session = req.getSession(false);
         if (session != null) {
             int productId = Integer.parseInt(req.getParameter("productId"));
-            System.out.println("Im here" + productId);
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
             ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
             connectionInstance.openEntityManager();
