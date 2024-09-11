@@ -6,6 +6,7 @@ import iti.jets.model.CartItem;
 import iti.jets.model.Customer;
 import iti.jets.model.User;
 import iti.jets.service.AuthService;
+import iti.jets.service.CartService;
 import iti.jets.service.helper.EnumHelper;
 import iti.jets.util.ConnectionInstance;
 import iti.jets.util.Factory;
@@ -56,13 +57,16 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = req.getSession(true);
             if(session != null)
             {
-                session.setAttribute("user", authService.getUser());
+                User user = authService.getUser();
+                session.setAttribute("user", user);
                 session.setAttribute("userRole", authService.getRole());
                 session.setAttribute("userConnection", connectionInstance);
                 if(authService.getRole() == EnumHelper.getCustomerRole())
                 {
-                    // check on db later
-                    List<CartItem> cart = new ArrayList<>();
+                    // load cart or create one
+                    List<CartItem> cart = CartService.loadCart(user.getId(), connectionInstance.getEntityManager());
+                    // delete cart from db
+                    CartService.resetCart(user.getId(), connectionInstance.getEntityManager());
                     session.setAttribute("cart", cart);
                 }
                 connectionInstance.closeEntityManager();
