@@ -1,7 +1,9 @@
 package iti.jets.dao;
 
 import iti.jets.model.Customer;
+import iti.jets.model.Order;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
@@ -15,4 +17,14 @@ public class CustomerDao extends DAO<Customer,Integer> {
     public List<Customer> search(Customer criteria) {
         return List.of();
     }
+
+    // Method to get orders based on customer ID
+    public List<Order> getOrdersByCustomerId(Integer customerId) {
+        TypedQuery<Order> query = entityManager.createQuery(
+                "SELECT o FROM Order o WHERE o.customer.id = :customerId", Order.class);
+        query.setParameter("customerId", customerId);
+        return query.getResultList();
+    }
+
 }
+
