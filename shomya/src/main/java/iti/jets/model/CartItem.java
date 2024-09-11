@@ -30,8 +30,8 @@ public class CartItem  implements java.io.Serializable {
     public CartItem() {
     }
 
-    public CartItem(CartItemId id, Product product, Customer customer, int quantity) {
-       this.id = id;
+    public CartItem( Customer customer,Product product, int quantity) {
+       this.id = new CartItemId(customer.getId(), product.getId());
        this.product = product;
        this.customer = customer;
        this.quantity = quantity;

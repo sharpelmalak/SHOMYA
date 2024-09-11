@@ -1,5 +1,6 @@
 package iti.jets.controller.servlets;
 
+import iti.jets.model.Customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,24 +13,16 @@ import jakarta.json.JsonObjectBuilder;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet("/ViewCartServlet")
+@WebServlet("/viewcart")
 public class ViewCartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-
-        // Get cart from session
-        Map<String, Integer> cart = (Map<String, Integer>) session.getAttribute("cart");
-
-        // Prepare JSON response
-        JsonObjectBuilder cartJsonBuilder = Json.createObjectBuilder();
-        if (cart != null) {
-            for (Map.Entry<String, Integer> entry : cart.entrySet()) {
-                cartJsonBuilder.add(entry.getKey(), entry.getValue());
-            }
+        HttpSession session = request.getSession(false);
+        Customer customer = (Customer) session.getAttribute("user");
+        System.out.println("view cart ");
+        if (customer != null) {
+            request.getRequestDispatcher("/shomya/resources/jsp/cart.jsp").forward(request, response);
         }
-
-        response.setContentType("application/json");
-        response.getWriter().write(cartJsonBuilder.build().toString());
+        else response.sendRedirect("/shomya");
     }
 }
