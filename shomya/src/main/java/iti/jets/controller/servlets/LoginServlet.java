@@ -76,7 +76,7 @@ public class LoginServlet extends HttpServlet {
         else
         {
             // invalid credentials // error no user // error msg
-            req.getRequestDispatcher("/resources/login.html").forward(req, resp);
+            resp.sendRedirect("/shomya/login?error=invalidCredentials");
         }
     }
 }

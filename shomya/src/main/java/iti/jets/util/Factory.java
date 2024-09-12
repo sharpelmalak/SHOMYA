@@ -11,8 +11,8 @@ public class Factory {
     private static final String PERSISTENCE_UNIT_NAME = "ecommerce";
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/shomya";
 
-    private static final String JDBC_USERNAME = "java";
-    private static final String JDBC_PASSWORD = "java";
+    private static final String JDBC_USERNAME = "root";
+    private static final String JDBC_PASSWORD = "root";
     private static final int MIN_IDLE = 5;
     private static final int MAX_POOL_SIZE = 20;
 
