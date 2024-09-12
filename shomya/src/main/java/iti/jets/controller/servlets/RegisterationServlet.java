@@ -51,6 +51,7 @@ public class RegisterationServlet extends HttpServlet
         connectionInstance.closeEntityManager();
         if (isRegistered)
         {
+            // check interests
             req.getRequestDispatcher("/login").forward(req, resp);
         }
         else {

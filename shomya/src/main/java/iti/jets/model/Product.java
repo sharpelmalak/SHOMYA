@@ -5,6 +5,7 @@ package iti.jets.model;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -160,7 +161,25 @@ public class Product  implements java.io.Serializable {
         this.customers = customers;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(price, quantity);
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Product other = (Product) obj;
+
+        // Only check price and quantity for equality
+        return Double.compare(this.price, other.price) == 0 &&
+                this.quantity == other.quantity;
+    }
 
 
 }
