@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @WebServlet(value = "/customerOrder")
 public class OrdersByCustomerId extends HttpServlet {
@@ -34,12 +35,11 @@ public class OrdersByCustomerId extends HttpServlet {
 
         Customer customer= (Customer) userDao.findById(customerId);
 
-        List<Order> ordersList = customerDao.getOrdersByCustomerId(customerId);
-
+        Set<Order> orders= customer.getOrders();
 
         connectionInstance.closeEntityManager();
         req.setAttribute("customer", customer);
-        req.setAttribute("orderList", ordersList);
+        req.setAttribute("orderList", orders);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/customer-details.jsp");
         requestDispatcher.forward(req, resp);
 

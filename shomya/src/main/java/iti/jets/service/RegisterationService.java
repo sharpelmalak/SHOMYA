@@ -18,11 +18,11 @@ public class RegisterationService
 
 
 
-    public boolean registerUser(String username, String password, String name,
+    public Customer registerUser(String username, String password, String name,
                              Date date, String job, String email, float creditLimit,
-                             String address,ConnectionInstance connectionInstance)
+                             String address,EntityManager entityManager)
     {
-        UserDao userDao  = new UserDao(connectionInstance.getEntityManager());
+        UserDao userDao  = new UserDao(entityManager);
         Customer user = new Customer();
         user.setUsername(username);
 
@@ -37,13 +37,16 @@ public class RegisterationService
         user.setCreditLimit(creditLimit);
         user.setAddress(address);
 
+if(userDao.save(user)){
+    return user;
+}
+else
+{
+    return null;
+}
 
-        return userDao.save(user);
+
     }
-
-
-
-
 
         public boolean isUsernameUnique(String username, EntityManager entityManager)
     {

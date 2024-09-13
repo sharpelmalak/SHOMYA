@@ -18,6 +18,19 @@
 <!--<welcome-file-list>-->
 <!--    <welcome-file>/resources/index.html</welcome-file>-->
 <!--</welcome-file-list>-->
+
+
+<!--    <servlet>-->
+<!--        <servlet-name>check_unique</servlet-name>-->
+<!--        <servlet-class>iti.jets.controller.servlets.check_unique</servlet-class>-->
+<!--    </servlet>-->
+
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>check_unique</servlet-name>-->
+<!--        <url-pattern>/check_unique</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+
     <error-page>
         <error-code>404</error-code>
         <location>/resources/404.jsp</location>

@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import org.json.JSONObject;
 
-@WebServlet("/check-unique")
-public class UniqueCheckServlet extends HttpServlet {
+@WebServlet("/check_unique")
+public class check_unique extends HttpServlet {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -22,11 +22,11 @@ public class UniqueCheckServlet extends HttpServlet {
 
         String username = request.getParameter("username");
         String email = request.getParameter("email");
-
+        System.out.println("hello user");
         System.out.println("username "+username);
         System.out.println("email "+email);
 
-        response.setContentType("text/html");
+
         PrintWriter out = response.getWriter();
 
         ConnectionInstance connectionInstance=new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));

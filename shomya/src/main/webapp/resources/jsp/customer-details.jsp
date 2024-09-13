@@ -58,7 +58,6 @@
                 <th>Order ID</th>
                 <th>Order Date</th>
                 <th>Total Price</th>
-                <th>Order Items</th>
             </tr>
             </thead>
             <tbody>
@@ -68,11 +67,6 @@
                         <td>${order.id}</td>
                         <td>${order.orderDate}</td>
                         <td>${order.totalPrice}</td>
-                        <td>
-                            <c:forEach items="${order.orderItems}" var="item">
-                                <p>Item ID: ${item.id}, Product Name: ${item.product.name}, Quantity: ${item.quantity}</p>
-                            </c:forEach>
-                        </td>
                     </tr>
                 </c:forEach>
             </c:if>
