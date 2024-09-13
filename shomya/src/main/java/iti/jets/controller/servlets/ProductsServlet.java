@@ -25,6 +25,7 @@ public class ProductsServlet extends HttpServlet {
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
         ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
         connectionInstance.openEntityManager();
+        // query to get first 5
         List<Product> productList = productDao.findAll();
         connectionInstance.closeEntityManager();
         req.setAttribute("productList", productList);

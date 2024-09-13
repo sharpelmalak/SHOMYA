@@ -8,12 +8,11 @@ import jakarta.servlet.http.*;
 import jakarta.persistence.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import org.json.JSONObject;
 
-@WebServlet("/check_unique")
-public class check_unique extends HttpServlet {
+@WebServlet("/checkunique")
+public class CheckUnique extends HttpServlet {
 
-    @Override
+ @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
