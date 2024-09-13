@@ -70,6 +70,7 @@
                             <c:if test="${userRole == EnumHelper.getCustomerRole()}">
                                 <a href="/shomya/products" class="nav-item nav-link">view products</a>
                                 <a href="/shomya/viewcart" class="nav-item nav-link">my cart</a>
+                                <a href="resources/jsp/shop.jsp" class="nav-item nav-link">my shop</a>
                                 <a href="#" class="nav-item nav-link">my orders</a>
                             </c:if>
 
