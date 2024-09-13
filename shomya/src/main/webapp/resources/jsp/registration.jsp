@@ -2,28 +2,7 @@
 <html lang="en">
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <head>
-    <meta charset="utf-8">
-    <title>Registration</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Free HTML Templates" name="keywords">
-    <meta content="Free HTML Templates" name="description">
-
-    <!-- Favicon -->
-    <link href="/shomya/resources/img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="/shomya/resources/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="/shomya/resources/css/style.css" rel="stylesheet">
-
+    <jsp:directive.include file="/resources/head.html"/>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -153,13 +132,16 @@
 
         <!-- Submit Button -->
         <div>
-            <button class="btn btn-primary py-2 px-4" type="submit">Register</button>
+            <button id= "submitButton" class="btn btn-primary py-2 px-4" type="submit" disabled>Register</button>
         </div>
     </form>
 </div>
-
+<jsp:directive.include file="/resources/script.html"/>
 <script>
 
+    var isUserFound = false
+    var isEmailFound = false
+    var isPassCorrect = false
 
     function checkPassword() {
         // Get the password and confirm password fields
@@ -177,11 +159,21 @@
         // Check if passwords match
         if (password !== confirmPassword) {
             confirmPasswordError.textContent = "Passwords do not match!";
+            isPassCorrect = false
             return false; // Prevent form submission
         }
+        isPassCorrect = true
+        updateSubmitButton()
         return true; // Allow form submission if everything is okay
     }
 
+    function updateSubmitButton()
+    {
+        if(isEmailFound && isUserFound && isPassCorrect)
+        {
+            document.getElementById("submitButton").disabled = false;
+        }
+    }
 
 
     function check(param) {
@@ -189,7 +181,7 @@
         var usernameError = document.getElementById('usernameError');
 
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8080/shomya/check_unique?' + param, true);
+        xhr.open('GET', 'http://localhost:8080/shomya/checkunique?' + param, true);
 
 
         xhr.onreadystatechange = function () {
@@ -201,20 +193,26 @@
                     console.log("in ajax"+data);
                     if(data === "email_found"){
                         emailError.textContent = "Email is already taken.";
+                        isEmailFound = false
+
                     }
                     else if(data==="email_notfound"){
                         emailError.textContent = "";
+                        isEmailFound = true
                     }
                     else if(data==="user_found"){
                         usernameError.textContent = "Username is already taken.";
+                        isUserFound = false
                     }
                     else {
                         usernameError.textContent = "";
+                        isUserFound = true
                     }
+                    updateSubmitButton()
                 }
             }
         };
-        xhr.send();
+        xhr.send(null);
     }
 
     function checkUsername(){

@@ -22,7 +22,7 @@
 
 <!--    <servlet>-->
 <!--        <servlet-name>check_unique</servlet-name>-->
-<!--        <servlet-class>iti.jets.controller.servlets.check_unique</servlet-class>-->
+<!--        <servlet-class>iti.jets.controller.servlets.CheckUnique</servlet-class>-->
 <!--    </servlet>-->
 
 <!--    <servlet-mapping>-->

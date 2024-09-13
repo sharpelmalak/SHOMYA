@@ -50,66 +50,60 @@ public class RegisterationServlet extends HttpServlet
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        String name = req.getParameter("name");
-        String username = req.getParameter("username");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        String date = req.getParameter("date");
-        LocalDate Bdate = LocalDate.parse(date);
-        String address = req.getParameter("address");
-        float creditLimit = Float.parseFloat(req.getParameter("creditLimit"));
-        String job = req.getParameter("job");
-        String[] selectedCategories = req.getParameterValues("categories");
-
-       for(String category : selectedCategories)
-       {
-           System.out.println(category);
-       }
-
-       ///
         ConnectionInstance connectionInstance = new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
         EntityManager entityManager = connectionInstance.getEntityManager();
         connectionInstance.openEntityManager();
+        try{
 
+            String name = req.getParameter("name");
+            String username = req.getParameter("username");
+            String email = req.getParameter("email");
+            String password = req.getParameter("password");
+            String date = req.getParameter("date");
+            LocalDate Bdate = LocalDate.parse(date);
+            String address = req.getParameter("address");
+            float creditLimit = Float.parseFloat(req.getParameter("creditLimit"));
+            String job = req.getParameter("job");
+            String[] selectedCategories = req.getParameterValues("categories");
+            RegisterationService registerationService=new RegisterationService();
+            Customer isRegistered = registerationService.registerUser(
+                    username,password,name,Date.valueOf(Bdate),job,email,creditLimit,address,entityManager);
 
-
-
-        /////
-        RegisterationService registerationService=new RegisterationService();
-        Customer isRegistered = registerationService.registerUser(
-                username,password,name,Date.valueOf(Bdate),job,email,creditLimit,address,entityManager);
-
-        if (isRegistered != null)
-         {
-
-            entityManager.getTransaction().begin();
-            List<Category> userCategories = categories.stream().
-                    filter(category -> {for (String id : selectedCategories)
-                    {
-                        if (category.getId() == Integer.parseInt(id)) {
-                            return true; } } return false; }) .collect(Collectors.toList());
-
-            Set<Category> categorySet=new HashSet<>(userCategories);
-            for(Category category : categorySet)
+            if (isRegistered != null)
             {
-                entityManager.merge(category);
+                if(selectedCategories!=null && selectedCategories.length>0)
+                {
+                    entityManager.getTransaction().begin();
+                    List<Category> userCategories = categories.stream().
+                            filter(category -> {for (String id : selectedCategories)
+                            {
+                                if (category.getId() == Integer.parseInt(id)) {
+                                    return true; } } return false; }) .collect(Collectors.toList());
+
+                    Set<Category> categorySet=new HashSet<>(userCategories);
+                    for(Category category : categorySet)
+                    {
+                        entityManager.merge(category);
+
+                    }
+                    isRegistered.setCategories(categorySet);
+                    entityManager.merge(isRegistered);
+
+                    entityManager.getTransaction().commit();
+                }
+                req.getRequestDispatcher("/login").forward(req, resp);
 
             }
-            System.out.println("categorySet size "+categorySet.size());
-
-            isRegistered.setCategories(categorySet);
-            entityManager.merge(isRegistered);
-
-            entityManager.getTransaction().commit();
-
-            connectionInstance.closeEntityManager();
-            // check interests
-            req.getRequestDispatcher("/login").forward(req, resp);
         }
-        else {
-            connectionInstance.closeEntityManager();
+        catch(Exception e)
+        {
+            req.setAttribute("error", "Registeration failed");
             req.getRequestDispatcher("/resources/jsp/registration.jsp").forward(req, resp);
         }
+        finally {
+                connectionInstance.closeEntityManager();
+        }
+
 
     }
 

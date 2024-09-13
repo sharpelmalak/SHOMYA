@@ -37,6 +37,7 @@ public class MainFilter implements Filter {
         if (
                 requestURI.equals(httpRequest.getContextPath() + "/") // Root path (home)
                         || requestURI.endsWith("registration")
+                        || requestURI.endsWith("checkunique")
                         || requestURI.endsWith("login")
                         || requestURI.contains("/resources/")  // Exclude static files, assuming they are under /resources/
                            ) {
