@@ -36,7 +36,7 @@ public class RegisterationServlet extends HttpServlet
 //        PrintWriter out = resp.getWriter();
 //        out.println("hello");
 
-                System.out.println("i'm in get method registration");
+        System.out.println("i'm in get method registration");
         ConnectionInstance connectionInstance=new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
         CategoryDao categoryDao=new CategoryDao(connectionInstance.getEntityManager());
         connectionInstance.openEntityManager();

@@ -13,9 +13,6 @@ import org.json.JSONObject;
 @WebServlet("/check_unique")
 public class check_unique extends HttpServlet {
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
