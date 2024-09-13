@@ -31,8 +31,8 @@ public class OrderItem  implements java.io.Serializable {
     public OrderItem() {
     }
 
-    public OrderItem(OrderItemId id, Order order, Product product, int quantity, float currentPrice) {
-       this.id = id;
+    public OrderItem(Order order, Product product, int quantity, float currentPrice) {
+       this.id = new OrderItemId(order.getId(), product.getId());
        this.order = order;
        this.product = product;
        this.quantity = quantity;

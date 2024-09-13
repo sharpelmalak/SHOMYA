@@ -45,7 +45,17 @@ public class CartService {
         }
         return result;
     }
-    public static void chekCart(List<CartItem> cart, EntityManager entityManager) {
+
+    public static float calculateTotalCart(List<CartItem> cart)
+    {
+        float result = 0F;
+        for (CartItem cartItem : cart) {
+            result += cartItem.getProduct().getPrice() * cartItem.getQuantity();
+        }
+        return result;
+    }
+    public static boolean chekCart(List<CartItem> cart, EntityManager entityManager) {
+        boolean result = false;
         try {
             ProductDao productDao = new ProductDao(entityManager);
             // Use an Iterator to avoid ConcurrentModificationException
@@ -56,16 +66,27 @@ public class CartService {
                 Product product = productDao.findById(cartItem.getProduct().getId());
 
                 // If the product exists and there's enough quantity
-                if (product != null && product.getQuantity() >= cartItem.getQuantity()) {
-                    // everything is okay, continue
+                if (product == null ) {
+                    result = true;
+                    iterator.remove();
                 } else {
-                    // Product is either deleted or out of stock, remove the cart item
-                    iterator.remove(); // Safely remove the item from the list
+                    if(!cartItem.getProduct().equals(product)){
+                        if(product.getQuantity() < cartItem.getQuantity()){
+                            cartItem.setQuantity(product.getQuantity());
+                            result = true;
+                        }
+                        else if(product.getPrice() != cartItem.getProduct().getPrice()){
+                            result = true;
+                        }
+                        cartItem.setProduct(product);
+                    }
+
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return result;
     }
 
     public static void removeFromCart(List<CartItem> cart,int id) {

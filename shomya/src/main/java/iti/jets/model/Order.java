@@ -2,17 +2,10 @@ package iti.jets.model;
 // Generated Sep 2, 2024, 5:22:05 PM by Hibernate Tools 6.5.1.Final
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
+
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,22 +28,15 @@ public class Order  implements java.io.Serializable {
     public Order() {
     }
 
-	
-    public Order(int id, Customer customer, Timestamp orderDate, float totalPrice) {
-        this.id = id;
-        this.customer = customer;
-        this.orderDate = orderDate;
-        this.totalPrice = totalPrice;
-    }
-    public Order(int id, Customer customer, Timestamp orderDate, float totalPrice, Set<OrderItem> orderItems) {
-       this.id = id;
+
+
+    public Order(Customer customer, float totalPrice) {
        this.customer = customer;
-       this.orderDate = orderDate;
+       this.orderDate = Timestamp.from(Instant.now());
        this.totalPrice = totalPrice;
-       this.orderItems = orderItems;
     }
    
-     @Id 
+     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
 
     
     @Column(name="id", unique=true, nullable=false)

@@ -1,6 +1,7 @@
 package iti.jets.controller.servlets;
 
 import iti.jets.model.CartItem;
+import iti.jets.service.CartService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,15 +19,12 @@ public class CalculateTotalServlet extends HttpServlet {
         // Get the cart from the session
         HttpSession session = request.getSession(false);
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
-
         double subtotal = 0.0;
         double shipping = 0.0; // Static shipping cost, can be dynamically set
 
         if (cart != null && !cart.isEmpty()) {
             // Calculate subtotal by summing the prices of all items in the cart
-            for (CartItem item : cart) {
-                subtotal += item.getProduct().getPrice() * item.getQuantity();
-            }
+            subtotal = Double.valueOf(CartService.calculateTotalCart(cart));
             shipping = 10.0;
         }
 

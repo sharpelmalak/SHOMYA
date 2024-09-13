@@ -40,7 +40,6 @@ public class AddProductToCartServlet extends HttpServlet {
                         CartItem cartItem = CartService.addProductToCart((Customer) session.getAttribute("user"),productId,quantity,em);
                         if (cartItem != null) {
                             cart.add(cartItem);
-                            System.out.println(cart.size());
                             out.print("done");
                         }
                         else out.print("error");

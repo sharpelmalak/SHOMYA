@@ -57,7 +57,7 @@
                             </div>
                         </div>
                     </td>
-                    <td id="total-${item.product.id}" class="align-middle">$${item.product.price*item.quantity}</td>
+                    <td id="total-${item.product.id}" class="align-middle">$${(item.product.price*item.quantity)}</td>
                     <td class="align-middle"><button onclick="removeProduct(${item.product.id})" class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
                 </tr>
                     </c:forEach>
@@ -86,25 +86,98 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3 pt-1">
                         <h6 class="font-weight-medium">Subtotal</h6>
-                        <h6 id="subtotal" class="font-weight-medium">$150</h6>
+                        <h6 id="subtotal" class="font-weight-medium">$0</h6>
                     </div>
                     <div class="d-flex justify-content-between">
                         <h6 class="font-weight-medium">Shipping</h6>
-                        <h6 id="shipping" class="font-weight-medium">$10</h6>
+                        <h6 id="shipping" class="font-weight-medium">$0</h6>
                     </div>
                 </div>
                 <div class="card-footer border-secondary bg-transparent">
                     <div class="d-flex justify-content-between mt-2">
                         <h5 class="font-weight-bold">Total</h5>
-                        <h5 id="total" class="font-weight-bold">$160</h5>
+                        <h5 id="total" class="font-weight-bold">$0</h5>
                     </div>
-                    <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
+                    <button id="checkoutButton" class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Cart End -->
+<!-- Button to trigger modal (this will be triggered automatically based on the error) -->
+<button id="errorButton" type="button" class="btn btn-danger" style="display:none;">
+    Error
+</button>
+
+<!-- Error Modal Structure -->
+
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="errorContent">
+                <!-- Error details will be dynamically inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Structure -->
+<div class="modal fade" id="billingConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="billingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="billingModalLabel">Confirm Billing Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Please confirm your billing details before proceeding:</p>
+                <ul>
+                    <li><strong>Billing Address: </strong>${user.address}</li>
+                    <li><strong>Payment Method:</strong> Virtually with Credit Limit</li>
+                    <li><strong>Your Credit: </strong>$${user.creditLimit}</li>
+                    <li><strong>Total Amount: </strong><span id="final-total"></span></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmBilling">Confirm and Pay</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Order Placed Successfully</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="successContent">
+                <p>Your order has been placed successfully! Thank you for shopping with us.</p>
+                <p>Order Number: <strong id="orderNumber">#123456</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Continue Shopping</button>
+                <a href="/viewOrder?orderId=123456" class="btn btn-secondary">View Order Details</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <jsp:include page="/resources/jsp/footer.jsp" />
@@ -113,7 +186,9 @@
 
 <script>
 
-
+    $(document).ready(function() {
+        updateCartSummary();
+    });
     // Decrease quantity function
     function decreaseQuantity(id) {
         const quantityInput = document.getElementById(id.toString());
@@ -207,6 +282,7 @@
             url: '/shomya/calculateTotal', // URL to the servlet
             type: 'POST',
             success: function(response) {
+                console.log("update summary called")
                 // Update the subtotal, shipping, and total in the UI
                 const subtotal = response.subtotal.toFixed(2);
                 const shipping = response.shipping.toFixed(2);
@@ -216,16 +292,75 @@
                 document.getElementById('subtotal').innerHTML = '$' + subtotal;
                 document.getElementById('shipping').innerHTML = '$' + shipping;
                 document.getElementById('total').innerHTML = '$' + total;
+                document.getElementById('final-total').innerHTML = '$' + total;
             },
             error: function() {
                 alert("Error calculating total.");
             }
         });
     }
-    $(document).ready(function() {
-        updateCartSummary();
+
+
+    // document.getElementById("confirmBilling").addEventListener("click", function() {
+    //     // Here you can proceed with billing confirmation
+    //
+    //     // Perform the actual checkout action (e.g., form submission, API call)
+    //     alert('Billing confirmed. Proceeding to payment.');
+    // });
+
+    function showError(message) {
+        document.getElementById("errorContent").innerHTML = message;
+        $('#errorModal').modal('show');
+    }
+
+
+    $('#errorModal').on('hidden.bs.modal', function () {
+        // Redirect the user to the cart page after acknowledging the error
+        window.location.href = '/shomya/viewcart';
+    });
+    document.getElementById("checkoutButton").addEventListener("click", function() {
+        $.ajax({
+            url: '/shomya/checkCartAndCredit',
+            method: 'POST',
+            success: function(response) {
+                if (response.cartChanged) {
+                    showError('Some items in your cart have changed due to stock updates.');
+                } else if (response.creditLimitInsufficient) {
+                    showError('Your credit limit is insufficient to complete the purchase.');
+                } else {
+                    // If no issues, proceed to the checkout page
+                    $('#billingConfirmationModal').modal('show');
+                }
+            },
+            error: function(error) {
+                showError('An error occurred while checking your cart or credit limit.');
+            }
+        });
     });
 
+    document.getElementById("confirmBilling").addEventListener("click", function() {
+        $('#billingConfirmationModal').modal('hide');
+        $.ajax({
+            url: '/shomya/checkout',
+            method: 'POST',
+            success: function(response) {
+                if (response === 'success') {
+                    showSuccessModal(5)
+                }
+                else {
+                    // If no issues, proceed to the checkout page
+                    //$('#billingConfirmationModal').modal('show');
+                }
+            },
+            error: function(error) {
+                showError('An error occurred while checking your cart or credit limit.');
+            }
+        });
+    });
+    function showSuccessModal(orderNumber) {
+        document.getElementById('orderNumber').textContent = '#' + orderNumber;
+        $('#successModal').modal('show');
+    }
 </script>
 </body>
 </html>
