@@ -15,21 +15,17 @@ public class ConnectionInstance {
     public EntityManager getEntityManager() {
         if (entityManager == null || !entityManager.isOpen()) {
             entityManager = entityManagerFactory.createEntityManager();
+            System.out.println("Connection opened");
         }
         return entityManager;
     }
 
-    // Open a connection (EntityManager)
-    public void openEntityManager() {
-        if (entityManager == null || !entityManager.isOpen()) {
-            entityManager = entityManagerFactory.createEntityManager();
-        }
-    }
 
     // Close the EntityManager safely
     public void closeEntityManager() {
         if (entityManager != null && entityManager.isOpen()) {
             entityManager.close();
+            System.out.println("Connection Closed");
         }
     }
 }

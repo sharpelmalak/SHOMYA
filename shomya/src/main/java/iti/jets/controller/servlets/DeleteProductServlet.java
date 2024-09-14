@@ -29,14 +29,12 @@ public class DeleteProductServlet extends HttpServlet {
 
                     int id = Integer.parseInt(req.getParameter("productId"));
                     ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
-                    connectionInstance.openEntityManager();
                     productDao.deleteById(id);
                     req.setAttribute("error", "Product Deleted");
                 }catch (Exception e)
                 {
                     req.setAttribute("error", "Error in deleting product");
                 }finally {
-                    connectionInstance.closeEntityManager();
                     req.getRequestDispatcher("/products").forward(req, resp);
                 }
 

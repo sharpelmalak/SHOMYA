@@ -15,6 +15,7 @@ import jakarta.servlet.http.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -34,9 +35,7 @@ public class AddProductServlet extends HttpServlet {
         {
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
             CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-            connectionInstance.openEntityManager();
             List<Category> categoryList = categoryDao.findAll();
-            connectionInstance.closeEntityManager();
             req.setAttribute("categoryList", categoryList);
             req.getRequestDispatcher("/resources/jsp/addProducts.jsp").forward(req,resp);
 
@@ -57,25 +56,18 @@ public class AddProductServlet extends HttpServlet {
             int quantity = Integer.parseInt(req.getParameter("pquantity"));
             String description = req.getParameter("pdesc");
             Part filePart = req.getPart("pimage");
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-
-            // Save the file to the specified directory
-            String realPath = getServletContext().getRealPath("/resources/img/");
-            File imageFolder = new File(realPath);
-            if (!imageFolder.exists()) {
-                imageFolder.mkdirs();  // Create directory if it doesn't exist
+            // Read image data from the Part
+            byte[] imageData = null;
+            try (InputStream inputStream = filePart.getInputStream()) {
+                imageData = inputStream.readAllBytes();
             }
-            File file = new File(realPath + fileName);
-            Files.copy(filePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
 
             CategoryDao categoryDao= new CategoryDao(connectionInstance.getEntityManager());
-            connectionInstance.openEntityManager();
             Category category =categoryDao.findById(catId);
             ProductDao productDao=new ProductDao(connectionInstance.getEntityManager());
-            Product product = new Product((Admin)session.getAttribute("user"),category,name, price, quantity, description, fileName);
+            Product product = new Product((Admin)session.getAttribute("user"),category,name, price, quantity, description, imageData);
             productDao.save(product);
-            connectionInstance.closeEntityManager();
             resp.sendRedirect("/shomya/products");
 
 

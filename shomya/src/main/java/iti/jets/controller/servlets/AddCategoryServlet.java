@@ -11,6 +11,7 @@ import jakarta.servlet.http.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -35,23 +36,17 @@ public class AddCategoryServlet extends HttpServlet {
 
         String name = req.getParameter("categoryName");
         Part filePart = req.getPart("categoryImage");
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+        byte[] imageData = null;
+        try (InputStream inputStream = filePart.getInputStream()) {
+            imageData = inputStream.readAllBytes();
+        }
 
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-        Category category = new Category(name,fileName);
+        Category category = new Category(name,imageData);
         CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
         // Save the file to the specified directory
-        String realPath = getServletContext().getRealPath("/resources/img/");
-        File imageFolder = new File(realPath);
-        if (!imageFolder.exists()) {
-            imageFolder.mkdirs();  // Create directory if it doesn't exist
-        }
-        File file = new File(realPath + fileName);
-        Files.copy(filePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        /////////////////////////////
-        connectionInstance.openEntityManager();
+
         categoryDao.save(category);
-        connectionInstance.closeEntityManager();
         resp.sendRedirect("/shomya/categories");
 
     }

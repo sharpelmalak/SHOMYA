@@ -24,9 +24,7 @@ public class ViewCartServlet extends HttpServlet {
         if (customer != null) {
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
             EntityManager entityManager = connectionInstance.getEntityManager();
-            connectionInstance.openEntityManager();
             CartService.chekCart((List<CartItem>) session.getAttribute("cart"),entityManager);
-            connectionInstance.closeEntityManager();
             request.getRequestDispatcher("/resources/jsp/cart.jsp").forward(request, response);
         }
         else response.sendRedirect("/shomya");

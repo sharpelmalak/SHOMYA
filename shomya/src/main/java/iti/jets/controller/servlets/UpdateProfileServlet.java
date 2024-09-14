@@ -39,7 +39,6 @@ public class UpdateProfileServlet extends HttpServlet {
 
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
         UserDao userDao = new UserDao(connectionInstance.getEntityManager());
-        connectionInstance.openEntityManager();
 
        Customer customer= (Customer)session.getAttribute("user");
         System.out.println(customer.getName());
@@ -74,7 +73,6 @@ public class UpdateProfileServlet extends HttpServlet {
 
 
             userDao.update(customer);
-            connectionInstance.closeEntityManager();
         }
 
         response.sendRedirect("/shomya");

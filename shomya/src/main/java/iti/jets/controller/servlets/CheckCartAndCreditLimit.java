@@ -33,9 +33,8 @@ public class CheckCartAndCreditLimit extends HttpServlet {
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
         EntityManager entityManager = connectionInstance.getEntityManager();
-        connectionInstance.openEntityManager();
+
         isCartChaged =  CartService.chekCart(cart,entityManager);
-        connectionInstance.closeEntityManager();
         // case changes has made on products
         Customer customer = (Customer) session.getAttribute("user");
         if(CartService.calculateTotalCart(cart) > customer.getCreditLimit())

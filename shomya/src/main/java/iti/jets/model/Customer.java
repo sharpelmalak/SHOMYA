@@ -124,7 +124,7 @@ public class Customer  extends User implements java.io.Serializable {
         this.products = products;
     }
 
-@OneToMany(fetch=FetchType.EAGER, mappedBy="customer")
+@OneToMany(fetch=FetchType.LAZY, mappedBy="customer")
     public Set<Order> getOrders() {
         return this.orders;
     }

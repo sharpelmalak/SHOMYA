@@ -27,7 +27,7 @@ public class CheckUnique extends HttpServlet {
 
         ConnectionInstance connectionInstance=new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
         UserDao userDao=new UserDao(connectionInstance.getEntityManager());
-        connectionInstance.openEntityManager();
+
 
         if(username!=null) {
             boolean result = userDao.checkUserName(username);
@@ -48,7 +48,6 @@ public class CheckUnique extends HttpServlet {
             }
         }
 
-        connectionInstance.closeEntityManager();
         out.flush();
     }
 

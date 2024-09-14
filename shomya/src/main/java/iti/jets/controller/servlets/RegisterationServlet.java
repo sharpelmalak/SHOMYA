@@ -39,9 +39,7 @@ public class RegisterationServlet extends HttpServlet
         System.out.println("i'm in get method registration");
         ConnectionInstance connectionInstance=new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
         CategoryDao categoryDao=new CategoryDao(connectionInstance.getEntityManager());
-        connectionInstance.openEntityManager();
         categories=categoryDao.findAll();
-        connectionInstance.closeEntityManager();
         req.setAttribute("categories", categories);
         req.getRequestDispatcher("resources/jsp/registration.jsp").forward(req, resp);
     }
@@ -52,7 +50,6 @@ public class RegisterationServlet extends HttpServlet
     {
         ConnectionInstance connectionInstance = new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
         EntityManager entityManager = connectionInstance.getEntityManager();
-        connectionInstance.openEntityManager();
         try{
 
             String name = req.getParameter("name");
@@ -100,9 +97,7 @@ public class RegisterationServlet extends HttpServlet
             req.setAttribute("error", "Registeration failed");
             req.getRequestDispatcher("/resources/jsp/registration.jsp").forward(req, resp);
         }
-        finally {
-                connectionInstance.closeEntityManager();
-        }
+
 
 
     }
