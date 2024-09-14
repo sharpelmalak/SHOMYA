@@ -33,9 +33,6 @@ public class RegisterationServlet extends HttpServlet
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-//        PrintWriter out = resp.getWriter();
-//        out.println("hello");
-
         System.out.println("i'm in get method registration");
         ConnectionInstance connectionInstance=new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
         CategoryDao categoryDao=new CategoryDao(connectionInstance.getEntityManager());

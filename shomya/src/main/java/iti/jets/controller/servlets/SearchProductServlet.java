@@ -1,12 +1,17 @@
 package iti.jets.controller.servlets;
 
+import iti.jets.dao.CategoryDao;
 import iti.jets.dao.ProductDao;
+import iti.jets.model.Category;
 import iti.jets.model.Product;
+import iti.jets.util.ConnectionInstance;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/search-product")
@@ -14,46 +19,26 @@ public class SearchProductServlet extends HttpServlet {
 
     private ProductDao productDao;
 
-    @Override
-    public void init() throws ServletException {
-        // Get EntityManager from ServletContext and pass it to the ProductDao
-        productDao = new ProductDao((EntityManager) getServletContext().getAttribute("emf"));
-    }
+    private List<Category> categories = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String category = request.getParameter("category");
-        String minPrice = request.getParameter("minPrice");
-        String maxPrice = request.getParameter("maxPrice");
 
-        // You can handle individual search/filter requests based on which parameter is provided.
-        List<Product> products = null;
+        System.out.println("Search product servlet get method");
+        HttpSession session = request.getSession();
+        ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+        CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
+        ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
+        connectionInstance.openEntityManager();
 
-        if (name != null && !name.isEmpty()) {
-            products = searchByName(name);
-        } else if (category != null && !category.isEmpty()) {
-            products = filterByCategory(category);
-        } else if (minPrice != null && !minPrice.isEmpty() && maxPrice != null && !maxPrice.isEmpty()) {
-            products = filterByPriceRange(Float.parseFloat(minPrice), Float.parseFloat(maxPrice));
-        }
-
+        categories = categoryDao.findAll();
+        products = productDao.findAll();
+        connectionInstance.closeEntityManager();
+        request.setAttribute("categories", categories);
         request.setAttribute("products", products);
-        request.getRequestDispatcher("/results.jsp").forward(request, response);
-    }
+        request.getRequestDispatcher("resources/jsp/shop.jsp").forward(request, response);
 
-    // Search by name function
-    private List<Product> searchByName(String name) {
-        return productDao.searchByName(name);
-    }
+}
 
-    // Filter by category function
-    private List<Product> filterByCategory(String categoryName) {
-        return productDao.filterByCategory(categoryName);
-    }
-
-    // Filter by price range function
-    private List<Product> filterByPriceRange(float minPrice, float maxPrice) {
-        return productDao.filterByPriceRange(minPrice, maxPrice);
-    }
 }
