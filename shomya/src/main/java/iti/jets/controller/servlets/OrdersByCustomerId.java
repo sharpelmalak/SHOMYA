@@ -37,7 +37,7 @@ public class OrdersByCustomerId extends HttpServlet {
 
         Set<Order> orders= customer.getOrders();
 
-        connectionInstance.closeEntityManager();
+//        connectionInstance.closeEntityManager();
         req.setAttribute("customer", customer);
         req.setAttribute("orderList", orders);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/customer-details.jsp");

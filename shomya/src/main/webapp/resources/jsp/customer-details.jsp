@@ -58,6 +58,7 @@
                 <th>Order ID</th>
                 <th>Order Date</th>
                 <th>Total Price</th>
+                <th>Details</th>
             </tr>
             </thead>
             <tbody>
@@ -67,6 +68,9 @@
                         <td>${order.id}</td>
                         <td>${order.orderDate}</td>
                         <td>${order.totalPrice}</td>
+                        <td> <a href="/shomya/vieworder?orderId=${order.id}">
+                            <button type="button" class="btn btn-primary" >View Details</button>
+                        </a></td>
                     </tr>
                 </c:forEach>
             </c:if>

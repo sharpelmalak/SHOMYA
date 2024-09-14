@@ -172,8 +172,10 @@
                 <p>Order Number: <strong id="orderNumber">#123456</strong></p>
             </div>
             <div class="modal-footer">
+                <a href="/shomya">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Continue Shopping</button>
-                <a href="/viewOrder?orderId=123456" class="btn btn-secondary">View Order Details</a>
+                </a>
+                <a id="order" href="" class="btn btn-secondary">View Order Details</a>
             </div>
         </div>
     </div>
@@ -344,16 +346,20 @@
             url: '/shomya/checkout',
             method: 'POST',
             success: function(response) {
-                if (response === 'success') {
-                    showSuccessModal(5)
+                console.log(response)
+                if (response.isOrder) {
+                    var link = document.getElementById('order');
+                    link.href = "/shomya/vieworder?orderId="+response.orderId;
+                    showSuccessModal(response.orderId)
                 }
                 else {
+                    showError('An error occurred while placing Order.');
                     // If no issues, proceed to the checkout page
                     //$('#billingConfirmationModal').modal('show');
                 }
             },
             error: function(error) {
-                showError('An error occurred while checking your cart or credit limit.');
+                showError('An error occurred while placing Order.');
             }
         });
     });

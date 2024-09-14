@@ -25,21 +25,24 @@ public class Checkout extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session != null) {
-            ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-            EntityManager entityManager = connectionInstance.getEntityManager();
-            Customer customer = (Customer) session.getAttribute("user");
 
-            connectionInstance.openEntityManager();
-            List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
-            boolean isCartUpdated = CartService.chekCart(cart,entityManager);
-            if (!isCartUpdated) {
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        boolean isOrder =  false;
+        ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+        EntityManager entityManager = connectionInstance.getEntityManager();
+        Customer customer = (Customer) session.getAttribute("user");
 
-                float total = CartService.calculateTotalCart(cart)+10.0F;
-                Order order = new Order(customer,total);
-                Set<OrderItem> orderItems = new HashSet<>();
+        connectionInstance.openEntityManager();
+        List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
+        boolean isCartUpdated = CartService.chekCart(cart,entityManager);
+        if (!isCartUpdated) {
 
-                try{
+            float total = CartService.calculateTotalCart(cart)+10.0F;
+            Order order = new Order(customer,total);
+            Set<OrderItem> orderItems = new HashSet<>();
+
+            try{
                     entityManager.getTransaction().begin();
 
                     entityManager.persist(order);
@@ -57,21 +60,25 @@ public class Checkout extends HttpServlet {
                     entityManager.merge(order);
                     cart.clear();
                     entityManager.getTransaction().commit();
-                    resp.getWriter().write("success");
-                }
-                catch (Exception e) {
+                    isOrder = true;
+                    String jsonResponse = String.format("{\"isOrder\": %b, \"orderId\": %d}", isOrder, order.getId());
+                    resp.getWriter().write(jsonResponse);
+            }
+            catch (Exception e) {
                     entityManager.getTransaction().rollback();
-                    resp.getWriter().write("failure");
-                }
-                finally {
+                    isOrder = false;
+                    String jsonResponse = String.format("{\"isOrder\": %b, \"orderId\": false}", isOrder);
+                    resp.getWriter().write(jsonResponse);
+            }
+            finally {
                     connectionInstance.closeEntityManager();
-                }
 
             }
-            else {
-                // Handle the case where the cart is outdated
-                resp.getWriter().write("cartChanged");
-            }
+
+        }
+        else {
+            String jsonResponse = String.format("{\"isOrder\": %b, \"orderId\": false}", isOrder);
+            resp.getWriter().write(jsonResponse);
         }
     }
 }
