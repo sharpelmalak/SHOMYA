@@ -1,5 +1,5 @@
-<%@ page import="iti.jets.model.Product" %>
-<%@ page import="iti.jets.model.Category" %>
+<%@ page import="iti.jets.persistence.model.Product" %>
+<%@ page import="iti.jets.persistence.model.Category" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,10 +29,10 @@
                     <span class="bg-secondary px-2">Update Product</span>
                 </h2>
             </div>
-            <form action="/shomya/products">
+            <form action="/shomya/app/products">
                 <button class="btn btn-back py-2 px-4" type="submit"><i class="fas fa-arrow-left"></i> Back</button>
             </form>
-            <form action="/shomya/viewproduct" method="post" enctype="multipart/form-data">
+            <form action="/shomya/app/viewproduct" method="post" enctype="multipart/form-data">
 
                 <input type="hidden" name="productID" value="${product.id}" />
                 <!-- Product Name -->

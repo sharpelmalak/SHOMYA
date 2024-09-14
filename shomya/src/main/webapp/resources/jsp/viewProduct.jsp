@@ -1,6 +1,6 @@
 
-<%@ page import="iti.jets.model.Product" %>
-<%@ page import="iti.jets.model.Category" %>
+<%@ page import="iti.jets.persistence.model.Product" %>
+<%@ page import="iti.jets.persistence.model.Category" %>
 
 <html>
 <jsp:directive.include file="/resources/head.html"/>
@@ -16,7 +16,7 @@
             <div id="product-carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner border">
                     <div class="carousel-item active">
-                        <img class="w-100 h-100" src="/shomya/productImage?productId=${product.id}" alt="Image">
+                        <img class="w-100 h-100" src="/shomya/app/productImage?productId=${product.id}" alt="Image">
                     </div>
                 </div>
 
@@ -64,7 +64,7 @@
                 <c:forEach items="${product.category.products}" var="pr">
                 <div class="card product-item border-0">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                        <a href="/shomya/viewproduct?productId=${pr.id}">
+                        <a href="/shomya/app/viewproduct?productId=${pr.id}">
                         <img class="img-fluid w-100" src="/shomya/resources/img/${pr.image}" alt="image">
                         </a>
                     </div>
@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border">
-                        <a href="/shomya/viewproduct?productId=${pr.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                        <a href="/shomya/app/viewproduct?productId=${pr.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
                         <button type="button" class="btn btn-sm text-dark p-0" onclick="addtoCart(${pr.id},1)"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
             console.log("add to cart called");
         const xhr = new XMLHttpRequest();
         const method = "GET";
-        const url = "/shomya/addtocart?productId="+id+"&quantity="+quantity;
+        const url = "/shomya/app/addtocart?productId="+id+"&quantity="+quantity;
         console.log("add to cart called");
         xhr.open(method, url, true);
         xhr.onreadystatechange = () => {
@@ -145,20 +145,20 @@
                     if (result.trim() == "done") {
                         $('#alert-container').html(`
                         <div class="alert alert-success" role="alert">
-                            Product Added <a href="/shomya/viewcart" class="alert-link">View Cart</a>
+                            Product Added <a href="/shomya/app/viewcart" class="alert-link">View Cart</a>
                      </div>
                      `);
                     } else if(result.trim() == "error"){
                         $('#alert-container').html(`
                        <div class="alert alert-danger" role="alert">
-                Can't add <a href="/shomya/viewcart" class="alert-link">View Cart</a>
+                Can't add <a href="/shomya/app/viewcart" class="alert-link">View Cart</a>
                 </div>
                        ` );
                     }
                     else if(result.trim() == "view"){
                         $('#alert-container').html(`
                        <div class="alert alert-success" role="alert">
-                Cart Updated <a href="/shomya/viewcart" class="alert-link">View Cart</a>
+                Cart Updated <a href="/shomya/app/viewcart" class="alert-link">View Cart</a>
                 </div>
                        ` );
                     }

@@ -35,7 +35,8 @@ DEFAULT CHARACTER SET = utf8mb3;
 CREATE TABLE IF NOT EXISTS `shomya`.`category` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `image` VARCHAR(100) NULL DEFAULT NULL,
+  `image` LONGBLOB NULL DEFAULT NULL,
+  `is_deleted` BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
@@ -50,7 +51,8 @@ CREATE TABLE IF NOT EXISTS `shomya`.`product` (
   `price` FLOAT NOT NULL,
   `quantity` INT NOT NULL,
   `description` VARCHAR(200) NULL DEFAULT NULL,
-  `image` VARCHAR(100) NULL DEFAULT NULL,
+   `image` LONGBLOB NULL DEFAULT NULL,
+   `is_deleted` BOOLEAN DEFAULT FALSE,
   `admin_id` INT NOT NULL,
   `category_id` INT NOT NULL,
   PRIMARY KEY (`id`),

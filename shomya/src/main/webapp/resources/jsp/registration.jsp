@@ -54,7 +54,7 @@
 <body>
 <div class="container">
     <h2 class="text-center">Registration Form</h2>
-    <form method="post" action="/shomya/registration">
+    <form method="post" action="/shomya/app/registration">
         <!-- Name -->
         <div class="control-group">
             <label for="name">Name</label>
@@ -181,7 +181,7 @@
         var usernameError = document.getElementById('usernameError');
 
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8080/shomya/checkunique?' + param, true);
+        xhr.open('GET', 'http://localhost:8080/shomya/app/checkunique?' + param, true);
 
 
         xhr.onreadystatechange = function () {

@@ -72,7 +72,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
                                 <div class="card product-item border-0 mb-4">
                                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                        <a href="/shomya/search-product?productId=${product.id}">
+                                        <a href="/shomya/app/search-product?productId=${product.id}">
                                             <img class="img-fluid fixed-size" src="/shomya/resources/img/${product.image}" alt="Product Image">
                                         </a>
                                     </div>
@@ -83,7 +83,7 @@
                                         </div>
                                     </div>
                                     <div class="card-footer d-flex justify-content-between bg-light border">
-                                        <a href="/shomya/viewproduct?productId=${product.id}" class="btn btn-sm text-dark p-0">
+                                        <a href="/shomya/app/viewproduct?productId=${product.id}" class="btn btn-sm text-dark p-0">
                                             <i class="fas fa-eye text-primary mr-1"></i>View Detail
                                         </a>
                                         <c:if test="${userRole == EnumHelper.getCustomerRole()}">
@@ -92,7 +92,7 @@
                                             </button>
                                         </c:if>
                                         <c:if test="${userRole == EnumHelper.getAdminRole()}">
-                                            <a href="/shomya/deleteproduct?productId=${product.id}" class="btn btn-sm text-dark p-0">
+                                            <a href="/shomya/app/deleteproduct?productId=${product.id}" class="btn btn-sm text-dark p-0">
                                                 <i class="fas fa-trash text-danger mr-1"></i>Delete
                                             </a>
                                         </c:if>
@@ -131,7 +131,7 @@
         });
 
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8080/shomya/search-product?' + params.toString(), true);
+        xhr.open('GET', 'http://localhost:8080/shomya/app/search-product?' + params.toString(), true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                 document.getElementById('searchResults').innerHTML = xhr.responseText;
@@ -149,7 +149,7 @@
 
     function addtoCart(id) {
         const xhr = new XMLHttpRequest();
-        const url = "/shomya/addtocart?productId=" + id + "&quantity=1";
+        const url = "/shomya/app/addtocart?productId=" + id + "&quantity=1";
 
         xhr.open("GET", url, true);
         xhr.onreadystatechange = function () {
@@ -161,12 +161,12 @@
                     if (result === "done") {
                         alertContainer.innerHTML = `
                             <div class="alert alert-success" role="alert">
-                                Product Added <a href="/shomya/viewcart" class="alert-link">View Cart</a>
+                                Product Added <a href="/shomya/app/viewcart" class="alert-link">View Cart</a>
                             </div>`;
                     } else {
                         alertContainer.innerHTML = `
                             <div class="alert alert-danger" role="alert">
-                                Can't add <a href="/shomya/viewcart" class="alert-link">View Cart</a>
+                                Can't add <a href="/shomya/app/viewcart" class="alert-link">View Cart</a>
                             </div>`;
                     }
 
