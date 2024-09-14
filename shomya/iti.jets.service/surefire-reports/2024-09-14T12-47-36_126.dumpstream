@@ -1,0 +1,4 @@
+# Created at 2024-09-14T12:47:36.677
+Boot Manifest-JAR contains absolute paths in classpath 'D:\Web project\SHOMYA\shomya\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+

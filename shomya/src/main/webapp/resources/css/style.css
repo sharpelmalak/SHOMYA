@@ -3972,6 +3972,20 @@ input[type="button"].btn-block {
 .nav-tabs .dropdown-menu {
   margin-top: -1px;
 }
+.nav-item {
+        color: #333; /* Default color for nav items */
+        text-decoration: none; /* Remove underline from links */
+    }
+
+    .nav-item.active {
+        color: #007bff; /* Color for the active link */
+        font-weight: bold; /* Make the active link bold */
+    }
+
+    /* Optional: Add transition for smooth color change */
+    .nav-item {
+        transition: color 0.3s ease;
+    }
 
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
