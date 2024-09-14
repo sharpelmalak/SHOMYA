@@ -1,6 +1,7 @@
 package iti.jets.controller.filters;
 
 
+import iti.jets.util.ConnectionInstance;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ public class MainFilter implements Filter {
 
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+        ConnectionInstance connectionInstance = (ConnectionInstance)httpRequest.getSession().getAttribute("userConnection");
 
         // Get the requested URI
         String requestURI = httpRequest.getRequestURI();
@@ -43,12 +45,18 @@ public class MainFilter implements Filter {
                            ) {
             // Allow access to home, register, and login without filtering
             filterChain.doFilter(servletRequest, servletResponse);
+            if(connectionInstance != null)
+                connectionInstance.closeEntityManager();
+            // close any connection
         } else {
             // Apply filter logic for other pages
             // Example: check if user is logged in (you can customize this part)
             if (httpRequest.getSession().getAttribute("user") != null) {
                 // User is logged in, continue to requested resource
                 filterChain.doFilter(servletRequest, servletResponse);
+                // close any connection
+                if(connectionInstance != null)
+                    connectionInstance.closeEntityManager();
             } else {
                 // Redirect to login page if not logged in
                 httpResponse.sendRedirect("/shomya/login");

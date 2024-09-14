@@ -28,11 +28,8 @@ public class ViewCustomersServlet extends HttpServlet {
 
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
         UserDao userDao = new UserDao(connectionInstance.getEntityManager());
-        connectionInstance.openEntityManager();
 
         List<User> customerList = userDao.findAll();
-
-        connectionInstance.closeEntityManager();
         Iterator<User> iterator = customerList.iterator();
 
         while (iterator.hasNext()) {

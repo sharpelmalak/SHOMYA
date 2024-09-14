@@ -19,12 +19,13 @@ public class Category  implements java.io.Serializable {
 
      private int id;
      private String name;
-     private String image;
+     private byte[] image;
+     private boolean isDeleted = false;
      private Set<Customer> customers = new HashSet<Customer>(0);
      private Set<Product> products = new HashSet<Product>(0);
 
     public Category(){}
-    public Category(String name, String image) {
+    public Category(String name, byte[] image) {
        this.name = name;
        this.image = image;
     }
@@ -52,12 +53,21 @@ public class Category  implements java.io.Serializable {
 
     
     @Column(name="image", length=100)
-    public String getImage() {
+    public  byte[] getImage() {
         return this.image;
     }
     
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    @Column(name = "is_deleted", nullable = false)
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
 @ManyToMany(fetch=FetchType.LAZY)
@@ -72,7 +82,7 @@ public class Category  implements java.io.Serializable {
         this.customers = customers;
     }
 
-@OneToMany(fetch=FetchType.EAGER, mappedBy="category")
+@OneToMany(fetch=FetchType.LAZY, mappedBy="category")
     public Set<Product> getProducts() {
         return this.products;
     }

@@ -36,7 +36,7 @@
                     <div class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                             <a href="/shomya/viewproduct?productId=${product.id}">
-                                <img class="img-fluid fixed-size" src="/shomya/resources/img/${product.image}" alt="not Found">
+                                <img class="img-fluid fixed-size" src="/shomya/productImage?productId=${product.id}" alt="not Found">
                             </a>
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">

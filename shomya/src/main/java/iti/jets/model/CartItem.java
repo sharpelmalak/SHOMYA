@@ -53,7 +53,7 @@ public class CartItem  implements java.io.Serializable {
         this.id = id;
     }
 
-@ManyToOne(fetch=FetchType.EAGER)
+@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="product_id", nullable=false, insertable=false, updatable=false)
     public Product getProduct() {
         return this.product;

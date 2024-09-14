@@ -36,7 +36,6 @@ public class AddProductToCartServlet extends HttpServlet {
                     boolean isProduct = CartService.chekProductInCart(cart, productId, quantity);
                     if(!isProduct)
                     {
-                        connectionInstance.openEntityManager();
                         CartItem cartItem = CartService.addProductToCart((Customer) session.getAttribute("user"),productId,quantity,em);
                         if (cartItem != null) {
                             cart.add(cartItem);
@@ -51,8 +50,6 @@ public class AddProductToCartServlet extends HttpServlet {
                 }catch (Exception e)
                 {
                     out.print("error");
-                }finally {
-                    connectionInstance.closeEntityManager();
                 }
 
             }
