@@ -1,8 +1,8 @@
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3366/Shomya</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/Shomya</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">4520</property>
+        <property name="hibernate.connection.password">root</property>
         <!-- Add other Hibernate properties -->
     </session-factory>
 </hibernate-configuration>
