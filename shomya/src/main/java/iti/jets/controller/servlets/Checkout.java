@@ -33,7 +33,7 @@ public class Checkout extends HttpServlet {
         EntityManager entityManager = connectionInstance.getEntityManager();
         Customer customer = (Customer) session.getAttribute("user");
 
-        connectionInstance.openEntityManager();
+
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
         boolean isCartUpdated = CartService.chekCart(cart,entityManager);
         if (!isCartUpdated) {
@@ -70,10 +70,7 @@ public class Checkout extends HttpServlet {
                     String jsonResponse = String.format("{\"isOrder\": %b, \"orderId\": false}", isOrder);
                     resp.getWriter().write(jsonResponse);
             }
-            finally {
-                    connectionInstance.closeEntityManager();
 
-            }
 
         }
         else {

@@ -29,14 +29,12 @@ public class DeleteCategoryServlet extends HttpServlet {
 
                     int id = Integer.parseInt(req.getParameter("catId"));
                     CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-                    connectionInstance.openEntityManager();
                     categoryDao.deleteById(id);
                     req.setAttribute("error", "Category Deleted");
                 }catch (Exception e)
                 {
                     req.setAttribute("error", "Error in deleting Category");
                 }finally {
-                    connectionInstance.closeEntityManager();
                     req.getRequestDispatcher("/categories").forward(req, resp);
                 }
 

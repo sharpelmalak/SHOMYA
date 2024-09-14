@@ -28,9 +28,8 @@ public class ChooseInterestsServlet extends HttpServlet {
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
 
         CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-        connectionInstance.openEntityManager();
+
         List<Category> categoryList = categoryDao.findAll();
-        connectionInstance.closeEntityManager();
         req.setAttribute("categories", categoryList);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/chooseInterests.jsp");
         requestDispatcher.forward(req, resp);

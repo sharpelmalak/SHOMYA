@@ -24,7 +24,6 @@ public class ViewOrderServlet extends HttpServlet {
         try{
             int id = Integer.parseInt(req.getParameter("orderId"));
             OrderDao orderDao = new OrderDao(connectionInstance.getEntityManager());
-            connectionInstance.openEntityManager();
             Order order = orderDao.findById(id);
             req.setAttribute("order", order);
             req.getRequestDispatcher("/resources/jsp/order-details.jsp").forward(req, resp);
@@ -32,9 +31,7 @@ public class ViewOrderServlet extends HttpServlet {
         catch(Exception e){
             e.printStackTrace();
         }
-        finally {
-            connectionInstance.closeEntityManager();
-        }
+
 
 
     }

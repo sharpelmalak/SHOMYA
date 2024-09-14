@@ -22,9 +22,7 @@ public class LogoutServlet extends HttpServlet {
             List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
             if (cart != null && cart.size() > 0) {
                 EntityManager entityManager = connectionInstance.getEntityManager();
-                connectionInstance.openEntityManager();
                 CartService.saveCart(cart, entityManager);
-                connectionInstance.closeEntityManager();
             }
             session.invalidate();
         }

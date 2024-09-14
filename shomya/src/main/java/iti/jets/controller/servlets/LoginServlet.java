@@ -42,13 +42,8 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-
         // get connection instance for that user
-
-        ConnectionInstance connectionInstance = new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
-        EntityManager entityManager = connectionInstance.getEntityManager();
-        connectionInstance.openEntityManager();
-
+        ConnectionInstance connectionInstance = (ConnectionInstance)req.getSession().getAttribute("userConnection");
         ///
         AuthService authService = new AuthService();
         authService.authUser(username, password,connectionInstance);
@@ -60,7 +55,7 @@ public class LoginServlet extends HttpServlet {
                 User user = authService.getUser();
                 session.setAttribute("user", user);
                 session.setAttribute("userRole", authService.getRole());
-                session.setAttribute("userConnection", connectionInstance);
+
                 if(authService.getRole() == EnumHelper.getCustomerRole())
                 {
                     // load cart or create one
@@ -69,7 +64,7 @@ public class LoginServlet extends HttpServlet {
                     CartService.resetCart(user.getId(), connectionInstance.getEntityManager());
                     session.setAttribute("cart", cart);
                 }
-                connectionInstance.closeEntityManager();
+
                 resp.sendRedirect("/shomya");
             }
         }

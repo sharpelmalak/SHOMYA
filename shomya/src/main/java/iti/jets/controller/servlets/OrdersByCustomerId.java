@@ -27,7 +27,6 @@ public class OrdersByCustomerId extends HttpServlet {
         HttpSession session = req.getSession(false);
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
         CustomerDao customerDao = new CustomerDao(connectionInstance.getEntityManager());
-        connectionInstance.openEntityManager();
 
         UserDao userDao=new UserDao(connectionInstance.getEntityManager());
 
@@ -37,7 +36,7 @@ public class OrdersByCustomerId extends HttpServlet {
 
         Set<Order> orders= customer.getOrders();
 
-//        connectionInstance.closeEntityManager();
+
         req.setAttribute("customer", customer);
         req.setAttribute("orderList", orders);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/customer-details.jsp");

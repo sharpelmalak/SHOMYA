@@ -40,7 +40,7 @@
                 <c:if test="${cart.size()>0}">
                     <c:forEach items="${cart}" var="item">
                 <tr id="row-${item.product.id}">
-                    <td class="align-middle"><img src="/shomya/resources/img/${item.product.image}" alt="image" style="width: 50px;">${item.product.name}</td>
+                    <td class="align-middle"><img src="/shomya/productImage?productId=${item.product.id}" alt="image" style="width: 50px;">${item.product.name}</td>
                     <td class="align-middle">$${item.product.price}</td>
                     <td class="align-middle">
                         <div class="input-group  mx-auto" style="width: 100px;">

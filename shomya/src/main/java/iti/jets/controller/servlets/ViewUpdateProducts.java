@@ -14,6 +14,7 @@ import jakarta.servlet.http.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -29,13 +30,10 @@ public class ViewUpdateProducts extends HttpServlet {
             int productId = Integer.parseInt(req.getParameter("productId"));
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
             ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
-            connectionInstance.openEntityManager();
             CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
             List<Category> categoryList = categoryDao.findAll();
             req.setAttribute("categoryList", categoryList);
             Product product = productDao.findById(productId);
-            String name = product.getCategory().getName();
-            connectionInstance.closeEntityManager();
             if (product != null) {
 
                 req.setAttribute("product", product);
@@ -73,7 +71,6 @@ public class ViewUpdateProducts extends HttpServlet {
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
             CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
             ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
-            connectionInstance.openEntityManager();
 
             // get new category and product
             Category category = categoryDao.findById(catId);
@@ -86,37 +83,20 @@ public class ViewUpdateProducts extends HttpServlet {
             product.setQuantity(quantity);
             product.setDescription(description);
             // keep old name
-            String fileName = product.getImage();
+
             // if new img added
             if (filePart != null && filePart.getSize() > 0) {
 
-
-                // Save the file to the specified directory
-                String realPath = getServletContext().getRealPath("/resources/img/");
-                File imageFolder = new File(realPath);
-                if (!imageFolder.exists()) {
-                    imageFolder.mkdirs();  // Create directory if it doesn't exist
+                byte[] imageData = null;
+                try (InputStream inputStream = filePart.getInputStream()) {
+                    imageData = inputStream.readAllBytes();
                 }
-                try{
-                    Files.delete(Paths.get(realPath + fileName));
-                }catch (Exception e)
-                {
 
-                }
-                // delete old img
-
-                fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-                File file = new File(realPath + fileName);
-                // save new img in path
-                Files.copy(filePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                // set new image
-                product.setImage(fileName);
+                product.setImage(imageData);
             }
             // update product
             product = productDao.update(product);
 
-            //close connection
-            connectionInstance.closeEntityManager();
             if (product != null) {
                 resp.sendRedirect("/shomya/viewproduct?productId=" + product.getId());
             }

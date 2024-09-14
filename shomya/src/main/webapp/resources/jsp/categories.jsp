@@ -60,7 +60,7 @@
                         <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                             <p class="text-right">${category.products.size()} Products</p>
                             <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                                <img class="img-fluid fixed-size" src="/shomya/resources/img/${category.image}" alt="not found">
+                                <img class="img-fluid fixed-size" src="/shomya/categoryImage?categoryId=${category.id}" alt="not found">
                             </a>
                             <h5 class="font-weight-semi-bold m-0">${category.name}</h5>
                             <div class="card-footer d-flex justify-content-between bg-light border">

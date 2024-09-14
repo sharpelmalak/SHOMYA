@@ -23,9 +23,7 @@ public class CategoriesServlet extends HttpServlet {
         HttpSession session = req.getSession();
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
         CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-        connectionInstance.openEntityManager();
         List<Category> categoryList = categoryDao.findAll();
-        connectionInstance.closeEntityManager();
         req.setAttribute("categoryList", categoryList);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/categories.jsp");
         requestDispatcher.forward(req, resp);
