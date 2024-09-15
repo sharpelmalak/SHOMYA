@@ -31,7 +31,7 @@ public class ProductImageServlet extends HttpServlet {
             }
         }
         catch (Exception e){
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST); // Send 400 if no product ID is provided
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 }

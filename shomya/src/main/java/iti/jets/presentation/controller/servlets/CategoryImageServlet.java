@@ -11,18 +11,15 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
-//@WebServlet("/categoryImage")
+
 public class CategoryImageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get the product ID from the request
-        String id = request.getParameter("categoryId");
-        if (id != null) {
-            int categoryId = Integer.parseInt(id);
 
-            // Retrieve the product from the database
-            HttpSession session = request.getSession(false);
-            ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+        HttpSession session = request.getSession(false);
+        ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+        try{
+            int categoryId = Integer.parseInt(request.getParameter("categoryId"));
             Category category = CategoryService.getCategory(connectionInstance, categoryId);
             if (category != null && category.getImage() != null) {
                 // Set the response content type to the appropriate image type (e.g., JPEG, PNG)
@@ -31,12 +28,15 @@ public class CategoryImageServlet extends HttpServlet {
                 response.getOutputStream().write(category.getImage());
                 response.getOutputStream().flush();
             } else {
-                System.out.println("image not found-----------");
                 response.sendError(HttpServletResponse.SC_NOT_FOUND); // Send 404 if no image is found
             }
-        } else {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST); // Send 400 if no product ID is provided
         }
+        catch(Exception e){
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+
+        }
+
     }
 }
 

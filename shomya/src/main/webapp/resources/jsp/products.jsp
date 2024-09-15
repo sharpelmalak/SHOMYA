@@ -36,7 +36,7 @@
                     <div class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                             <a href="/shomya/app/viewproduct?productId=${product.id}">
-                                <img class="img-fluid fixed-size" src="/shomya/app/productImage?productId=${product.id}" alt="not Found">
+                                <img id="product-image-${product.id}" data-product-id="${product.id}" class="img-fluid fixed-size" src="/shomya/resources/img/default.jpg" alt="Loading...">
                             </a>
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
@@ -110,6 +110,47 @@
     }
 
 
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Select all image elements that you want to load
+        const productImages = document.querySelectorAll("[id^='product-image-']");
+        async function loadImageSequentially() {
+            // Iterate over each image element
+            for (const imgElement of productImages) {
+                // Extract the category ID from the data attribute (e.g., data-category-id="1")
+                const productId = imgElement.getAttribute('data-product-id');
+
+                try {
+                    // Wait for the image to load
+                    const imgSrc = await loadImage(productId);
+                    imgElement.src = imgSrc; // Replace the placeholder with the loaded image
+                } catch (error) {
+                    console.error(`Failed to load image for category ID: `+productId, error);
+                }
+            }
+        }
+
+        function loadImage(productId) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = `/shomya/app/productImage?productId=`+productId;
+
+                img.onload = () => {
+                    resolve(img.src);
+                };
+
+                img.onerror = () => {
+                    reject(new Error(`Failed to load image for category ID:`+productId));
+                };
+            });
+        }
+
+        // Start loading images
+        await loadImageSequentially();
+    });
 </script>
 </body>
 </html>
