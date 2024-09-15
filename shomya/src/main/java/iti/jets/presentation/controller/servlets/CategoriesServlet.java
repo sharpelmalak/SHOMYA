@@ -1,5 +1,6 @@
 package iti.jets.presentation.controller.servlets;
 
+import iti.jets.business.service.CategoryService;
 import iti.jets.persistence.dao.CategoryDao;
 import iti.jets.persistence.model.Category;
 import iti.jets.persistence.util.ConnectionInstance;
@@ -21,9 +22,7 @@ public class CategoriesServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-        CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-        List<Category> categoryList = categoryDao.findAll();
-        req.setAttribute("categoryList", categoryList);
+        req.setAttribute("categoryList", CategoryService.getCategories(connectionInstance));
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/categories.jsp");
         requestDispatcher.forward(req, resp);
     }

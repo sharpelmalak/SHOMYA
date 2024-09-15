@@ -36,12 +36,12 @@ public class FrontController extends HttpServlet {
             case "/products":
                 new ProductsServlet().service(request, response);
                 break;
-            case"/addCategory":
-                new AddCategoryServlet().service(request, response);
-                break;
-            case "/addproduct":
-                new AddProductServlet().service(request, response);
-                break;
+//            case"/addCategory":
+//                new AddCategoryServlet().service(request, response);
+//                break;
+//            case "/addproduct":
+//                new AddProductServlet().service(request, response);
+//                break;
             case "/addtocart":
                 new AddProductToCartServlet().service(request, response);
                 break;
@@ -105,9 +105,9 @@ public class FrontController extends HttpServlet {
             case "/viewprofile":
                 new ViewProfileServlet().service(request, response);
                 break;
-            case "/viewproduct":
-                new ViewUpdateProductsServlet().service(request, response);
-                break;
+//            case "/viewproduct":
+//                new ViewUpdateProductsServlet().service(request, response);
+//                break;
             case "/categoryImage":
                 new CategoryImageServlet().service(request, response);
                 break;

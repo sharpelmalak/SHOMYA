@@ -1,7 +1,10 @@
 package iti.jets.persistence.dao;
 
+import iti.jets.persistence.model.Category;
 import iti.jets.persistence.model.Product;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -53,5 +56,29 @@ public class ProductDao extends DAO<Product,Integer> {
 
         // Execute query
         return entityManager.createQuery(query).getResultList();
+    }
+
+
+    @Override
+    public List<Product> findAll() {
+        String jpql = "SELECT p FROM Product p WHERE p.deleted = false";
+        TypedQuery<Product> query = entityManager.createQuery(jpql, Product.class);
+        return query.getResultList();
+    }
+
+    public void deleteById(int id)
+    {
+        try {
+            entityManager.getTransaction().begin();
+            String jpql = "UPDATE Product p SET p.deleted = true WHERE p.id = :id";
+            Query query = entityManager.createQuery(jpql);
+            query.setParameter("id", id);
+            query.executeUpdate();
+            entityManager.getTransaction().commit();
+        }
+        catch (Exception e) {
+            entityManager.getTransaction().rollback();
+        }
+
     }
 }

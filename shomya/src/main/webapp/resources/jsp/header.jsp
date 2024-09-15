@@ -27,19 +27,21 @@
         </h1>
       </a>
     </div>
-    <div class="col-lg-6 col-6 text-left">
-      <form action="">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search for products">
-          <div class="input-group-append">
+
+
+    <c:if test="${userRole == EnumHelper.getCustomerRole()}">
+      <div class="col-lg-6 col-6 text-left">
+        <form action="">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search for products">
+            <div class="input-group-append">
                         <span class="input-group-text bg-transparent text-primary">
                             <i class="fa fa-search"></i>
                         </span>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
-    <c:if test="${user == null || userRole == EnumHelper.getCustomerRole()}">
+        </form>
+      </div>
       <div class="col-lg-3 col-6">
         <div class="d-flex align-items-center gap-2">
           <a href="" class="btn border">

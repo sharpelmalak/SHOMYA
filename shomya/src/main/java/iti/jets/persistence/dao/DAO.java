@@ -1,4 +1,5 @@
 package iti.jets.persistence.dao;
+import iti.jets.persistence.model.Category;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import java.lang.reflect.ParameterizedType;
@@ -32,6 +33,7 @@ public abstract class DAO<T, ID> {
         }
         return entity;
     }
+
 
     public List<T> findAll() {
         List<T> entities = null;
@@ -104,4 +106,5 @@ public abstract class DAO<T, ID> {
     }
 
     public abstract List<T> search(T criteria);
+
 }

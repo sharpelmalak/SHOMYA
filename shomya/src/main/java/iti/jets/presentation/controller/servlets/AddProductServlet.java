@@ -1,5 +1,7 @@
 package iti.jets.presentation.controller.servlets;
 
+import iti.jets.business.service.CategoryService;
+import iti.jets.business.service.ProductService;
 import iti.jets.persistence.dao.CategoryDao;
 import iti.jets.persistence.dao.ProductDao;
 import iti.jets.persistence.model.Admin;
@@ -16,7 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-//@WebServlet(value = "/addproduct")
+@WebServlet(value = "/app/addproduct")
 @MultipartConfig
 public class AddProductServlet extends HttpServlet {
 
@@ -27,9 +29,7 @@ public class AddProductServlet extends HttpServlet {
         if(session.getAttribute("userRole")== EnumHelper.getAdminRole())
         {
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-            CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-            List<Category> categoryList = categoryDao.findAll();
-            req.setAttribute("categoryList", categoryList);
+            req.setAttribute("categoryList", CategoryService.getCategories(connectionInstance));
             req.getRequestDispatcher("/resources/jsp/addProducts.jsp").forward(req,resp);
 
         }
@@ -43,25 +43,35 @@ public class AddProductServlet extends HttpServlet {
         HttpSession session= req.getSession(false);
         if(session.getAttribute("userRole")== EnumHelper.getAdminRole())
         {
-            String name = req.getParameter("pname");
-            int catId = Integer.parseInt(req.getParameter("categoryId"));
-            float price = Float.parseFloat(req.getParameter("pprice"));
-            int quantity = Integer.parseInt(req.getParameter("pquantity"));
-            String description = req.getParameter("pdesc");
-            Part filePart = req.getPart("pimage");
-            // Read image data from the Part
-            byte[] imageData = null;
-            try (InputStream inputStream = filePart.getInputStream()) {
-                imageData = inputStream.readAllBytes();
-            }
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+            try{
+                String name = req.getParameter("pname");
+                int catId = Integer.parseInt(req.getParameter("categoryId"));
+                float price = Float.parseFloat(req.getParameter("pprice"));
+                int quantity = Integer.parseInt(req.getParameter("pquantity"));
+                String description = req.getParameter("pdesc");
+                Part filePart = req.getPart("pimage");
+                // Read image data from the Part
+                byte[] imageData = null;
+                InputStream inputStream = filePart.getInputStream();
+                imageData = inputStream.readAllBytes();
+                boolean isAdded = ProductService.addProduct(connectionInstance,(Admin)session.getAttribute("user"),name,catId,price,quantity,description,imageData);
+                if(isAdded)
+                {
+                    resp.sendRedirect("/shomya/app/products");
+                }
+                else {
+                    resp.sendRedirect("/shomya/app/products");
+                }
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+                resp.sendRedirect("/shomya/app/products");
+            }
 
-            CategoryDao categoryDao= new CategoryDao(connectionInstance.getEntityManager());
-            Category category =categoryDao.findById(catId);
-            ProductDao productDao=new ProductDao(connectionInstance.getEntityManager());
-            Product product = new Product((Admin)session.getAttribute("user"),category,name, price, quantity, description, imageData);
-            productDao.save(product);
-            resp.sendRedirect("/shomya/app/products");
+
+
 
 
         }

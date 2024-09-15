@@ -1,5 +1,6 @@
 package iti.jets.presentation.controller.servlets;
 
+import iti.jets.business.service.CategoryService;
 import iti.jets.persistence.dao.CategoryDao;
 import iti.jets.business.service.helper.EnumHelper;
 import iti.jets.persistence.util.ConnectionInstance;
@@ -24,14 +25,13 @@ public class DeleteCategoryServlet extends HttpServlet {
                 try{
 
                     int id = Integer.parseInt(req.getParameter("catId"));
-                    CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-                    categoryDao.deleteById(id);
+                    CategoryService.deleteCategoryById(id,connectionInstance);
                     req.setAttribute("error", "Category Deleted");
                 }catch (Exception e)
                 {
                     req.setAttribute("error", "Error in deleting Category");
                 }finally {
-                    req.getRequestDispatcher("/categories").forward(req, resp);
+                    req.getRequestDispatcher("/app/categories").forward(req, resp);
                 }
 
             }

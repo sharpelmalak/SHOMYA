@@ -1,5 +1,6 @@
 package iti.jets.presentation.controller.servlets;
 
+import iti.jets.business.service.ProductService;
 import iti.jets.persistence.dao.ProductDao;
 import iti.jets.business.service.helper.EnumHelper;
 import iti.jets.persistence.util.ConnectionInstance;
@@ -24,14 +25,13 @@ public class DeleteProductServlet extends HttpServlet {
                 try{
 
                     int id = Integer.parseInt(req.getParameter("productId"));
-                    ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
-                    productDao.deleteById(id);
+                    ProductService.deleteProduct(connectionInstance,id);
                     req.setAttribute("error", "Product Deleted");
                 }catch (Exception e)
                 {
                     req.setAttribute("error", "Error in deleting product");
                 }finally {
-                    req.getRequestDispatcher("/products").forward(req, resp);
+                    req.getRequestDispatcher("/app/products").forward(req, resp);
                 }
 
             }

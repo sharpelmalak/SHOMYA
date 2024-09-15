@@ -34,7 +34,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `shomya`.`category` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL unique,
   `image` LONGBLOB NULL DEFAULT NULL,
   `is_deleted` BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (`id`))

@@ -42,7 +42,7 @@ public class Category  implements java.io.Serializable {
     }
 
     
-    @Column(name="name", nullable=false, length=45)
+    @Column(name="name", nullable=false, unique = true)
     public String getName() {
         return this.name;
     }

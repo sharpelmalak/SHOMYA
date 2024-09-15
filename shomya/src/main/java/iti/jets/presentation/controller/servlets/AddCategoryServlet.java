@@ -1,5 +1,7 @@
 package iti.jets.presentation.controller.servlets;
 
+import iti.jets.business.service.CartService;
+import iti.jets.business.service.CategoryService;
 import iti.jets.persistence.dao.CategoryDao;
 import iti.jets.persistence.model.Category;
 import iti.jets.business.service.helper.EnumHelper;
@@ -12,7 +14,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.io.InputStream;
 
-//@WebServlet(value = "/addCategory")
+@WebServlet(value = "/app/addCategory")
 @MultipartConfig
 public class AddCategoryServlet extends HttpServlet {
 
@@ -29,21 +31,35 @@ public class AddCategoryServlet extends HttpServlet {
         {
             resp.sendRedirect("/shomya");
         }
+        else
+        {
+            String name = req.getParameter("categoryName");
+            Part filePart = req.getPart("categoryImage");
+            byte[] imageData = null;
 
-        String name = req.getParameter("categoryName");
-        Part filePart = req.getPart("categoryImage");
-        byte[] imageData = null;
-        try (InputStream inputStream = filePart.getInputStream()) {
-            imageData = inputStream.readAllBytes();
+            try{
+                InputStream inputStream = filePart.getInputStream();
+                imageData = inputStream.readAllBytes();
+                ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+                boolean isAdded = CategoryService.addCategory(name,imageData,connectionInstance);
+                // TO DO Handle Exception
+                if (isAdded){
+                    resp.sendRedirect("/shomya/app/categories");
+                }
+                else
+                {
+                    resp.sendRedirect("/shomya/app/categories");
+                }
+
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+                resp.sendRedirect("/shomya/app/categories");
+            }
+
+
         }
 
-        ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-        Category category = new Category(name,imageData);
-        CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-        // Save the file to the specified directory
-
-        categoryDao.save(category);
-        resp.sendRedirect("/shomya/app/categories");
 
     }
 }
