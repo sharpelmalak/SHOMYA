@@ -63,4 +63,9 @@ public class ProductService {
         return dao.findById(id);
     }
 
+    public static List<Product> getProductByName(ConnectionInstance connectionInstance, String name) {
+        ProductDao dao = new ProductDao(connectionInstance.getEntityManager());
+        return dao.findByName(name);
+    }
+
 }

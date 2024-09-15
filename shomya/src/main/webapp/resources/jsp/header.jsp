@@ -30,18 +30,21 @@
 
 
     <c:if test="${userRole == EnumHelper.getCustomerRole()}">
-      <div class="col-lg-6 col-6 text-left">
-        <form action="">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for products">
-            <div class="input-group-append">
-                        <span class="input-group-text bg-transparent text-primary">
-                            <i class="fa fa-search"></i>
-                        </span>
-            </div>
-          </div>
-        </form>
-      </div>
+
+        <!-- Search Form -->
+        <div class="col-lg-6 col-6 text-left">
+            <form action="/shomya/app/search-product" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="search" placeholder="Search for products" />
+                    <div class="input-group-append">
+                <span class="input-group-text bg-transparent text-primary">
+                    <i class="fa fa-search"></i>
+                </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
       <div class="col-lg-3 col-6">
         <div class="d-flex align-items-center gap-2">
           <a href="" class="btn border">
@@ -62,8 +65,6 @@
 <!-- Topbar End -->
 <!-- ------------------------------------------------------------------------------- -->
 <!-- Navbar Start -->
-
-
 <div class="container-fluid mb-5">
   <div class="row border-top px-xl-5">
     <div class="col-lg-9">

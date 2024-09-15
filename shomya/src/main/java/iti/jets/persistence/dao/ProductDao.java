@@ -81,4 +81,13 @@ public class ProductDao extends DAO<Product,Integer> {
         }
 
     }
+
+    public List<Product> findByName(String name) {
+        // JPQL query to find products by name where isDeleted = 0
+        String jpql = "SELECT p FROM Product p WHERE p.name LIKE :name AND p.deleted = false";
+        return entityManager.createQuery(jpql, Product.class)
+                .setParameter("name", "%" + name + "%")
+                .getResultList();
+    }
+
 }
