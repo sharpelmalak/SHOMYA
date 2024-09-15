@@ -1,5 +1,5 @@
-<%@ page import="iti.jets.model.Category" %>
-<%@ page import="iti.jets.model.Product" %>
+<%@ page import="iti.jets.persistence.model.Category" %>
+<%@ page import="iti.jets.persistence.model.Product" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,8 +35,8 @@
                 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                     <div class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <a href="/shomya/viewproduct?productId=${product.id}">
-                                <img class="img-fluid fixed-size" src="/shomya/productImage?productId=${product.id}" alt="not Found">
+                            <a href="/shomya/app/viewproduct?productId=${product.id}">
+                                <img class="img-fluid fixed-size" src="/shomya/app/productImage?productId=${product.id}" alt="not Found">
                             </a>
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
@@ -48,12 +48,12 @@
                         </div>
 
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="/shomya/viewproduct?productId=${product.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                            <a href="/shomya/app/viewproduct?productId=${product.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
                             <c:if test="${userRole == EnumHelper.getCustomerRole()}">
                                 <button type="button" class="btn btn-sm text-dark p-0" onclick="addtoCart(${product.id})"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
                             </c:if>
                             <c:if test="${userRole == EnumHelper.getAdminRole()}">
-                                <a href="/shomya/deleteproduct?productId=${product.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-trash text-danger mr-1"></i>Delete</a>
+                                <a href="/shomya/app/deleteproduct?productId=${product.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-trash text-danger mr-1"></i>Delete</a>
                             </c:if>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
     function addtoCart(id) {
         const xhr = new XMLHttpRequest();
         const method = "GET";
-        const url = "/shomya/addtocart?productId="+id+"&quantity=1";
+        const url = "/shomya/app/addtocart?productId="+id+"&quantity=1";
 
         xhr.open(method, url, true);
         xhr.onreadystatechange = () => {
@@ -86,13 +86,13 @@
                     if (result.trim() == "done") {
                         $('#alert-container').html(`
                         <div class="alert alert-success" role="alert">
-                            Product Added <a href="/shomya/viewcart" class="alert-link">View Cart</a>
+                            Product Added <a href="/shomya/app/viewcart" class="alert-link">View Cart</a>
                      </div>
                      `);
                     } else if(result.trim() == "error"){
                         $('#alert-container').html(`
                        <div class="alert alert-danger" role="alert">
-                Can't add <a href="/shomya/viewcart" class="alert-link">View Cart</a>
+                Can't add <a href="/shomya/app/viewcart" class="alert-link">View Cart</a>
                 </div>
                        ` );
                     }

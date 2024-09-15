@@ -1,21 +1,9 @@
 package iti.jets.dao;
 
-import iti.jets.model.Customer;
-import iti.jets.model.User;
-import jakarta.persistence.EntityManager;
-import org.junit.Test;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Collections;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class UserDaoTest {
 //    @Test

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<%@ page import="iti.jets.model.Category" %>
+<%@ page import="iti.jets.persistence.model.Category" %>
 <jsp:directive.include file="/resources/head.html"/>
 <style>
     input[type=file]::file-selector-button {
@@ -26,7 +26,7 @@
             <div class="text-center mb-2 pb-2">
                 <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2">Add New Category</span></h2>
             </div>
-            <form action="/shomya/addCategory" method="post" enctype="multipart/form-data">
+            <form action="/shomya/app/addCategory" method="post" enctype="multipart/form-data">
                 <div class="control-group">
 
                     <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="Enter Category Name"
@@ -60,11 +60,11 @@
                         <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                             <p class="text-right">${category.products.size()} Products</p>
                             <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                                <img class="img-fluid fixed-size" src="/shomya/categoryImage?categoryId=${category.id}" alt="not found">
+                                <img class="img-fluid fixed-size" src="/shomya/app/categoryImage?categoryId=${category.id}" alt="not found">
                             </a>
                             <h5 class="font-weight-semi-bold m-0">${category.name}</h5>
                             <div class="card-footer d-flex justify-content-between bg-light border">
-                                <a href="/shomya/deletecategory?catId=${category.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-trash text-danger mr-1"></i>Delete</a>
+                                <a href="/shomya/app/deletecategory?catId=${category.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-trash text-danger mr-1"></i>Delete</a>
                             </div>
                         </div>
                     </div>

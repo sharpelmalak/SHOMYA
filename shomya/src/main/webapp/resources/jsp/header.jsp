@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
-<%@ page import="iti.jets.service.AuthService" %>
-<%@ page import="iti.jets.service.helper.EnumHelper" %>
+<%@ page import="iti.jets.business.service.helper.EnumHelper" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <script>
@@ -17,49 +16,48 @@
     });
 </script>
 
-<!-- Topbar Start -->
 
+<!-- Topbar Start -->
 <div class="container-fluid">
-    <div class="row align-items-center py-3 px-xl-5">
-        <div class="col-lg-3 d-none d-lg-block">
-            <a href="/shomya" class="text-decoration-none">
-                <h1 class="m-0 display-5 font-weight-semi-bold">
-                    <span class="text-primary font-weight-bold border px-3 mr-1">S</span>HOMYA
-                </h1>
-            </a>
-        </div>
-        <div class="col-lg-6 col-6 text-left">
-            <form action="">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for products">
-                    <div class="input-group-append">
+  <div class="row align-items-center py-3 px-xl-5">
+    <div class="col-lg-3 d-none d-lg-block">
+      <a href="/shomya" class="text-decoration-none">
+        <h1 class="m-0 display-5 font-weight-semi-bold">
+          <span class="text-primary font-weight-bold border px-3 mr-1">S</span>HOMYA
+        </h1>
+      </a>
+    </div>
+    <div class="col-lg-6 col-6 text-left">
+      <form action="">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search for products">
+          <div class="input-group-append">
                         <span class="input-group-text bg-transparent text-primary">
                             <i class="fa fa-search"></i>
                         </span>
-                    </div>
-                </div>
-            </form>
+          </div>
         </div>
-        <c:if test="${user == null || userRole == EnumHelper.getCustomerRole()}">
-        <div class="col-lg-3 col-6">
-            <div class="d-flex align-items-center gap-2">
-                <a href="" class="btn border">
-                    <i class="fas fa-heart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
-                <a href="/shomya/viewcart" class="btn border">
-                    <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">0</span>
-                </a>
-            </div>
-        </div>
-        </c:if>
+      </form>
     </div>
+    <c:if test="${user == null || userRole == EnumHelper.getCustomerRole()}">
+      <div class="col-lg-3 col-6">
+        <div class="d-flex align-items-center gap-2">
+          <a href="" class="btn border">
+            <i class="fas fa-heart text-primary"></i>
+            <span class="badge">0</span>
+          </a>
+          <a href="/shomya/app/viewcart" class="btn border">
+            <i class="fas fa-shopping-cart text-primary"></i>
+            <span class="badge">0</span>
+          </a>
+        </div>
+      </div>
+    </c:if>
+  </div>
 </div>
 
 
 <!-- Topbar End -->
- <!-- ------------------------------------------------------------------------------- -->
 <!-- Navbar Start -->
 
 
@@ -108,6 +106,8 @@
                 </div>
             </nav>
         </div>
+
     </div>
+  </div>
 </div>
-<!-- Navbar End -->
+

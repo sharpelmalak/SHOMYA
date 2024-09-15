@@ -1,6 +1,6 @@
 
 <html>
-<%@ page import="iti.jets.model.Category" %>
+<%@ page import="iti.jets.persistence.model.Category" %>
 <jsp:directive.include file="/resources/head.html"/>
 <body>
 <%@include file="/resources/jsp/header.jsp"%>
@@ -40,7 +40,7 @@
                 <c:if test="${cart.size()>0}">
                     <c:forEach items="${cart}" var="item">
                 <tr id="row-${item.product.id}">
-                    <td class="align-middle"><img src="/shomya/productImage?productId=${item.product.id}" alt="image" style="width: 50px;">${item.product.name}</td>
+                    <td class="align-middle"><img src="/shomya/app/productImage?productId=${item.product.id}" alt="image" style="width: 50px;">${item.product.name}</td>
                     <td class="align-middle">$${item.product.price}</td>
                     <td class="align-middle">
                         <div class="input-group  mx-auto" style="width: 100px;">
@@ -231,7 +231,7 @@
     function addtoCart(id,quantity) {
         const xhr = new XMLHttpRequest();
         const method = "GET";
-        const url = "/shomya/addtocart?productId="+id+"&quantity="+quantity;
+        const url = "/shomya/app/addtocart?productId="+id+"&quantity="+quantity;
 
         xhr.open(method, url, true);
         xhr.onreadystatechange = () => {
@@ -259,7 +259,7 @@
     function removeProduct(productId) {
         if (confirm("Are you sure you want to remove this product from cart?")) {
             $.ajax({
-                url: '/shomya/removeProductfromCart', // URL to servlet
+                url: '/shomya/app/removeProductfromCart', // URL to servlet
                 type: 'POST',
                 data: { id: productId },
                 success: function(response) {
@@ -281,7 +281,7 @@
     }
     function updateCartSummary() {
         $.ajax({
-            url: '/shomya/calculateTotal', // URL to the servlet
+            url: '/shomya/app/calculateTotal', // URL to the servlet
             type: 'POST',
             success: function(response) {
                 console.log("update summary called")
@@ -318,11 +318,11 @@
 
     $('#errorModal').on('hidden.bs.modal', function () {
         // Redirect the user to the cart page after acknowledging the error
-        window.location.href = '/shomya/viewcart';
+        window.location.href = '/shomya/app/viewcart';
     });
     document.getElementById("checkoutButton").addEventListener("click", function() {
         $.ajax({
-            url: '/shomya/checkCartAndCredit',
+            url: '/shomya/app/checkCartAndCredit',
             method: 'POST',
             success: function(response) {
                 if (response.cartChanged) {
@@ -343,13 +343,13 @@
     document.getElementById("confirmBilling").addEventListener("click", function() {
         $('#billingConfirmationModal').modal('hide');
         $.ajax({
-            url: '/shomya/checkout',
+            url: '/shomya/app/checkout',
             method: 'POST',
             success: function(response) {
                 console.log(response)
                 if (response.isOrder) {
                     var link = document.getElementById('order');
-                    link.href = "/shomya/vieworder?orderId="+response.orderId;
+                    link.href = "/shomya/app/vieworder?orderId="+response.orderId;
                     showSuccessModal(response.orderId)
                 }
                 else {

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<%@ page import="iti.jets.model.Category" %>
+<%@ page import="iti.jets.persistence.model.Category" %>
 <%@ page import="java.util.List" %>
 <jsp:directive.include file="/resources/head.html"/>
 <style>
@@ -23,7 +23,7 @@
 <div class="container">
     <h2 class="text-center">Select Categories of Interest</h2>
 
-    <form action="/shomya/saveInterests" method="post">
+    <form action="/shomya/app/saveInterests" method="post">
         <div class="form-group">
             <c:forEach var="category" items="${categories}">
                 <div class="form-check">
