@@ -1,6 +1,7 @@
 package iti.jets.persistence.dao;
 
 import iti.jets.persistence.model.Category;
+import iti.jets.persistence.model.Customer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -38,6 +39,8 @@ public class CategoryDao extends DAO<Category,Integer>{
         TypedQuery<Category> query = entityManager.createQuery(jpql, Category.class);
         return query.getResultList();
     }
+
+
 
 
 

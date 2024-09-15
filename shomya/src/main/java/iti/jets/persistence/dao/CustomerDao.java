@@ -1,5 +1,6 @@
 package iti.jets.persistence.dao;
 
+import iti.jets.persistence.model.Category;
 import iti.jets.persistence.model.Customer;
 import iti.jets.persistence.model.Order;
 import jakarta.persistence.EntityManager;
@@ -24,6 +25,20 @@ public class CustomerDao extends DAO<Customer,Integer> {
                 "SELECT o FROM Order o WHERE o.customer.id = :customerId", Order.class);
         query.setParameter("customerId", customerId);
         return query.getResultList();
+    }
+
+    public List<Category> findInterests(int id) {
+        try {
+
+            String jpql = "SELECT c.categories FROM Customer c WHERE c.id = :id";
+            TypedQuery<Category> query = entityManager.createQuery(jpql, Category.class);
+            query.setParameter("id",id);
+            return query.getResultList();
+        }
+        catch (Exception e) {
+            return null;
+        }
+
     }
 
 }

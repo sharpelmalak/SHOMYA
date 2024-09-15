@@ -19,6 +19,8 @@
 
 <%--<jsp:include page="/resources/jsp/header.jsp" />--%>
 <%@include file="/resources/jsp/header.jsp"%>
+
+<c:if test="${userRole == EnumHelper.getAdminRole()}">
 <!-- Add Start -->
 <div class="container-fluid bg-secondary my-5">
     <div class="row justify-content-md-center py-5 px-xl-5">
@@ -51,6 +53,7 @@
     </div>
 </div>
 <!-- Add End -->
+</c:if>
 <%-- <!-- Categories Start -->--%>
     <div class="container-fluid pt-5">
         <div class="row px-xl-5 pb-3">
@@ -64,7 +67,9 @@
                             </a>
                             <h5 class="font-weight-semi-bold m-0">${category.name}</h5>
                             <div class="card-footer d-flex justify-content-between bg-light border">
+                                <c:if test="${userRole == EnumHelper.getAdminRole()}">
                                 <a href="/shomya/app/deletecategory?catId=${category.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-trash text-danger mr-1"></i>Delete</a>
+                                </c:if>
                             </div>
                         </div>
                     </div>

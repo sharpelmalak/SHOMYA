@@ -25,9 +25,7 @@ public abstract class DAO<T, ID> {
     public T findById(int id) {
         T entity = null;
         try {
-
             entity = entityManager.find(persistentClass, id);
-
         } catch (PersistenceException e) {
             LOGGER.log(Level.SEVERE, "Error finding entity with id: " + id, e);
         }

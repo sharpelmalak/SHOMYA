@@ -1,6 +1,7 @@
 package iti.jets.business.service;
 
 import iti.jets.persistence.dao.CategoryDao;
+import iti.jets.persistence.dao.UserDao;
 import iti.jets.persistence.model.Category;
 import iti.jets.persistence.model.Customer;
 import iti.jets.persistence.util.ConnectionInstance;
@@ -16,6 +17,7 @@ public class CategoryService {
         List<Category> categoryList = categoryDao.findAll();
         return categoryList;
     }
+
 
     public static Category getCategory(ConnectionInstance connection, int id) {
         CategoryDao categoryDao = new CategoryDao(connection.getEntityManager());

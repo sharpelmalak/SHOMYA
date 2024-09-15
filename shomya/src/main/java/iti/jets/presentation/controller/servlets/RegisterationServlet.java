@@ -1,5 +1,6 @@
 package iti.jets.presentation.controller.servlets;
 
+import iti.jets.business.service.CategoryService;
 import iti.jets.persistence.dao.CategoryDao;
 import iti.jets.persistence.model.Category;
 import iti.jets.persistence.model.Customer;
@@ -24,16 +25,19 @@ import java.util.stream.Collectors;
 //@WebServlet(value = "/registration")
 public class RegisterationServlet extends HttpServlet
 {
-    private  List<Category> categories = new ArrayList<>();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        System.out.println("i'm in get method registration");
         ConnectionInstance connectionInstance = (ConnectionInstance) req.getSession().getAttribute("userConnection");
-        CategoryDao categoryDao=new CategoryDao(connectionInstance.getEntityManager());
-        categories=categoryDao.findAll();
-        req.setAttribute("categories", categories);
-        req.getRequestDispatcher("/resources/jsp/registration.jsp").forward(req, resp);
+        try {
+            req.setAttribute("categories", CategoryService.getCategories(connectionInstance));
+            req.getRequestDispatcher("/resources/jsp/registration.jsp").forward(req, resp);
+        }
+        catch (Exception e) {
+            resp.sendRedirect("/shomya");
+        }
+
     }
 
 
@@ -55,33 +59,12 @@ public class RegisterationServlet extends HttpServlet
             String job = req.getParameter("job");
             String[] selectedCategories = req.getParameterValues("categories");
             RegisterationService registerationService=new RegisterationService();
-            Customer isRegistered = registerationService.registerUser(
-                    username,password,name,Date.valueOf(Bdate),job,email,creditLimit,address,entityManager);
+            boolean isRegistered = registerationService.registerUser(
+                    username,password,name,Date.valueOf(Bdate),job,email,creditLimit,address,selectedCategories,connectionInstance);
 
-            if (isRegistered != null)
+            if (isRegistered)
             {
-                if(selectedCategories!=null && selectedCategories.length>0)
-                {
-                    entityManager.getTransaction().begin();
-                    List<Category> userCategories = categories.stream().
-                            filter(category -> {for (String id : selectedCategories)
-                            {
-                                if (category.getId() == Integer.parseInt(id)) {
-                                    return true; } } return false; }) .collect(Collectors.toList());
-
-                    Set<Category> categorySet=new HashSet<>(userCategories);
-                    for(Category category : categorySet)
-                    {
-                        entityManager.merge(category);
-
-                    }
-                    isRegistered.setCategories(categorySet);
-                    entityManager.merge(isRegistered);
-
-                    entityManager.getTransaction().commit();
-                }
                 req.getRequestDispatcher("/app/login").forward(req, resp);
-
             }
         }
         catch(Exception e)

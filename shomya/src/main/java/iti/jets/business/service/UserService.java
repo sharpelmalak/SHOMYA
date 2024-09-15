@@ -1,7 +1,10 @@
 package iti.jets.business.service;
 
+import iti.jets.persistence.dao.CategoryDao;
+import iti.jets.persistence.dao.CustomerDao;
 import iti.jets.persistence.dao.UserDao;
 import iti.jets.persistence.model.Admin;
+import iti.jets.persistence.model.Category;
 import iti.jets.persistence.model.Customer;
 import iti.jets.persistence.model.User;
 import iti.jets.persistence.util.ConnectionInstance;
@@ -29,4 +32,9 @@ public class UserService {
         }
         return customerList;
     }
+    public static List<Category> getInterests(ConnectionInstance connection,int id) {
+        CustomerDao dao = new CustomerDao(connection.getEntityManager());
+        return dao.findInterests(id);
+    }
+
 }

@@ -89,7 +89,9 @@
               <a href="/shomya/app/products" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/products') ? 'active' : ''}">View Products</a>
               <a href="/shomya/app/viewcart" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/viewcart') ? 'active' : ''}">My Cart</a>
               <a href="/shomya/app/search-product" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/search-product') ? 'active' : ''}">My Shop</a>
-              <a href="/shomya/app/customerOrder?customerId=${user.id}"  class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/customerOrder') ? 'active' : ''}">My Orders</a>
+              <a href="/shomya/app/customerOrder?customerId=${user.id}"  class="nav-item nav-link ${pageContext.request.requestURI.contains('/customerOrder') ? 'active' : ''}">My Orders</a>
+              <a href="/shomya/app/view-interests"  class="nav-item nav-link ${pageContext.request.requestURI.contains('/view-interests') ? 'active' : ''}">My Interests</a>
+
             </c:if>
           </div>
           <c:choose>
