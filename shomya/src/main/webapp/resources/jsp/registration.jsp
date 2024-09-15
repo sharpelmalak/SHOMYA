@@ -104,20 +104,22 @@
             <small class="form-text text-danger" id="jobError"></small>
         </div>
 
-        <!-- Password -->
-        <div class="control-group">
+        <div class="control-group position-relative">
             <label for="password">Password</label>
             <input type="password" class="form-control" name="password" id="password" placeholder="Password" required/>
             <small class="form-text text-danger" id="passwordError"></small>
+            <!-- Show/Hide Password Icon -->
+            <i class="fa fa-eye position-absolute" id="togglePassword" style="cursor: pointer; right: 10px; top: 38px;"></i>
         </div>
 
         <!-- Confirm Password -->
-        <div class="control-group">
+        <div class="control-group position-relative">
             <label for="confirmPassword">Confirm Password</label>
             <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" onchange="checkPassword()" required/>
             <small class="form-text text-danger" id="confirmPasswordError"></small>
+            <!-- Show/Hide Confirm Password Icon -->
+            <i class="fa fa-eye position-absolute" id="toggleConfirmPassword" style="cursor: pointer; right: 10px; top: 38px;"></i>
         </div>
-
         <div class="form-group">
             <label for="choose_categories">Choose Categories</label>
             <c:forEach var="category" items="${categories}">
@@ -139,9 +141,39 @@
 <jsp:directive.include file="/resources/script.html"/>
 <script>
 
+
+
+
+
+    // Toggle password visibility for the password field
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordField = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function () {
+        const type = passwordField.type === 'password' ? 'text' : 'password';
+        passwordField.type = type;
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    // Toggle password visibility for the confirm password field
+    const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
+    const confirmPasswordField = document.querySelector('#confirmPassword');
+
+    toggleConfirmPassword.addEventListener('click', function () {
+        const type = confirmPasswordField.type === 'password' ? 'text' : 'password';
+        confirmPasswordField.type = type;
+        this.classList.toggle('fa-eye-slash');
+    });
+
+
+
+
     var isUserFound = false
     var isEmailFound = false
     var isPassCorrect = false
+
+
+
 
     function checkPassword() {
         // Get the password and confirm password fields
