@@ -1,6 +1,7 @@
 package iti.jets.presentation.controller.servlets;
 
 
+import iti.jets.business.service.ProductService;
 import iti.jets.persistence.dao.ProductDao;
 import iti.jets.persistence.model.Product;
 import iti.jets.persistence.util.ConnectionInstance;
@@ -10,21 +11,15 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
-//@WebServlet("/productImage")
+
 public class ProductImageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Get the product ID from the request
-        String productIdStr = request.getParameter("productId");
-        if (productIdStr != null) {
-            int productId = Integer.parseInt(productIdStr);
-
-            // Retrieve the product from the database
-            HttpSession session = request.getSession(false);
-            ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-            ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
-            Product product = productDao.findById(productId);
-
+        HttpSession session = request.getSession(false);
+        ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+        try{
+            int productId = Integer.parseInt(request.getParameter("productId"));
+            Product product = ProductService.getProduct(connectionInstance, productId);
             if (product != null && product.getImage() != null) {
                 // Set the response content type to the appropriate image type (e.g., JPEG, PNG)
                 response.setContentType("image/jpeg"); // Assuming the image is JPEG
@@ -34,7 +29,8 @@ public class ProductImageServlet extends HttpServlet {
             } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND); // Send 404 if no image is found
             }
-        } else {
+        }
+        catch (Exception e){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST); // Send 400 if no product ID is provided
         }
     }

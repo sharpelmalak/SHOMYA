@@ -39,4 +39,23 @@ public class AuthService {
     {
         return  useRole;
     }
+
+    public static boolean isUserNameFound(String username,ConnectionInstance connectionInstance)
+    {
+        UserDao userDao  = new UserDao(connectionInstance.getEntityManager());
+        if(userDao.checkUserName(username))
+        {
+            return true;
+        }
+        return false;
+    }
+    public static boolean isUserEmailFound(String email,ConnectionInstance connectionInstance)
+    {
+        UserDao userDao  = new UserDao(connectionInstance.getEntityManager());
+        if(userDao.checkEmail(email))
+        {
+            return true;
+        }
+        return false;
+    }
 }

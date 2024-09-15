@@ -1,5 +1,6 @@
 package iti.jets.presentation.controller.servlets;
 
+import iti.jets.business.service.AuthService;
 import iti.jets.persistence.dao.UserDao;
 import iti.jets.persistence.util.ConnectionInstance;
 import jakarta.servlet.*;
@@ -14,39 +15,34 @@ public class CheckUniqueServlet extends HttpServlet {
  @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-        String username = request.getParameter("username");
-        String email = request.getParameter("email");
-        System.out.println("hello user");
-        System.out.println("username "+username);
-        System.out.println("email "+email);
-
-
-        PrintWriter out = response.getWriter();
-
-        ConnectionInstance connectionInstance = (ConnectionInstance) request.getSession().getAttribute("userConnection");
-        UserDao userDao=new UserDao(connectionInstance.getEntityManager());
-
-
-        if(username!=null) {
-            boolean result = userDao.checkUserName(username);
-            if(result){
-                out.print("user_found");
-            }
-            else{
-                out.print("user_notfound");
-            }
+         PrintWriter out = response.getWriter();
+         ConnectionInstance connectionInstance = (ConnectionInstance) request.getSession().getAttribute("userConnection");
+         try{
+            String username = request.getParameter("username");
+            String email = request.getParameter("email");
+             if(username!=null) {
+                 boolean result = AuthService.isUserNameFound(username,connectionInstance);
+                 if(result){
+                     out.print("user_found");
+                 }
+                 else{
+                     out.print("user_notfound");
+                 }
+             }
+             if(email!=null) {
+                 boolean result = AuthService.isUserEmailFound(email,connectionInstance);
+                 if(result){
+                     out.print("email_found");
+                 }
+                 else{
+                     out.print("email_notfound");
+                 }
+             }
+         }
+        catch(Exception e){
+          e.printStackTrace();
+          out.println("Error");
         }
-        if(email!=null) {
-            boolean result = userDao.checkEmail(email);
-            if(result){
-                out.print("email_found");
-            }
-            else{
-                out.print("email_notfound");
-            }
-        }
-
         out.flush();
     }
 

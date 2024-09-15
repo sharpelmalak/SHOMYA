@@ -1,6 +1,7 @@
 package iti.jets.presentation.controller.servlets;
 
 
+import iti.jets.business.service.CategoryService;
 import iti.jets.persistence.dao.CategoryDao;
 import iti.jets.persistence.model.Category;
 import iti.jets.persistence.util.ConnectionInstance;
@@ -22,8 +23,7 @@ public class CategoryImageServlet extends HttpServlet {
             // Retrieve the product from the database
             HttpSession session = request.getSession(false);
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-            CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-            Category category = categoryDao.findById(categoryId);
+            Category category = CategoryService.getCategory(connectionInstance, categoryId);
             if (category != null && category.getImage() != null) {
                 // Set the response content type to the appropriate image type (e.g., JPEG, PNG)
                 response.setContentType("image/jpeg"); // Assuming the image is JPEG

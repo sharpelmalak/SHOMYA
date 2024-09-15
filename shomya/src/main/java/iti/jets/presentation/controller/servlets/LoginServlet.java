@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-//@WebServlet(value = "/login")
+
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -51,9 +51,9 @@ public class LoginServlet extends HttpServlet {
                 if(authService.getRole() == EnumHelper.getCustomerRole())
                 {
                     // load cart or create one
-                    List<CartItem> cart = CartService.loadCart(user.getId(), connectionInstance.getEntityManager());
+                    List<CartItem> cart = CartService.loadCart(user.getId(), connectionInstance);
                     // delete cart from db
-                    CartService.resetCart(user.getId(), connectionInstance.getEntityManager());
+                    CartService.resetCart(user.getId(), connectionInstance);
                     session.setAttribute("cart", cart);
                 }
 

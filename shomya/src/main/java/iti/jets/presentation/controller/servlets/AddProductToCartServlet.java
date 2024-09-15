@@ -33,10 +33,10 @@ public class AddProductToCartServlet extends HttpServlet {
                     int productId = Integer.parseInt(req.getParameter("productId"));
                     int quantity = Integer.parseInt(req.getParameter("quantity"));
                     List<CartItem> cart = (List<CartItem>)session.getAttribute("cart");
-                    boolean isProduct = CartService.chekProductInCart(cart, productId, quantity);
+                    boolean isProduct = CartService.checkProductInCart(cart, productId, quantity);
                     if(!isProduct)
                     {
-                        CartItem cartItem = CartService.addProductToCart((Customer) session.getAttribute("user"),productId,quantity,em);
+                        CartItem cartItem = CartService.addProductToCart((Customer) session.getAttribute("user"),productId,quantity,connectionInstance);
                         if (cartItem != null) {
                             cart.add(cartItem);
                             out.print("done");

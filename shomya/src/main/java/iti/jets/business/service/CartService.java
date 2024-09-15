@@ -5,17 +5,18 @@ import iti.jets.persistence.dao.ProductDao;
 import iti.jets.persistence.model.CartItem;
 import iti.jets.persistence.model.Customer;
 import iti.jets.persistence.model.Product;
+import iti.jets.persistence.util.ConnectionInstance;
 import jakarta.persistence.EntityManager;
 
 import java.util.Iterator;
 import java.util.List;
 
 public class CartService {
-    public static CartItem addProductToCart(Customer customer, int productId,int quantity, EntityManager entityManager)
+    public static CartItem addProductToCart(Customer customer, int productId, int quantity, ConnectionInstance connectionInstance)
     {
         CartItem result = null;
         try{
-            ProductDao productDao = new ProductDao(entityManager);
+            ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
             Product product = productDao.findById(productId);
             if(product == null || product.getQuantity() < quantity)
             {
@@ -32,7 +33,7 @@ public class CartService {
         return result;
     }
 
-    public static boolean chekProductInCart(List<CartItem> cart,int productId,int quantity)
+    public static boolean checkProductInCart(List<CartItem> cart,int productId,int quantity)
     {
         boolean result = false;
         for (CartItem cartItem : cart) {
@@ -53,10 +54,10 @@ public class CartService {
         }
         return result;
     }
-    public static boolean chekCart(List<CartItem> cart, EntityManager entityManager) {
+    public static boolean checkCart(List<CartItem> cart, ConnectionInstance connectionInstance) {
         boolean result = false;
         try {
-            ProductDao productDao = new ProductDao(entityManager);
+            ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
             // Use an Iterator to avoid ConcurrentModificationException
             Iterator<CartItem> iterator = cart.iterator();
 
@@ -109,9 +110,10 @@ public class CartService {
         }
     }
 
-    public static void saveCart(List<CartItem> cart, EntityManager entityManager)
+    public static void saveCart(List<CartItem> cart, ConnectionInstance connectionInstance)
     {
 
+        EntityManager entityManager = connectionInstance.getEntityManager();
         try{
             entityManager.getTransaction().begin();
             for (CartItem cartItem : cart) {
@@ -125,11 +127,11 @@ public class CartService {
 
     }
 
-    public static List<CartItem> loadCart(int customerId,EntityManager entityManager)
+    public static List<CartItem> loadCart(int customerId,ConnectionInstance connectionInstance)
     {
         List<CartItem> cart = null;
         try{
-            CartItemDao cartItemDao = new CartItemDao(entityManager);
+            CartItemDao cartItemDao = new CartItemDao(connectionInstance.getEntityManager());
             cart =  cartItemDao.findAll(customerId);
         }
         catch(Exception e){
@@ -137,9 +139,9 @@ public class CartService {
         }
         return cart;
     }
-    public static void resetCart(int customerId,EntityManager entityManager)
+    public static void resetCart(int customerId,ConnectionInstance connectionInstance)
     {
-        CartItemDao cartItemDao = new CartItemDao(entityManager);
+        CartItemDao cartItemDao = new CartItemDao(connectionInstance.getEntityManager());
         cartItemDao.deleteAll(customerId);
     }
 

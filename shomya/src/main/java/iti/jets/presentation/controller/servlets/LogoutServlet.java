@@ -21,8 +21,7 @@ public class LogoutServlet extends HttpServlet {
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
             List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
             if (cart != null && cart.size() > 0) {
-                EntityManager entityManager = connectionInstance.getEntityManager();
-                CartService.saveCart(cart, entityManager);
+                CartService.saveCart(cart, connectionInstance);
             }
             session.invalidate();
         }

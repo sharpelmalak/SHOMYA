@@ -11,11 +11,6 @@ import java.sql.Date;
 public class RegisterationService
 {
 
-    boolean isUser;
-    User user;
-
-
-
     public Customer registerUser(String username, String password, String name,
                              Date date, String job, String email, float creditLimit,
                              String address,EntityManager entityManager)
@@ -44,17 +39,6 @@ else
 }
 
 
-    }
-
-        public boolean isUsernameUnique(String username, EntityManager entityManager)
-    {
-        UserDao userDao  = new UserDao(entityManager);
-        return userDao.findByUsername(username) == null;
-    }
-
-    public boolean isEmailUnique(String email,EntityManager entityManager) {
-        UserDao userDao  = new UserDao(entityManager);
-        return userDao.findUserByEmail(email) == null;
     }
 
 

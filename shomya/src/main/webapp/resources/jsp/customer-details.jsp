@@ -33,12 +33,12 @@
 
     <!-- Customer Details Start -->
     <div class="container-fluid pt-5">
+    <c:if test="${userRole == EnumHelper.getAdminRole()}">
       <div class="text-center mb-4">
         <h2 class="section-title px-5">
           <span class="px-2">Customer Details</span>
         </h2>
       </div>
-
       <div class="details">
         <h4>Customer Information</h4>
         <p><strong>ID:</strong> ${customer.id}</p>
@@ -50,10 +50,12 @@
         <p><strong>Credit Limit:</strong> ${customer.creditLimit}</p>
         <p><strong>Address:</strong> ${customer.address}</p>
       </div>
-
+      </c:if>
       <!-- Orders Table -->
       <div class="orders">
+        <c:if test="${userRole == EnumHelper.getAdminRole()}">
         <h4>Customer Orders</h4>
+        </c:if>
         <table class="table table-striped">
           <thead>
             <tr>

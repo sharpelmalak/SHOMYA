@@ -60,8 +60,8 @@ public class FrontController extends HttpServlet {
             case "/checkunique":
                 new CheckUniqueServlet().service(request, response);
                 break;
-            case "/chooseInterests":
-                new ChooseInterestsServlet().service(request, response);
+            case "/view-interests":
+                new CustomerInterests().service(request, response);
                 break;
             case "/deletecategory":
                 new DeleteCategoryServlet().service(request, response);
@@ -87,9 +87,6 @@ public class FrontController extends HttpServlet {
             case "/removeProductfromCart":
                 new RemoveProductFromCartServlet().service(request, response);
                 break;
-            case "/saveInterests":
-                new SaveInterestsServlet().service(request, response);
-                break;
             case "/search-product":
                 new SearchProductServlet().service(request, response);
                 break;
@@ -105,9 +102,6 @@ public class FrontController extends HttpServlet {
             case "/viewprofile":
                 new ViewProfileServlet().service(request, response);
                 break;
-//            case "/viewproduct":
-//                new ViewUpdateProductsServlet().service(request, response);
-//                break;
             case "/categoryImage":
                 new CategoryImageServlet().service(request, response);
                 break;

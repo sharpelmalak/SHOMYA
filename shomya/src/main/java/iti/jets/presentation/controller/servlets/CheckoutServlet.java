@@ -1,5 +1,6 @@
 package iti.jets.presentation.controller.servlets;
 
+import iti.jets.business.service.CheckoutService;
 import iti.jets.persistence.model.CartItem;
 import iti.jets.persistence.model.Customer;
 import iti.jets.persistence.model.Order;
@@ -27,54 +28,23 @@ public class CheckoutServlet extends HttpServlet {
 
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        boolean isOrder =  false;
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-        EntityManager entityManager = connectionInstance.getEntityManager();
         Customer customer = (Customer) session.getAttribute("user");
 
 
         List<CartItem> cart = (List<CartItem>) session.getAttribute("cart");
-        boolean isCartUpdated = CartService.chekCart(cart,entityManager);
+        boolean isCartUpdated = CartService.checkCart(cart,connectionInstance);
         if (!isCartUpdated) {
-
-            float total = CartService.calculateTotalCart(cart)+10.0F;
-            Order order = new Order(customer,total);
-            Set<OrderItem> orderItems = new HashSet<>();
-
-            try{
-                    entityManager.getTransaction().begin();
-
-                    entityManager.persist(order);
-                    System.out.println("Order created with id: " + order.getId());
-                    customer.setCreditLimit(customer.getCreditLimit()-total);
-                    entityManager.merge(customer);
-                    for(CartItem item : cart) {
-                        item.getProduct().setQuantity(item.getProduct().getQuantity()-item.getQuantity());
-                        entityManager.merge(item.getProduct());
-                        OrderItem orderItem = new OrderItem(order,item.getProduct(), item.getQuantity(), item.getProduct().getPrice());
-                        entityManager.persist(orderItem);
-                        orderItems.add(orderItem);
-                    }
-                    order.setOrderItems(orderItems);
-                    entityManager.merge(order);
-                    cart.clear();
-                    entityManager.getTransaction().commit();
-                    isOrder = true;
-                    String jsonResponse = String.format("{\"isOrder\": %b, \"orderId\": %d}", isOrder, order.getId());
-                    resp.getWriter().write(jsonResponse);
-            }
-            catch (Exception e) {
-                    entityManager.getTransaction().rollback();
-                    isOrder = false;
-                    String jsonResponse = String.format("{\"isOrder\": %b, \"orderId\": false}", isOrder);
-                    resp.getWriter().write(jsonResponse);
-            }
-
-
+           Order order = CheckoutService.checkout(connectionInstance,customer,cart);
+           if(order!=null)
+           {
+               String jsonResponse = String.format("{\"isOrder\": true, \"orderId\": %d}", order.getId());
+               resp.getWriter().write(jsonResponse);
+               return;
+           }
         }
-        else {
-            String jsonResponse = String.format("{\"isOrder\": %b, \"orderId\": false}", isOrder);
-            resp.getWriter().write(jsonResponse);
-        }
+        String jsonResponse = String.format("{\"isOrder\": %b, \"orderId\": false}", false);
+        resp.getWriter().write(jsonResponse);
+
     }
 }
