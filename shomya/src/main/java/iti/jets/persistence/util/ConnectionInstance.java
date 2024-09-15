@@ -13,6 +13,7 @@ public class ConnectionInstance {
 
     // Lazy initialization: EntityManager will be created only when needed
     public EntityManager getEntityManager() {
+        System.out.println("Connection Requested");
         if (entityManager == null || !entityManager.isOpen()) {
             entityManager = entityManagerFactory.createEntityManager();
             System.out.println("Connection opened");

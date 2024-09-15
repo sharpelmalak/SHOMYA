@@ -10,17 +10,17 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
-//@WebServlet("/categoryImage")
+
 public class CategoryImageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get the product ID from the request
-        String id = request.getParameter("catId");
+        String id = request.getParameter("categoryId");
         if (id != null) {
             int categoryId = Integer.parseInt(id);
 
             // Retrieve the product from the database
-            HttpSession session = request.getSession(false);
+            HttpSession session = request.getSession();
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
             CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
             Category category = categoryDao.findById(categoryId);

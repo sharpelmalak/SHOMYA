@@ -28,7 +28,6 @@ public class FrontController extends HttpServlet {
         if (path == null) {
             path = "/";
         }
-        System.out.println(path);
         switch (path) {
             case "/viewcart":
                 new ViewCartServlet().service(request, response);

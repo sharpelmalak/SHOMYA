@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-//@WebServlet(value = "/addproduct")
+
 @MultipartConfig
 public class AddProductServlet extends HttpServlet {
 
@@ -43,11 +43,17 @@ public class AddProductServlet extends HttpServlet {
         HttpSession session= req.getSession(false);
         if(session.getAttribute("userRole")== EnumHelper.getAdminRole())
         {
+            System.out.println("Start Post");
             String name = req.getParameter("pname");
+            System.out.println("Start Post name " + name);
             int catId = Integer.parseInt(req.getParameter("categoryId"));
+            System.out.println("Start Post name " + catId);
             float price = Float.parseFloat(req.getParameter("pprice"));
+            System.out.println("Start Post name " + price);
             int quantity = Integer.parseInt(req.getParameter("pquantity"));
+            System.out.println("Start Post name " + quantity);
             String description = req.getParameter("pdesc");
+            System.out.println("hereeeeeeeeeeeeeeeeeeeeeeeeeeee");
             Part filePart = req.getPart("pimage");
             // Read image data from the Part
             byte[] imageData = null;

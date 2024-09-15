@@ -25,7 +25,7 @@ public class CategoriesServlet extends HttpServlet {
         List<Category> categoryList = categoryDao.findAll();
         req.setAttribute("categoryList", categoryList);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/categories.jsp");
-        requestDispatcher.forward(req, resp);
+        requestDispatcher.include(req, resp);
     }
 
 }

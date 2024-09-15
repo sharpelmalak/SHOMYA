@@ -34,6 +34,8 @@ public class AddCategoryServlet extends HttpServlet {
         try{
             String name = req.getParameter("categoryName");
             Part filePart = req.getPart("categoryImage");
+            System.out.println(filePart.getSubmittedFileName());
+            System.out.println(name);
             if (filePart != null && filePart.getSize() > 0) {
                 InputStream inputStream = filePart.getInputStream();
                 byte[] imageData = inputStream.readAllBytes();

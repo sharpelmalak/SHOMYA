@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <%@ page import="iti.jets.persistence.model.Category" %>
+<%@ page import="java.util.Date" %>
 <jsp:directive.include file="/resources/head.html"/>
 <style>
     input[type=file]::file-selector-button {
@@ -60,7 +61,11 @@
                         <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                             <p class="text-right">${category.products.size()} Products</p>
                             <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                                <img class="img-fluid fixed-size" src="/shomya/app/categoryImage?categoryId=${category.id}" alt="not found">
+                                <%
+                                    long currentTime = new Date().getTime();
+                                %>
+
+                                <img class="img-fluid fixed-size" src="/shomya/app/categoryImage?categoryId=${category.id}&date=<%= currentTime %>" alt="not found">
                             </a>
                             <h5 class="font-weight-semi-bold m-0">${category.name}</h5>
                             <div class="card-footer d-flex justify-content-between bg-light border">
