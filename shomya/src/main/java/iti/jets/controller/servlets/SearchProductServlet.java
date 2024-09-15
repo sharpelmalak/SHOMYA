@@ -30,7 +30,7 @@ public class SearchProductServlet extends HttpServlet {
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
         CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
         ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
-        connectionInstance.openEntityManager();
+
 
         categories = categoryDao.findAll();
         products = productDao.findAll();
