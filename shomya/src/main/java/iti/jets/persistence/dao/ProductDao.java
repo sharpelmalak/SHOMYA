@@ -90,4 +90,15 @@ public class ProductDao extends DAO<Product,Integer> {
                 .getResultList();
     }
 
+    public List<Product> findProductsByPriceRange(float minPrice, float maxPrice) {
+        // Define JPQL query with conditions for price range
+        String jpql = "SELECT p FROM Product p WHERE p.deleted = false AND p.price BETWEEN :minPrice AND :maxPrice ";
+
+        // Create and execute the query
+        return entityManager.createQuery(jpql, Product.class)
+                .setParameter("minPrice", minPrice)
+                .setParameter("maxPrice", maxPrice)
+                .getResultList();
+    }
+
 }

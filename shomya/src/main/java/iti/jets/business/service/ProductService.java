@@ -68,4 +68,9 @@ public class ProductService {
         return dao.findByName(name);
     }
 
+    public static List<Product> getProductByPriceRange(ConnectionInstance connectionInstance, float min, float max) {
+        ProductDao dao = new ProductDao(connectionInstance.getEntityManager());
+        return dao.findProductsByPriceRange(min, max);
+    }
+
 }
