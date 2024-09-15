@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(value = "/app/*")
+@WebServlet(urlPatterns = {"/app/*",""})
 public class FrontController extends HttpServlet {
 
     @Override
@@ -28,7 +28,7 @@ public class FrontController extends HttpServlet {
         if (path == null) {
             path = "/";
         }
-
+        System.out.println(path);
         switch (path) {
             case "/viewcart":
                 new ViewCartServlet().service(request, response);

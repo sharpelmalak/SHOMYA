@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:jsp="jakarta.faces.html" xmlns:c="http://xmlns.jcp.org/jsf/composite">
 <jsp:directive.include file="/resources/head.html"/>
-
 <body>
 <%@ include file="/resources/jsp/header.jsp" %>
-
 <!-- Page Header Start -->
 <div class="container-fluid bg-secondary mb-5">
     <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
@@ -17,7 +15,6 @@
     </div>
 </div>
 <!-- Page Header End -->
-
 <!-- Shop Start -->
 <div class="container-fluid pt-5">
     <div class="row px-xl-5">
@@ -25,21 +22,18 @@
         <div class="col-lg-3 col-md-12">
             <!-- Search by Name Start -->
             <div class="form-group mb-4">
-                <label for="productName">Search by Name</label>
-                <input type="text" class="form-control" id="productName" placeholder="Enter product name">
+                <label for="name">Search by Name</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter product name" onkeyup="searchProducts()">
             </div>
             <!-- Search by Name End -->
-
             <!-- Filter by price range Start -->
             <div class="form-group mb-4">
-                <label for="minPrice">Min Price:</label>
-                <input type="number" class="form-control" id="minPrice" placeholder="Min price">
-
-                <label for="maxPrice" class="mt-2">Max Price:</label>
-                <input type="number" class="form-control" id="maxPrice" placeholder="Max price">
+                <label for="MinPrice">Min Price:</label>
+                <input type="number" class="form-control" id="MinPrice" placeholder="Min price" onkeyup="searchProducts()">
+                <label for="MaxPrice" class="mt-2">Max Price:</label>
+                <input type="number" class="form-control" id="MaxPrice" placeholder="Max price" onkeyup="searchProducts()">
             </div>
             <!-- Filter by price range End -->
-
             <!-- Filter by categories Start -->
             <div class="form-group">
                 <label for="choose_categories">Filter by Categories</label>
@@ -57,9 +51,8 @@
             <!-- Filter by categories End -->
         </div>
         <!-- Shop Sidebar End -->
-
-        <!-- Results Section Start -->
-        <div class="col-lg-9 col-md-12" id="searchResults">
+        <!-- All Products -->
+        <div class="col-lg-9 col-md-12" id="allProducts">
             <!-- Products Section Start -->
             <div class="container-fluid pt-5">
                 <div class="text-center mb-4">
@@ -72,7 +65,7 @@
                             <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
                                 <div class="card product-item border-0 mb-4">
                                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                        <a href="/shomya/app/search-product?productId=${product.id}">
+                                        <a href="/shomya/search-product?productId=${product.id}">
                                             <img class="img-fluid fixed-size" src="/shomya/resources/img/${product.image}" alt="Product Image">
                                         </a>
                                     </div>
@@ -83,7 +76,7 @@
                                         </div>
                                     </div>
                                     <div class="card-footer d-flex justify-content-between bg-light border">
-                                        <a href="/shomya/app/viewproduct?productId=${product.id}" class="btn btn-sm text-dark p-0">
+                                        <a href="/shomya/viewproduct?productId=${product.id}" class="btn btn-sm text-dark p-0">
                                             <i class="fas fa-eye text-primary mr-1"></i>View Detail
                                         </a>
                                         <c:if test="${userRole == EnumHelper.getCustomerRole()}">
@@ -92,7 +85,7 @@
                                             </button>
                                         </c:if>
                                         <c:if test="${userRole == EnumHelper.getAdminRole()}">
-                                            <a href="/shomya/app/deleteproduct?productId=${product.id}" class="btn btn-sm text-dark p-0">
+                                            <a href="/shomya/deleteproduct?productId=${product.id}" class="btn btn-sm text-dark p-0">
                                                 <i class="fas fa-trash text-danger mr-1"></i>Delete
                                             </a>
                                         </c:if>
@@ -105,71 +98,36 @@
             </div>
             <!-- Products Section End -->
         </div>
-        <!-- Results Section End -->
+        <!-- All products -->
+
     </div>
 </div>
 <!-- Shop End -->
-
 <jsp:include page="/resources/jsp/footer.jsp" />
-
 <!-- Back to Top -->
 <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // Function to search products by name and filter by price and category
-    function searchProducts() {
-        const name = document.getElementById('productName').value;
-        const minPrice = document.getElementById('minPrice').value;
-        const maxPrice = document.getElementById('maxPrice').value;
-        const category = document.querySelector('input[name="categories"]:checked')?.value;
-
-        const params = new URLSearchParams({
-            name: name,
-            category: category,
-            minPrice: minPrice,
-            maxPrice: maxPrice
-        });
-
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8080/shomya/app/search-product?' + params.toString(), true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                document.getElementById('searchResults').innerHTML = xhr.responseText;
-            }
-        };
-        xhr.send();
-    }
-
-    document.getElementById('productName').addEventListener('keyup', searchProducts);
-    document.getElementById('minPrice').addEventListener('input', searchProducts);
-    document.getElementById('maxPrice').addEventListener('input', searchProducts);
-    document.querySelectorAll('input[name="categories"]').forEach(function (el) {
-        el.addEventListener('change', searchProducts);
-    });
-
     function addtoCart(id) {
         const xhr = new XMLHttpRequest();
-        const url = "/shomya/app/addtocart?productId=" + id + "&quantity=1";
-
+        const url = "/shomya/addtocart?productId=" + id + "&quantity=1";
         xhr.open("GET", url, true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
                     const result = xhr.responseText.trim();
                     const alertContainer = document.getElementById('alert-container');
-
                     if (result === "done") {
                         alertContainer.innerHTML = `
                             <div class="alert alert-success" role="alert">
-                                Product Added <a href="/shomya/app/viewcart" class="alert-link">View Cart</a>
+                                Product Added <a href="/shomya/viewcart" class="alert-link">View Cart</a>
                             </div>`;
                     } else {
                         alertContainer.innerHTML = `
                             <div class="alert alert-danger" role="alert">
-                                Can't add <a href="/shomya/app/viewcart" class="alert-link">View Cart</a>
+                                Can't add <a href="/shomya/viewcart" class="alert-link">View Cart</a>
                             </div>`;
                     }
-
                     setTimeout(function () {
                         alertContainer.innerHTML = '';
                     }, 3000);
@@ -179,6 +137,7 @@
         xhr.send(null);
     }
 </script>
-
 </body>
 </html>
+
+ 

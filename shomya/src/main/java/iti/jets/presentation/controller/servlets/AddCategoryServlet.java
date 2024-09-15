@@ -1,5 +1,7 @@
 package iti.jets.presentation.controller.servlets;
 
+import iti.jets.business.dto.CategoryDTO;
+import iti.jets.business.service.CategoryService;
 import iti.jets.persistence.dao.CategoryDao;
 import iti.jets.persistence.model.Category;
 import iti.jets.business.service.helper.EnumHelper;
@@ -12,7 +14,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.io.InputStream;
 
-//@WebServlet(value = "/addCategory")
+
 @MultipartConfig
 public class AddCategoryServlet extends HttpServlet {
 
@@ -29,21 +31,28 @@ public class AddCategoryServlet extends HttpServlet {
         {
             resp.sendRedirect("/shomya");
         }
+        try{
+            String name = req.getParameter("categoryName");
+            Part filePart = req.getPart("categoryImage");
+            if (filePart != null && filePart.getSize() > 0) {
+                InputStream inputStream = filePart.getInputStream();
+                byte[] imageData = inputStream.readAllBytes();
+                ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+                CategoryService.addCategory(connectionInstance,name,imageData);
 
-        String name = req.getParameter("categoryName");
-        Part filePart = req.getPart("categoryImage");
-        byte[] imageData = null;
-        try (InputStream inputStream = filePart.getInputStream()) {
-            imageData = inputStream.readAllBytes();
+            }
+            else {
+                System.out.println("File is empty");
+            }
+            resp.sendRedirect("/shomya/app/categories");
+
         }
-
-        ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-        Category category = new Category(name,imageData);
-        CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
-        // Save the file to the specified directory
-
-        categoryDao.save(category);
-        resp.sendRedirect("/shomya/app/categories");
+        catch (Exception e)
+        {
+            // TODO handle Exception
+            e.printStackTrace();
+            resp.sendRedirect("/shomya/app/categories");
+        }
 
     }
 }

@@ -45,7 +45,6 @@ public class UserDao extends DAO<User,Integer>{
             Query q = entityManager.createQuery("from User u where u.username=:name and u.password=:pass").setParameter(
                     "name", uname).setParameter("pass", pass);
             user = (User)q.getSingleResult();
-            entityManager.close();
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -96,7 +95,7 @@ public class UserDao extends DAO<User,Integer>{
             query.setParameter("email", email);
             return query.getResultStream().findFirst().orElse(null);
         } finally {
-            entityManager.close();
+
         }
     }
 
@@ -109,7 +108,6 @@ public class UserDao extends DAO<User,Integer>{
                     "name", username);
             User user = (User)q.getSingleResult();
             result = true;
-            entityManager.close();
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -129,7 +127,6 @@ public class UserDao extends DAO<User,Integer>{
                     "email", email);
             User user = (User)q.getSingleResult();
             result = true;
-            entityManager.close();
 
         } catch (Exception e) {
             // TODO: handle exception

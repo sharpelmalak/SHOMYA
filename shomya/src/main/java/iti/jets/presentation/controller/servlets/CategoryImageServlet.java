@@ -15,7 +15,7 @@ public class CategoryImageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Get the product ID from the request
-        String id = request.getParameter("categoryId");
+        String id = request.getParameter("catId");
         if (id != null) {
             int categoryId = Integer.parseInt(id);
 
@@ -25,6 +25,8 @@ public class CategoryImageServlet extends HttpServlet {
             CategoryDao categoryDao = new CategoryDao(connectionInstance.getEntityManager());
             Category category = categoryDao.findById(categoryId);
             if (category != null && category.getImage() != null) {
+
+                System.out.println("image found-----------");
                 // Set the response content type to the appropriate image type (e.g., JPEG, PNG)
                 response.setContentType("image/jpeg"); // Assuming the image is JPEG
                 // Write the image data to the response

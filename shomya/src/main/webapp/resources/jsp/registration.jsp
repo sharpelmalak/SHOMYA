@@ -104,19 +104,22 @@
             <small class="form-text text-danger" id="jobError"></small>
         </div>
 
-        <!-- Password -->
-        <div class="control-group">
+        <div class="control-group position-relative">
             <label for="password">Password</label>
             <input type="password" class="form-control" name="password" id="password" placeholder="Password" required/>
             <small class="form-text text-danger" id="passwordError"></small>
+            <!-- Show/Hide Password Icon -->
+            <i class="fa fa-eye position-absolute" id="togglePassword" style="cursor: pointer; right: 10px; top: 38px;"></i>
         </div>
-
         <!-- Confirm Password -->
-        <div class="control-group">
+        <div class="control-group position-relative">
             <label for="confirmPassword">Confirm Password</label>
             <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" onchange="checkPassword()" required/>
             <small class="form-text text-danger" id="confirmPasswordError"></small>
+            <!-- Show/Hide Confirm Password Icon -->
+            <i class="fa fa-eye position-absolute" id="toggleConfirmPassword" style="cursor: pointer; right: 10px; top: 38px;"></i>
         </div>
+
 
         <div class="form-group">
             <label for="choose_categories">Choose Categories</label>
@@ -130,9 +133,12 @@
             </c:forEach>
         </div>
 
-        <!-- Submit Button -->
-        <div>
-            <button id= "submitButton" class="btn btn-primary py-2 px-4" type="submit" disabled>Register</button>
+        <div style="display: flex; gap: 10px;">
+            <!-- Submit Button -->
+            <button id="submitButton" class="btn btn-primary py-2 px-4" type="submit" disabled>Register</button>
+
+            <!-- Reset Button -->
+            <button id="resetButton" class="btn btn-primary py-2 px-4" type="reset">Reset</button>
         </div>
     </form>
 </div>
@@ -177,42 +183,33 @@
 
 
     function check(param) {
-        var emailError = document.getElementById('emailError');
-        var usernameError = document.getElementById('usernameError');
+        var emailError = $('#emailError');
+        var usernameError = $('#usernameError');
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8080/shomya/app/checkunique?' + param, true);
+        $.ajax({
+            url: '/shomya/app/checkunique?' + param,
+            method: 'GET',
+            success: function(data) {
+                data = data.trim();
+                console.log("in ajax " + data);
 
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                const status = xhr.status;
-                if (status === 0 || (status >= 200 && status < 400)) {
-
-                    var data = xhr.responseText.trim();
-                    console.log("in ajax"+data);
-                    if(data === "email_found"){
-                        emailError.textContent = "Email is already taken.";
-                        isEmailFound = false
-
-                    }
-                    else if(data==="email_notfound"){
-                        emailError.textContent = "";
-                        isEmailFound = true
-                    }
-                    else if(data==="user_found"){
-                        usernameError.textContent = "Username is already taken.";
-                        isUserFound = false
-                    }
-                    else {
-                        usernameError.textContent = "";
-                        isUserFound = true
-                    }
-                    updateSubmitButton()
+                if (data === "email_found") {
+                    emailError.text("Email is already taken.");
+                    isEmailFound = false;
+                } else if (data === "email_notfound") {
+                    emailError.text("");
+                    isEmailFound = true;
+                } else if (data === "user_found") {
+                    usernameError.text("Username is already taken.");
+                    isUserFound = false;
+                } else {
+                    usernameError.text("");
+                    isUserFound = true;
                 }
+
+                updateSubmitButton();
             }
-        };
-        xhr.send(null);
+        });
     }
 
     function checkUsername(){
@@ -230,6 +227,29 @@
             check("email="+encodeURIComponent(email));
         }
     }
+
+    // Toggle password visibility for the password field
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordField = document.querySelector('#password');
+    togglePassword.addEventListener('click', function () {
+        const type = passwordField.type === 'password' ? 'text' : 'password';
+        passwordField.type = type;
+        this.classList.toggle('fa-eye-slash');
+    });
+
+    // Toggle password visibility for the confirm password field
+    const toggleConfirmPassword = document.querySelector('#toggleConfirmPassword');
+    const confirmPasswordField = document.querySelector('#confirmPassword');
+    toggleConfirmPassword.addEventListener('click', function () {
+        const type = confirmPasswordField.type === 'password' ? 'text' : 'password';
+        confirmPasswordField.type = type;
+        this.classList.toggle('fa-eye-slash');
+    });
+
+
+
+
+
 </script>
 </body>
 </html>

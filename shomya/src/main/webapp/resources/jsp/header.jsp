@@ -77,29 +77,28 @@
                     <div class="navbar-nav mr-auto py-0">
                         <a href="/shomya/" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/') ? 'active' : ''}">Home</a>
                         <c:if test="${userRole == EnumHelper.getAdminRole()}">
-                            <a href="/shomya/categories" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/categories') ? 'active' : ''}">Categories</a>
-                            <a href="/shomya/products" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/products') ? 'active' : ''}">Products</a>
-                            <a href="/shomya/addproduct" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/addproduct') ? 'active' : ''}">Add Products</a>
-                            <a href="/shomya/customers" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/customers') ? 'active' : ''}">Customers</a>
+                            <a href="/shomya/app/categories" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/categories') ? 'active' : ''}">Categories</a>
+                            <a href="/shomya/app/products" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/products') ? 'active' : ''}">Products</a>
+                            <a href="/shomya/app/addproduct" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/addproduct') ? 'active' : ''}">Add Products</a>
+                            <a href="/shomya/app/customers" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/customers') ? 'active' : ''}">Customers</a>
                         </c:if>
                         <c:if test="${userRole == EnumHelper.getCustomerRole()}">
-                            <a href="/shomya/products" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/products') ? 'active' : ''}">View Products</a>
-                            <a href="/shomya/viewcart" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/viewcart') ? 'active' : ''}">My Cart</a>
-                            <a href="resources/jsp/shop.jsp" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/shop.jsp') ? 'active' : ''}">My Shop</a>
-                            <a href="#" class="nav-item nav-link">My Orders</a>
+                            <a href="/shomya/app/products" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/products') ? 'active' : ''}">View Products</a>
+                            <a href="/shomya/app/viewcart" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/viewcart') ? 'active' : ''}">My Cart</a>
+                          <a href="/shomya/app/search-product" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/search-product') ? 'active' : ''}">My Shop</a>                            <a href="#" class="nav-item nav-link">My Orders</a>
                         </c:if>
                     </div>
                     <c:choose>
                         <c:when test="${user != null}">
                             <div class="navbar-nav ml-auto py-0">
-                                <a href="/shomya/ViewProfileServlet" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/ViewProfileServlet') ? 'active' : ''}">Account</a>
-                                <a href="/shomya/logout" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/logout') ? 'active' : ''}">Logout</a>
+                                <a href="/shomya/app/ViewProfileServlet" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/ViewProfileServlet') ? 'active' : ''}">Account</a>
+                                <a href="/shomya/app/logout" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/logout') ? 'active' : ''}">Logout</a>
                             </div>
                         </c:when>
                         <c:otherwise>
                             <div class="navbar-nav ml-auto py-0">
-                                <a href="/shomya/login" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/login') ? 'active' : ''}">Login</a>
-                                <a href="/shomya/registration" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/registration') ? 'active' : ''}">Register</a>
+                                <a href="/shomya/app/login" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/login') ? 'active' : ''}">Login</a>
+                                <a href="/shomya/app/registration" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/registration') ? 'active' : ''}">Register</a>
                             </div>
                         </c:otherwise>
                     </c:choose>

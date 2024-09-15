@@ -8,13 +8,14 @@ import jakarta.persistence.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-//@WebServlet("/checkunique")
+
 public class CheckUniqueServlet extends HttpServlet {
 
  @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
+        response.setContentType("text/plain");
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         System.out.println("hello user");
@@ -24,13 +25,16 @@ public class CheckUniqueServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        ConnectionInstance connectionInstance=new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
+        ConnectionInstance connectionInstance=(ConnectionInstance) request.getSession().getAttribute("userConnection");
         UserDao userDao=new UserDao(connectionInstance.getEntityManager());
 
 
         if(username!=null) {
+
             boolean result = userDao.checkUserName(username);
+            System.out.println("username found : "+result);
             if(result){
+                System.out.println("username found : "+username);
                 out.print("user_found");
             }
             else{

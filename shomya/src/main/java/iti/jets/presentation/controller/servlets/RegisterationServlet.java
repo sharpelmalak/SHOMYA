@@ -1,5 +1,7 @@
 package iti.jets.presentation.controller.servlets;
 
+import iti.jets.business.dto.CategoryDTO;
+import iti.jets.business.service.CategoryService;
 import iti.jets.persistence.dao.CategoryDao;
 import iti.jets.persistence.model.Category;
 import iti.jets.persistence.model.Customer;
@@ -24,24 +26,27 @@ import java.util.stream.Collectors;
 //@WebServlet(value = "/registration")
 public class RegisterationServlet extends HttpServlet
 {
-    private  List<Category> categories = new ArrayList<>();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        System.out.println("i'm in get method registration");
-        ConnectionInstance connectionInstance=new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
-        CategoryDao categoryDao=new CategoryDao(connectionInstance.getEntityManager());
-        categories=categoryDao.findAll();
-        req.setAttribute("categories", categories);
-        req.getRequestDispatcher("resources/jsp/registration.jsp").forward(req, resp);
+        try {
+            ConnectionInstance connectionInstance = (ConnectionInstance)req.getSession().getAttribute("userConnection");
+            List<CategoryDTO> categories = CategoryService.getAllCategories(connectionInstance);
+            req.setAttribute("categories", categories);
+            req.getRequestDispatcher("/resources/jsp/registration.jsp").forward(req, resp);
+        }
+        catch (Exception e)
+        {
+            resp.sendRedirect("/shomya");
+        }
+
     }
 
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        ConnectionInstance connectionInstance = new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
-        EntityManager entityManager = connectionInstance.getEntityManager();
         try{
 
             String name = req.getParameter("name");
@@ -54,42 +59,26 @@ public class RegisterationServlet extends HttpServlet
             float creditLimit = Float.parseFloat(req.getParameter("creditLimit"));
             String job = req.getParameter("job");
             String[] selectedCategories = req.getParameterValues("categories");
-            RegisterationService registerationService=new RegisterationService();
-            Customer isRegistered = registerationService.registerUser(
-                    username,password,name,Date.valueOf(Bdate),job,email,creditLimit,address,entityManager);
-
-            if (isRegistered != null)
+            ConnectionInstance connectionInstance = (ConnectionInstance)req.getSession().getAttribute("userConnection");
+            boolean isRegistered = RegisterationService.registerUser(
+                    username,password,name,Date.valueOf(Bdate),job,email,creditLimit,address,selectedCategories,connectionInstance);
+            System.out.println("is registerd :" + isRegistered );
+            if(isRegistered)
             {
-                if(selectedCategories!=null && selectedCategories.length>0)
-                {
-                    entityManager.getTransaction().begin();
-                    List<Category> userCategories = categories.stream().
-                            filter(category -> {for (String id : selectedCategories)
-                            {
-                                if (category.getId() == Integer.parseInt(id)) {
-                                    return true; } } return false; }) .collect(Collectors.toList());
-
-                    Set<Category> categorySet=new HashSet<>(userCategories);
-                    for(Category category : categorySet)
-                    {
-                        entityManager.merge(category);
-
-                    }
-                    isRegistered.setCategories(categorySet);
-                    entityManager.merge(isRegistered);
-
-                    entityManager.getTransaction().commit();
-                }
-                req.getRequestDispatcher("/login").forward(req, resp);
-
+                System.out.println("to login :");
+                req.getRequestDispatcher("/app/login").forward(req, resp);
             }
+            else {
+                req.setAttribute("error", "Registeration failed");
+                req.getRequestDispatcher("/resources/jsp/registration.jsp").forward(req, resp);
+            }
+
         }
         catch(Exception e)
         {
             req.setAttribute("error", "Registeration failed");
             req.getRequestDispatcher("/resources/jsp/registration.jsp").forward(req, resp);
         }
-
 
 
     }
