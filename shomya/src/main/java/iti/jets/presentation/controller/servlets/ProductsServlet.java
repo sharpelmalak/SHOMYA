@@ -22,7 +22,7 @@ public class ProductsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-        List<Product> products = new ArrayList<>();
+        List<Product> products;
         if(req.getParameter("search") != null) {
 
             products = ProductService.getProductByName(connectionInstance,req.getParameter("search"));

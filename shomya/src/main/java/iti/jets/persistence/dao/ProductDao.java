@@ -25,7 +25,7 @@ public class ProductDao extends DAO<Product,Integer> {
     }
 
     // New search method with parameters
-    public List<Product> search(String name, Integer categoryId, Double minPrice, Double maxPrice) {
+    public List<Product> search(String name, String[] categoryIds, Float minPrice, Float maxPrice) {
         // Create CriteriaBuilder and CriteriaQuery
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Product> query = cb.createQuery(Product.class);
@@ -39,8 +39,10 @@ public class ProductDao extends DAO<Product,Integer> {
             predicates.add(cb.like(cb.lower(product.get("name")), "%" + name.toLowerCase() + "%"));
         }
 
-        if (categoryId != null) {
-            predicates.add(cb.equal(product.get("category").get("id"), categoryId));
+        if (categoryIds != null && categoryIds.length > 0) {
+            for (String categoryId : categoryIds) {
+                predicates.add(cb.equal(product.get("category").get("id"), Integer.parseInt(categoryId)));
+            }
         }
 
         if (minPrice != null) {
@@ -52,7 +54,7 @@ public class ProductDao extends DAO<Product,Integer> {
         }
 
         // Combine all predicates with AND
-        query.where(cb.and(predicates.toArray(new Predicate[0])));
+        query.where(cb.or(predicates.toArray(new Predicate[0])));
 
         // Execute query
         return entityManager.createQuery(query).getResultList();
