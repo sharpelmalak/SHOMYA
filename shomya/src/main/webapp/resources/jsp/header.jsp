@@ -3,19 +3,45 @@
 <%@ page import="iti.jets.business.service.helper.EnumHelper" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var currentPath = window.location.pathname;
-    var navLinks = document.querySelectorAll(".nav-item");
 
-    navLinks.forEach(function(link) {
-      if (link.getAttribute("href") === currentPath) {
-        link.classList.add("active");
-      }
-    });
-  });
-</script>
+<style>
+  .hidden {
+    display: none;
+  }
 
+  .position-relative {
+    position: relative; /* Ensure the parent has position for absolute positioning of the child */
+  }
+
+  .search-results {
+    position: absolute; /* Position the suggestions box absolutely */
+    top: 100%; /* Place it directly below the input field */
+    left: 0; /* Align to the left of the parent container */
+    width: 100%; /* Make it the same width as the parent container */
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none; /* Optional: Remove top border to blend with the search input */
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+    max-height: 300px; /* Optional: Limit the height if there are many suggestions */
+    overflow-y: auto; /* Add scroll if content overflows */
+  }
+
+  .search-results div {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .search-results div:hover {
+    background-color: #f1f1f1;
+  }
+
+  .hidden {
+    display: none; /* Hide the search results initially */
+  }
+
+
+</style>
 <!-- Topbar Start -->
 
 <div class="container-fluid">
@@ -31,29 +57,33 @@
 
     <c:if test="${userRole == EnumHelper.getCustomerRole()}">
 
-        <!-- Search Form -->
-        <div class="col-lg-6 col-6 text-left">
-            <form action="/shomya/app/search-product" method="get">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="search" placeholder="Search for products" />
-                    <div class="input-group-append">
-                <span class="input-group-text bg-transparent text-primary">
-                    <i class="fa fa-search"></i>
-                </span>
-                    </div>
-                </div>
-            </form>
-        </div>
+      <!-- Search Container -->
+      <div class="col-lg-6 col-6 text-left position-relative">
+        <form id="search-form">
+          <div class="input-group">
+            <input type="text" class="form-control" id="search-input" placeholder="Search for products" autocomplete="off" />
+            <div class="input-group-append">
+        <span class="input-group-text bg-transparent text-primary">
+           <a href="#"  id="search-link">
+             <i class="fa fa-search"></i>
+          </a>
+        </span>
+            </div>
+          </div>
+        </form>
+
+        <!-- Hidden suggestion box -->
+        <div id="search-results" class="search-results hidden"></div>
+      </div>
+
 
       <div class="col-lg-3 col-6">
         <div class="d-flex align-items-center gap-2">
           <a href="" class="btn border">
             <i class="fas fa-heart text-primary"></i>
-            <span class="badge">0</span>
           </a>
-          <a href="/shomya/app/viewcart" class="btn border">
+          <a href="/shomya/app/viewcart" class="btn border" >
             <i class="fas fa-shopping-cart text-primary"></i>
-            <span class="badge">0</span>
           </a>
         </div>
       </div>
@@ -89,7 +119,7 @@
             <c:if test="${userRole == EnumHelper.getCustomerRole()}">
               <a href="/shomya/app/products" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/products') ? 'active' : ''}">View Products</a>
               <a href="/shomya/app/viewcart" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/viewcart') ? 'active' : ''}">My Cart</a>
-              <a href="/shomya/app/search-product" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/search-product') ? 'active' : ''}">My Shop</a>
+              <a href="/shomya/app/shop" class="nav-item nav-link ${pageContext.request.requestURI.endsWith('/shop') ? 'active' : ''}">Shop</a>
               <a href="/shomya/app/customerOrder?customerId=${user.id}"  class="nav-item nav-link ${pageContext.request.requestURI.contains('/customerOrder') ? 'active' : ''}">My Orders</a>
               <a href="/shomya/app/view-interests"  class="nav-item nav-link ${pageContext.request.requestURI.contains('/view-interests') ? 'active' : ''}">My Interests</a>
 
@@ -115,3 +145,70 @@
   </div>
 </div>
 <!-- Navbar End -->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var currentPath = window.location.pathname;
+    var navLinks = document.querySelectorAll(".nav-item");
+
+    navLinks.forEach(function(link) {
+      if (link.getAttribute("href") === currentPath) {
+        link.classList.add("active");
+      }
+    });
+  });
+
+
+  $(document).ready(function() {
+    function fetchSearchResults(query) {
+      $.ajax({
+        url: '/shomya/app/search-product',
+        method: 'GET',
+        data: { search: query },
+        success: function(data) {
+          // Update the suggestion box with the received data
+          $('#search-results').html(data).removeClass('hidden');
+        },
+        error: function(xhr, status, error) {
+          console.error('Error fetching search results:', error);
+          $('#search-results').html('<p>Error fetching results. Please try again.</p>').removeClass('hidden');
+        }
+      });
+    }
+
+    $('#search-input').on('input', function() {
+      const query = $(this).val().trim();
+      if (query.length > 0) {
+        $('#search-link').attr('href', "/shomya/app/products?search="+query);
+        fetchSearchResults(query);
+      } else {
+        $('#search-results').empty().addClass('hidden'); // Hide results if search query is empty
+      }
+    });
+
+    // Handle clicks on suggestion items
+    $(document).on('click', '.search-results div', function() {
+      const selectedText = $(this).text();
+
+
+      $('#search-input').val(selectedText);
+      $('#search-results').empty().addClass('hidden'); // Hide results after selection
+      var url ="/shomya/app/products?search=" + encodeURIComponent(selectedText);
+      // Redirect to the constructed URL
+      window.location.href = url;
+
+    });
+
+
+
+    // Hide the suggestion box when clicking outside
+    $(document).on('click', function(event) {
+      if (!$(event.target).closest('#search-form, #search-results').length) {
+        $('#search-results').empty().addClass('hidden');
+      }
+    });
+  });
+
+</script>

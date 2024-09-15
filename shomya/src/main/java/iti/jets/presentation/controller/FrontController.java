@@ -30,18 +30,15 @@ public class FrontController extends HttpServlet {
         }
 
         switch (path) {
+            case "/shop":
+                new ShopServlet().service(request, response);
+                break;
             case "/viewcart":
                 new ViewCartServlet().service(request, response);
                 break;
             case "/products":
                 new ProductsServlet().service(request, response);
                 break;
-//            case"/addCategory":
-//                new AddCategoryServlet().service(request, response);
-//                break;
-//            case "/addproduct":
-//                new AddProductServlet().service(request, response);
-//                break;
             case "/addtocart":
                 new AddProductToCartServlet().service(request, response);
                 break;
