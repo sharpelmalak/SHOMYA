@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 @WebServlet(urlPatterns = {"/app/*",""})
 public class FrontController extends HttpServlet {
@@ -39,6 +40,9 @@ public class FrontController extends HttpServlet {
                 new AddCategoryServlet().service(request, response);
                 break;
             case "/addproduct":
+                // Loop through parameter names
+
+                System.out.println("End of front controller");
                 new AddProductServlet().service(request, response);
                 break;
             case "/addtocart":

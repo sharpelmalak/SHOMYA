@@ -14,6 +14,7 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.List;
 
 
@@ -41,6 +42,15 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session= req.getSession(false);
+        Enumeration<String> parameterNames = req.getParameterNames();
+
+        // Loop through parameter names
+        while (parameterNames.hasMoreElements()) {
+            String paramName = parameterNames.nextElement();
+            // Print parameter name and its value(s)
+            System.out.println("Parameter Name: " + paramName);
+
+        }
         if(session.getAttribute("userRole")== EnumHelper.getAdminRole())
         {
             System.out.println("Start Post");
