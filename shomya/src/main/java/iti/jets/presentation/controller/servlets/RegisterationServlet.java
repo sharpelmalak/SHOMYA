@@ -29,18 +29,18 @@ public class RegisterationServlet extends HttpServlet
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         System.out.println("i'm in get method registration");
-        ConnectionInstance connectionInstance=new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
+        ConnectionInstance connectionInstance = (ConnectionInstance) req.getSession().getAttribute("userConnection");
         CategoryDao categoryDao=new CategoryDao(connectionInstance.getEntityManager());
         categories=categoryDao.findAll();
         req.setAttribute("categories", categories);
-        req.getRequestDispatcher("resources/jsp/registration.jsp").forward(req, resp);
+        req.getRequestDispatcher("/resources/jsp/registration.jsp").forward(req, resp);
     }
 
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
-        ConnectionInstance connectionInstance = new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
+        ConnectionInstance connectionInstance = (ConnectionInstance) req.getSession().getAttribute("userConnection");
         EntityManager entityManager = connectionInstance.getEntityManager();
         try{
 
@@ -80,7 +80,7 @@ public class RegisterationServlet extends HttpServlet
 
                     entityManager.getTransaction().commit();
                 }
-                req.getRequestDispatcher("/login").forward(req, resp);
+                req.getRequestDispatcher("/app/login").forward(req, resp);
 
             }
         }

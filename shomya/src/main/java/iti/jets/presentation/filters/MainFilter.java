@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebFilter(value = "/app/*")
+@WebFilter(value = "/*")
 public class MainFilter implements Filter {
 
     private FilterConfig filterConfig;
@@ -41,6 +41,7 @@ public class MainFilter implements Filter {
                         || requestURI.endsWith("registration")
                         || requestURI.endsWith("checkunique")
                         || requestURI.endsWith("login")
+                        || requestURI.endsWith("/resources/")
                            ) {
             // Allow access to home, register, and login without filtering
             filterChain.doFilter(servletRequest, servletResponse);

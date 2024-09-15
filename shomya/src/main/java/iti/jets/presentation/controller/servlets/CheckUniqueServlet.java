@@ -24,7 +24,7 @@ public class CheckUniqueServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        ConnectionInstance connectionInstance=new ConnectionInstance((EntityManagerFactory) getServletContext().getAttribute("emf"));
+        ConnectionInstance connectionInstance = (ConnectionInstance) request.getSession().getAttribute("userConnection");
         UserDao userDao=new UserDao(connectionInstance.getEntityManager());
 
 

@@ -52,7 +52,8 @@ public class Category  implements java.io.Serializable {
     }
 
     
-    @Column(name="image", length=100)
+    @Column(name="image")
+    @Lob
     public  byte[] getImage() {
         return this.image;
     }

@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(value = "/app/*")
+@WebServlet(urlPatterns = {"/app/*",""})
 public class FrontController extends HttpServlet {
 
     @Override
