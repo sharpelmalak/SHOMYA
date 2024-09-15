@@ -65,7 +65,8 @@
                 <div class="card product-item border-0">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                         <a href="/shomya/app/viewproduct?productId=${pr.id}">
-                        <img class="img-fluid w-100" src="/shomya/resources/img/${pr.image}" alt="image">
+                            <img id="product-image-${pr.id}" data-product-id="${pr.id}" class="img-fluid w-100" src="/shomya/resources/img/default.jpg" alt="Loading...">
+
                         </a>
                     </div>
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
@@ -90,6 +91,43 @@
 <jsp:directive.include file="/resources/jsp/footer.jsp" />
 <jsp:directive.include file="/resources/script.html"/>
 <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Select all image elements that you want to load
+        const productImages = document.querySelectorAll("[id^='product-image-']");
+        async function loadImageSequentially() {
+            // Iterate over each image element
+            for (const imgElement of productImages) {
+                // Extract the category ID from the data attribute (e.g., data-category-id="1")
+                const productId = imgElement.getAttribute('data-product-id');
+
+                try {
+                    // Wait for the image to load
+                    const imgSrc = await loadImage(productId);
+                    imgElement.src = imgSrc; // Replace the placeholder with the loaded image
+                } catch (error) {
+                    console.error(`Failed to load image for category ID: `+productId, error);
+                }
+            }
+        }
+
+        function loadImage(productId) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = `/shomya/app/productImage?productId=`+productId;
+
+                img.onload = () => {
+                    resolve(img.src);
+                };
+
+                img.onerror = () => {
+                    reject(new Error(`Failed to load image for category ID:`+productId));
+                };
+            });
+        }
+
+        // Start loading images
+        await loadImageSequentially();
+    });
     function getQauntity()
     {
         return document.getElementById("customerQuantity").value
