@@ -1,13 +1,18 @@
 package iti.jets.presentation.controller;
 
+import iti.jets.business.service.CategoryService;
+import iti.jets.business.service.ProductService;
+import iti.jets.persistence.util.ConnectionInstance;
 import iti.jets.presentation.controller.servlets.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.net.ConnectException;
 
 @WebServlet(urlPatterns = {"/app/*",""})
 public class FrontController extends HttpServlet {
@@ -103,6 +108,10 @@ public class FrontController extends HttpServlet {
                 new CategoryImageServlet().service(request, response);
                 break;
             default:
+                HttpSession session=request.getSession();
+                ConnectionInstance connectionInstance=(ConnectionInstance) session.getAttribute("userConnection");
+                request.setAttribute("categories", CategoryService.getCategories(connectionInstance));
+                request.setAttribute("products", ProductService.getProducts(connectionInstance));
                 request.getRequestDispatcher("/resources/index.jsp").forward(request, response);
                 break;
         }
