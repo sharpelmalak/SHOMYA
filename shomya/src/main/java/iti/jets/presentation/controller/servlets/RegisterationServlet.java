@@ -1,18 +1,16 @@
 package iti.jets.presentation.controller.servlets;
 
 import iti.jets.business.service.CategoryService;
-import iti.jets.persistence.dao.CategoryDao;
-import iti.jets.persistence.model.Category;
-import iti.jets.persistence.model.Customer;
 import iti.jets.business.service.RegisterationService;
 import iti.jets.persistence.util.ConnectionInstance;
+import iti.jets.persistence.util.MailMessenger;
+import jakarta.mail.Message;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -64,6 +62,16 @@ public class RegisterationServlet extends HttpServlet
 
             if (isRegistered)
             {
+//                HttpSession session = req.getSession();
+//                Message message;
+//                if (isRegistered) {
+//                    message = new Message("Registration Successful !!", "success", "alert-success");
+//                    MailMessenger.successfullyRegister(username, email);
+//
+//                } else {
+//                    message = new Message("Something went wrong! Try again!!", "error", "alert-danger");
+//                }
+//                session.setAttribute("message", message);
                 req.getRequestDispatcher("/app/login").forward(req, resp);
             }
         }
@@ -72,11 +80,7 @@ public class RegisterationServlet extends HttpServlet
             req.setAttribute("error", "Registeration failed");
             req.getRequestDispatcher("/resources/jsp/registration.jsp").forward(req, resp);
         }
-
-
-
     }
-
 }
 
 
