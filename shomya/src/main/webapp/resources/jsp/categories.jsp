@@ -62,7 +62,7 @@
                     <div class="col-lg-4 col-md-6 pb-1">
                         <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                             <p class="text-right">${category.products.size()} Products</p>
-                            <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                            <a href="/shomya/app/products?categoryId=${category.id}" class="cat-img position-relative overflow-hidden mb-3">
                                 <img id="category-image-${category.id}" data-category-id="${category.id}" class="img-fluid fixed-size" src="/shomya/resources/img/default.jpg" alt="Loading...">
                             </a>
                             <h5 class="font-weight-semi-bold m-0">${category.name}</h5>

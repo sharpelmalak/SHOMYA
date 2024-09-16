@@ -9,9 +9,9 @@ import jakarta.persistence.PersistenceException;
 public class Factory {
 
     private static final String PERSISTENCE_UNIT_NAME = "ecommerce";
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3366/shomya";
-    private static final String JDBC_USERNAME = "root";
-    private static final String JDBC_PASSWORD = "4520";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/shomya";
+    private static final String JDBC_USERNAME = "java";
+    private static final String JDBC_PASSWORD = "java";
     private static final int MIN_IDLE = 5;
     private static final int MAX_POOL_SIZE = 20;
 
@@ -22,9 +22,6 @@ public class Factory {
         // Private constructor to prevent instantiation
     }
 
-//    public static EntityManagerFactory getEntityMangerFactory(){
-//        return entityManagerFactory;
-//    }
 
     public static synchronized EntityManagerFactory getEntityMangerFactory() {
         if (entityManagerFactory == null) {

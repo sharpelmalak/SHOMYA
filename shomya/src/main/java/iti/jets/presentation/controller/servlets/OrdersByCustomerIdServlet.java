@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 
@@ -26,7 +27,7 @@ public class OrdersByCustomerIdServlet extends HttpServlet {
         try{
             Integer customerId = Integer.parseInt(req.getParameter("customerId"));
             Customer customer= (Customer) UserService.getUserById(connectionInstance,customerId);
-            Set<Order> orders= customer.getOrders();
+            List<Order> orders = UserService.getCustomerOrders(connectionInstance,customerId);
             req.setAttribute("customer", customer);
             req.setAttribute("orderList", orders);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/customer-details.jsp");

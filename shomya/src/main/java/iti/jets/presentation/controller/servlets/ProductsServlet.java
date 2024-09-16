@@ -1,5 +1,6 @@
 package iti.jets.presentation.controller.servlets;
 
+import iti.jets.business.service.CategoryService;
 import iti.jets.business.service.ProductService;
 import iti.jets.persistence.dao.ProductDao;
 import iti.jets.persistence.model.Product;
@@ -26,6 +27,10 @@ public class ProductsServlet extends HttpServlet {
         if(req.getParameter("search") != null) {
 
             products = ProductService.getProductByName(connectionInstance,req.getParameter("search"));
+        }
+        else  if(req.getParameter("categoryId") != null) {
+
+            products = ProductService.getProductsFromCategory(connectionInstance, CategoryService.getCategory(connectionInstance,Integer.parseInt(req.getParameter("categoryId"))));
         }
         else
         {

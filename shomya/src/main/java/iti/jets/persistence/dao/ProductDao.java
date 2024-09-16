@@ -92,6 +92,14 @@ public class ProductDao extends DAO<Product,Integer> {
                 .getResultList();
     }
 
+    public List<Product> findByCategory(Category category) {
+        // JPQL query to find products by name where isDeleted = 0
+        String jpql = "SELECT p FROM Product p WHERE p.category = :category";
+        return entityManager.createQuery(jpql, Product.class)
+                .setParameter("category",category)
+                .getResultList();
+    }
+
     public List<Product> findProductsByPriceRange(float minPrice, float maxPrice) {
         // Define JPQL query with conditions for price range
         String jpql = "SELECT p FROM Product p WHERE p.deleted = false AND p.price BETWEEN :minPrice AND :maxPrice ";

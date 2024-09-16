@@ -67,6 +67,10 @@ public class ProductService {
         ProductDao dao = new ProductDao(connectionInstance.getEntityManager());
         return dao.findByName(name);
     }
+    public static List<Product> getProductsFromCategory(ConnectionInstance connectionInstance, Category category) {
+        ProductDao dao = new ProductDao(connectionInstance.getEntityManager());
+        return dao.findByCategory(category);
+    }
 
 
     public static List<Product> searchProducts(ConnectionInstance connectionInstance, String name,Float minprice,Float maxprice,String[] selectedCategories) {

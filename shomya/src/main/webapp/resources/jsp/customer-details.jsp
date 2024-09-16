@@ -88,10 +88,12 @@
       <p><strong>Credit Limit:</strong> ${customer.creditLimit}</p>
       <p><strong>Address:</strong> ${customer.address}</p>
     </div>
-
+  </c:if>
     <!-- Orders Section -->
     <div class="orders">
+<c:if test="${userRole == EnumHelper.getAdminRole()}">
       <h4>Customer Orders</h4>
+</c:if>
       <table class="table table-striped">
         <thead>
         <tr>
@@ -119,7 +121,6 @@
         </tbody>
       </table>
     </div>
-  </c:if>
 </div>
 <!-- Customer Details End -->
 
