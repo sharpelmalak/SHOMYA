@@ -4,13 +4,15 @@
 <body>
 <jsp:include page="/resources/jsp/header.jsp" />
 
+<jsp:include page="/resources/jsp/carousel.jsp" />
+
 <jsp:include page="/resources/jsp/featured.jsp" />
 
 <jsp:include page="/resources/jsp/offers.jsp" />
 
 <jsp:include page="/resources/jsp/UiCategories.jsp" />
 
-<jsp:include page="/resources/jsp/UiProducts.jsp" />
+<jsp:include page="/resources/jsp/UiProductsCategories.jsp" />
 
 <jsp:include page="/resources/jsp/UiSubscribe.jsp" />
 

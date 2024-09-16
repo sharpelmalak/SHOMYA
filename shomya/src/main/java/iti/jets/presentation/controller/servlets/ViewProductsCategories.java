@@ -32,7 +32,7 @@ public class ViewProductsCategories extends HttpServlet {
         connectionInstance.closeEntityManager();
         request.setAttribute("categories", categories);
         request.setAttribute("products", products);
-        request.getRequestDispatcher("resources/jsp/UiProducts.jsp").forward(request, response);
+        request.getRequestDispatcher("resources/jsp/UiProductsCategories.jsp").forward(request, response);
 
 
 
