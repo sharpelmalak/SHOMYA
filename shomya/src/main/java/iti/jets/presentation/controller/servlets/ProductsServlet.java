@@ -24,6 +24,14 @@ public class ProductsServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
         List<Product> products;
+        int pageSize = 8; // Number of products per page
+        int pageNumber = 1; // Default to the first page
+
+        // Get the page number from the request parameter, if provided
+        String page = req.getParameter("page");
+        if (page != null) {
+            pageNumber = Integer.parseInt(page);
+        }
         if(req.getParameter("search") != null) {
 
             products = ProductService.getProductByName(connectionInstance,req.getParameter("search"));
@@ -34,7 +42,13 @@ public class ProductsServlet extends HttpServlet {
         }
         else
         {
-            products = ProductService.getProducts(connectionInstance);
+            // Fetch paginated products and total pages
+            products = ProductService.getPaginatedProducts(connectionInstance,pageNumber, pageSize);
+            long totalPages = ProductService.getTotalPages(connectionInstance,pageSize);
+
+
+            req.setAttribute("currentPage", pageNumber);
+            req.setAttribute("totalPages", totalPages);
         }
         req.setAttribute("productList", products);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/products.jsp");

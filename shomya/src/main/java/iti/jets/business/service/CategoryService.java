@@ -42,4 +42,20 @@ public class CategoryService {
         CategoryDao categoryDao = new CategoryDao(connection.getEntityManager());
         categoryDao.deleteById(id);
     }
+
+    public static Category updateCategory(ConnectionInstance connection,int id,String name, byte[]image) {
+       try {
+           CategoryDao categoryDao = new CategoryDao(connection.getEntityManager());
+           Category category = categoryDao.findById(id);
+           category.setName(name);
+           if(image!=null){
+               category.setImage(image);
+           }
+           categoryDao.update(category);
+           return category;
+       }
+       catch(Exception e){
+           return null;
+       }
+    }
 }

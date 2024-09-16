@@ -43,7 +43,6 @@
                             <h6 class="text-truncate mb-3">${product.name}</h6>
                             <div class="d-flex justify-content-center">
                                 <h6>$${product.price}</h6>
-<%--                                <h6>$${product.price}</h6><h6 class="text-muted ml-2"><del>$123.00</del></h6>--%>
                             </div>
                         </div>
 
@@ -60,6 +59,41 @@
                 </div>
             </c:forEach>
         </c:if>
+
+        <!-- Pagination Controls -->
+        <div class="col-12 pb-1">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mb-3">
+                    <!-- "Previous" Button -->
+                    <c:if test="${currentPage > 1}">
+                        <li class="page-item">
+                            <a class="page-link" href="/shomya/app/products?page=${currentPage - 1}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                    </c:if>
+
+                    <!-- Page Numbers -->
+                    <c:forEach var="i" begin="1" end="${totalPages}">
+                        <li class="page-item <c:if test='${i == currentPage}'>active</c:if>">
+                            <a class="page-link" href="/shomya/app/products?page=${i}">${i}</a>
+                        </li>
+                    </c:forEach>
+
+                    <!-- "Next" Button -->
+                    <c:if test="${currentPage < totalPages}">
+                        <li class="page-item">
+                            <a class="page-link" href="/shomya/app/products?page=${currentPage + 1}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+        </div>
+
 
     </div>
 </div>

@@ -107,15 +107,21 @@ public class ProductDao extends DAO<Product,Integer> {
                 .getResultList();
     }
 
-    public List<Product> findProductsByPriceRange(float minPrice, float maxPrice) {
-        // Define JPQL query with conditions for price range
-        String jpql = "SELECT p FROM Product p WHERE p.deleted = false AND p.price BETWEEN :minPrice AND :maxPrice ";
+    public List<Product> getPaginatedProducts(int pageNumber, int pageSize) {
+        String jpql = "SELECT p FROM Product p";
+        TypedQuery<Product> query = entityManager.createQuery(jpql, Product.class);
 
-        // Create and execute the query
-        return entityManager.createQuery(jpql, Product.class)
-                .setParameter("minPrice", minPrice)
-                .setParameter("maxPrice", maxPrice)
-                .getResultList();
+        // Set pagination parameters
+        query.setFirstResult((pageNumber - 1) * pageSize);
+        query.setMaxResults(pageSize);
+
+        return query.getResultList();
+    }
+
+    public long getTotalProductsCount() {
+        String jpql = "SELECT COUNT(p) FROM Product p";
+        TypedQuery<Long> query = entityManager.createQuery(jpql, Long.class);
+        return query.getSingleResult();
     }
 
 }

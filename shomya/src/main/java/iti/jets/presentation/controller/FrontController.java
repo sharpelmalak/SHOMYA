@@ -110,8 +110,7 @@ public class FrontController extends HttpServlet {
             default:
                 HttpSession session=request.getSession();
                 ConnectionInstance connectionInstance=(ConnectionInstance) session.getAttribute("userConnection");
-                request.setAttribute("categories", CategoryService.getCategories(connectionInstance));
-                request.setAttribute("products", ProductService.getProducts(connectionInstance));
+                request.setAttribute("categoryList", CategoryService.getCategories(connectionInstance));
                 request.getRequestDispatcher("/resources/index.jsp").forward(request, response);
                 break;
         }

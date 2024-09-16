@@ -79,4 +79,15 @@ public class ProductService {
 
     }
 
+    public static List<Product> getPaginatedProducts(ConnectionInstance connectionInstance, int pageNumber, int pageSize) {
+        ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
+        return productDao.getPaginatedProducts(pageNumber, pageSize);
+    }
+
+    public static long getTotalPages(ConnectionInstance connectionInstance,int pageSize) {
+        ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
+        long totalProducts = productDao.getTotalProductsCount();
+        return (long) Math.ceil((double) totalProducts / pageSize);
+    }
+
 }

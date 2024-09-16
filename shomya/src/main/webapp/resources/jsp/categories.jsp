@@ -68,7 +68,9 @@
                             <h5 class="font-weight-semi-bold m-0">${category.name}</h5>
                             <div class="card-footer d-flex justify-content-between bg-light border">
                                 <c:if test="${userRole == EnumHelper.getAdminRole()}">
-                                <a href="/shomya/app/deletecategory?catId=${category.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-trash text-danger mr-1"></i>Delete</a>
+                                    <a href="/shomya/app/updatecategory?catId=${category.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-edit text-primary mr-1"></i>Update</a>
+                                    <a href="/shomya/app/deletecategory?catId=${category.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-trash text-danger mr-1"></i>Delete</a>
+
                                 </c:if>
                             </div>
                         </div>
