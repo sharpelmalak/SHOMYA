@@ -63,9 +63,16 @@ public class ProductDao extends DAO<Product,Integer> {
 
     @Override
     public List<Product> findAll() {
-        String jpql = "SELECT p FROM Product p WHERE p.deleted = false";
+        String jpql = "SELECT p FROM Product p WHERE p.deleted = false and p.category.deleted = false";
         TypedQuery<Product> query = entityManager.createQuery(jpql, Product.class);
         return query.getResultList();
+    }
+    @Override
+    public Product findById(int id) {
+        String jpql = "SELECT p FROM Product p WHERE p.deleted = false and p.id = :id and p.category.deleted = false";
+        TypedQuery<Product> query = entityManager.createQuery(jpql, Product.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
 
     public void deleteById(int id)

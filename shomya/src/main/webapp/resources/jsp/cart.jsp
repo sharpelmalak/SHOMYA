@@ -11,7 +11,7 @@
     <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
         <h1 class="font-weight-semi-bold text-uppercase mb-3">Shopping Cart</h1>
         <div class="d-inline-flex">
-            <p class="m-0"><a href="">Home</a></p>
+            <p class="m-0"><a href="/shomya">Home</a></p>
             <p class="m-0 px-2">-</p>
             <p class="m-0">Shopping Cart</p>
         </div>
@@ -29,6 +29,7 @@
             <table class="table table-bordered text-center mb-0">
                 <thead class="bg-secondary text-dark">
                 <tr>
+                    <th>#</th>
                     <th>Products</th>
                     <th>Price</th>
                     <th>Quantity</th>
@@ -40,7 +41,12 @@
                 <c:if test="${cart.size()>0}">
                     <c:forEach items="${cart}" var="item">
                 <tr id="row-${item.product.id}">
-                    <td class="align-middle"><img src="/shomya/app/productImage?productId=${item.product.id}" alt="image" style="width: 50px;">${item.product.name}</td>
+                    <td class="align-middle">
+                        <img id="product-image-${item.product.id}" data-product-id="${item.product.id}" class="img-fluid" style="width: 50px; height: 50px" src="/shomya/resources/img/default.jpg" alt="Loading...">
+                    </td>
+
+                    <td class="align-middle">
+                            ${item.product.name}</td>
                     <td class="align-middle">$${item.product.price}</td>
                     <td class="align-middle">
                         <div class="input-group  mx-auto" style="width: 100px;">
@@ -71,14 +77,6 @@
             </table>
         </div>
         <div class="col-lg-4">
-<%--            <form class="mb-5" action="">--%>
-<%--                <div class="input-group">--%>
-<%--                    <input type="text" class="form-control p-4" placeholder="Coupon Code">--%>
-<%--                    <div class="input-group-append">--%>
-<%--                        <button class="btn btn-primary">Apply Coupon</button>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </form>--%>
             <div class="card border-secondary mb-5">
                 <div class="card-header bg-secondary border-0">
                     <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
@@ -303,13 +301,6 @@
     }
 
 
-    // document.getElementById("confirmBilling").addEventListener("click", function() {
-    //     // Here you can proceed with billing confirmation
-    //
-    //     // Perform the actual checkout action (e.g., form submission, API call)
-    //     alert('Billing confirmed. Proceeding to payment.');
-    // });
-
     function showError(message) {
         document.getElementById("errorContent").innerHTML = message;
         $('#errorModal').modal('show');
@@ -353,9 +344,7 @@
                     showSuccessModal(response.orderId)
                 }
                 else {
-                    showError('An error occurred while placing Order.');
-                    // If no issues, proceed to the checkout page
-                    //$('#billingConfirmationModal').modal('show');
+                    showError('Sorry maybe some items in your cart have changed due to stock updates.');
                 }
             },
             error: function(error) {
@@ -367,6 +356,46 @@
         document.getElementById('orderNumber').textContent = '#' + orderNumber;
         $('#successModal').modal('show');
     }
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        // Select all image elements that you want to load
+        const productImages = document.querySelectorAll("[id^='product-image-']");
+        async function loadImageSequentially() {
+            // Iterate over each image element
+            for (const imgElement of productImages) {
+                // Extract the category ID from the data attribute (e.g., data-category-id="1")
+                const productId = imgElement.getAttribute('data-product-id');
+
+                try {
+                    // Wait for the image to load
+                    const imgSrc = await loadImage(productId);
+                    imgElement.src = imgSrc; // Replace the placeholder with the loaded image
+                } catch (error) {
+                    console.error(`Failed to load image for category ID: `+productId, error);
+                }
+            }
+        }
+
+        function loadImage(productId) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = `/shomya/app/productImage?productId=`+productId;
+
+                img.onload = () => {
+                    resolve(img.src);
+                };
+
+                img.onerror = () => {
+                    reject(new Error(`Failed to load image for category ID:`+productId));
+                };
+            });
+        }
+
+        // Start loading images
+        await loadImageSequentially();
+    });
 </script>
 </body>
 </html>

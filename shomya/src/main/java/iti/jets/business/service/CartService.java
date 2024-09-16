@@ -18,7 +18,7 @@ public class CartService {
         try{
             ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
             Product product = productDao.findById(productId);
-            if(product == null || product.getQuantity() < quantity)
+            if(product == null || product.getQuantity() < quantity || product.getQuantity()==0)
             {
                 throw new Exception("Product not available");
             }
@@ -39,6 +39,7 @@ public class CartService {
         for (CartItem cartItem : cart) {
             if(cartItem.getProduct().getId() == productId)
             {
+                if(quantity == 1)quantity+= cartItem.getQuantity();
                 cartItem.setQuantity(quantity);
                 result = true;
             }
@@ -66,7 +67,7 @@ public class CartService {
                 Product product = productDao.findById(cartItem.getProduct().getId());
 
                 // If the product exists and there's enough quantity
-                if (product == null ) {
+                if (product == null || product.getQuantity()==0) {
                     result = true;
                     iterator.remove();
                 } else {

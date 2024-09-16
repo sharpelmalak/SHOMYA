@@ -41,7 +41,13 @@ public class CategoryDao extends DAO<Category,Integer>{
     }
 
 
-
+    @Override
+    public Category findById(int id) {
+        String jpql = "SELECT c FROM Category c WHERE c.deleted = false and c.id = :id";
+        TypedQuery<Category> query = entityManager.createQuery(jpql, Category.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
+    }
 
 
 

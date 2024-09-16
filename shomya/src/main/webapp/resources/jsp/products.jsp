@@ -82,7 +82,6 @@
                 if (status === 0 || (status >= 200 && status < 400)) {
                     // The request has been completed successfully
                     let result = xhr.responseText;
-                    console.log(result);
                     if (result.trim() == "done") {
                         $('#alert-container').html(`
                         <div class="alert alert-success" role="alert">
@@ -96,10 +95,14 @@
                 </div>
                        ` );
                     }
-                    // Automatically hide the alert after 3 seconds
-                    setTimeout(function() {
-                        $('#alert-container').html(''); // Clear the alert
-                    }, 3000); // 3000 milliseconds = 3 seconds
+                    else if(result.trim() == "view"){
+                        $('#alert-container').html(`
+                       <div class="alert alert-success" role="alert">
+                Cart Updated <a href="/shomya/app/viewcart" class="alert-link">View Cart</a>
+                </div>
+                       ` );
+                    }
+
                 } else {
                     // Oh no! There has been an error with the request!
                 }
