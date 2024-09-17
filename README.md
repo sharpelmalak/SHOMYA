@@ -36,7 +36,7 @@ This e-commerce website allows users to browse, search, and virtually purchase c
 
 
 ## TeamBacklog
-For project management and tracking, please refer to our TeamBacklog sheet: [https://example.com/your-teambacklog-link](https://docs.google.com/spreadsheets/d/19wdoVy30Yd0z1drf2HZa1oTiyqRDgZ4PleSpzl5oty4/edit?usp=sharing)
+For project management and tracking, please refer to our TeamBacklog sheet: [Sheet Link](https://docs.google.com/spreadsheets/d/19wdoVy30Yd0z1drf2HZa1oTiyqRDgZ4PleSpzl5oty4/edit?usp=sharing)
 
 ## Getting Started
 To get a copy of this project up and running on your local machine, follow these steps.
