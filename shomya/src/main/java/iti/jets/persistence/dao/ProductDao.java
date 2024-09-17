@@ -54,7 +54,7 @@ public class ProductDao extends DAO<Product,Integer> {
         }
 
         // Combine all predicates with AND
-        query.where(cb.or(predicates.toArray(new Predicate[0])));
+        query.where(cb.and(predicates.toArray(new Predicate[0])));
 
         // Execute query
         return entityManager.createQuery(query).getResultList();

@@ -10,7 +10,7 @@
     <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
         <h1 class="font-weight-semi-bold text-uppercase mb-3">Our Shop</h1>
         <div class="d-inline-flex">
-            <p class="m-0"><a href="">Home</a></p>
+            <p class="m-0"><a href="/shomya">Home</a></p>
             <p class="m-0 px-2">-</p>
             <p class="m-0">Shop</p>
         </div>
@@ -55,7 +55,7 @@
                     </c:forEach>
                 </div>
             </div>
-                <button type="submit">Search</button>
+                <button class="btn btn-primary py-2 px-4" type="submit" >Search</button>
             </form>
             <!-- Filter by categories End -->
         </div>
@@ -105,6 +105,39 @@
     </div>
 </div>
 <!-- Shop End -->
+
+<div class="col-12 pb-1">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mb-3">
+            <!-- "Previous" Button -->
+            <c:if test="${currentPage > 1}">
+                <li class="page-item">
+                    <a class="page-link" href="/shomya/app/shop?page=${currentPage - 1}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+            </c:if>
+
+            <!-- Page Numbers -->
+            <c:forEach var="i" begin="1" end="${totalPages}">
+                <li class="page-item <c:if test='${i == currentPage}'>active</c:if>">
+                    <a class="page-link" href="/shomya/app/shop?page=${i}">${i}</a>
+                </li>
+            </c:forEach>
+
+            <!-- "Next" Button -->
+            <c:if test="${currentPage < totalPages}">
+                <li class="page-item">
+                    <a class="page-link" href="/shomya/app/shop?page=${currentPage + 1}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </c:if>
+        </ul>
+    </nav>
+</div>
 
 <jsp:include page="/resources/jsp/footer.jsp" />
 

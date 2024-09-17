@@ -22,9 +22,21 @@ public class ShopServlet extends HttpServlet {
 
         HttpSession session = req.getSession(false);
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-        List<Product> products = ProductService.getProducts(connectionInstance);
-        req.setAttribute("categories", CategoryService.getCategories(connectionInstance));
+        List<Product> products;
+        int pageSize = 6; // Number of products per page
+        int pageNumber = 1; // Default to the first page
+        // Get the page number from the request parameter, if provided
+        String page = req.getParameter("page");
+        if (page != null) {
+            pageNumber = Integer.parseInt(page);
+        }
+        // Fetch paginated products and total pages
+        products = ProductService.getPaginatedProducts(connectionInstance,pageNumber, pageSize);
+        long totalPages = ProductService.getTotalPages(connectionInstance,pageSize);
+        req.setAttribute("currentPage", pageNumber);
+        req.setAttribute("totalPages", totalPages);
         req.setAttribute("products", products);
+        req.setAttribute("categories", CategoryService.getCategories(connectionInstance));
         req.getRequestDispatcher("/resources/jsp/shop.jsp").forward(req, resp);
     }
 
