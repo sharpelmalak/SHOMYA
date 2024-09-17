@@ -42,7 +42,7 @@ public class MainFilter implements Filter {
                         || requestURI.endsWith("registration")
                         || requestURI.endsWith("checkunique")
                         || requestURI.endsWith("login")
-                        || requestURI == null   ) {
+                        || requestURI.endsWith("categoryImage")   ) {
             // Allow access to home, register, and login without filtering
             filterChain.doFilter(servletRequest, servletResponse);
             if(connectionInstance != null)

@@ -28,6 +28,7 @@ public class CategoryImageServlet extends HttpServlet {
                 response.getOutputStream().write(category.getImage());
                 response.getOutputStream().flush();
             } else {
+                System.out.println("Category not found");
                 response.sendError(HttpServletResponse.SC_NOT_FOUND); // Send 404 if no image is found
             }
         }

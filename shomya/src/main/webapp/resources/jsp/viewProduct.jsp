@@ -1,7 +1,7 @@
 
 <%@ page import="iti.jets.persistence.model.Product" %>
 <%@ page import="iti.jets.persistence.model.Category" %>
-
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <html>
 <jsp:directive.include file="/resources/head.html"/>
 <body>
@@ -65,14 +65,14 @@
                 <div class="card product-item border-0">
                     <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                         <a href="/shomya/app/viewproduct?productId=${pr.id}">
-                            <img id="product-image-${pr.id}" data-product-id="${pr.id}" class="img-fluid w-100" src="/shomya/resources/img/default.jpg" alt="Loading...">
+                            <img id="product-image-${pr.id}" data-product-id="${pr.id}" class="img-fluid fixed-size" src="/shomya/resources/img/default.jpg" alt="Loading...">
 
                         </a>
                     </div>
                     <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                         <h6 class="text-truncate mb-3">${pr.name}</h6>
                         <div class="d-flex justify-content-center">
-                            <h6>$${pr.price}</h6><h6 class="text-muted ml-2"><del>$${pr.price+pr.price*0.15}</del></h6>
+                            <h6>$${pr.price} <del> $<fmt:formatNumber value="${(pr.price+(pr.price*0.20))}" type="number" minFractionDigits="2" maxFractionDigits="2" /></del>></h6>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border">

@@ -1,5 +1,6 @@
 <%@ page import="iti.jets.persistence.model.Category" %>
 <%@ page import="iti.jets.persistence.model.Product" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,15 +43,20 @@
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <h6 class="text-truncate mb-3">${product.name}</h6>
                             <div class="d-flex justify-content-center">
-                                <h6>$${product.price}</h6>
+                                <h6>$${product.price} <del> $<fmt:formatNumber value="${(product.price+(product.price*0.20))}" type="number" minFractionDigits="2" maxFractionDigits="2" /></del>></h6>
                             </div>
                         </div>
 
                         <div class="card-footer d-flex justify-content-between bg-light border">
                             <a href="/shomya/app/viewproduct?productId=${product.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
                             <c:if test="${userRole == EnumHelper.getCustomerRole()}">
+                                <c:if test="${product.quantity>0}">
                                 <button type="button" class="btn btn-sm text-dark p-0" onclick="addtoCart(${product.id})"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
-                            </c:if>
+                                </c:if>
+                                <c:if test="${product.quantity==0}">
+                                    <h6 class="text-truncate mb-3" style="color: #bd726b">Out of stock</h6>
+                                </c:if>
+                                </c:if>
                             <c:if test="${userRole == EnumHelper.getAdminRole()}">
                                 <a href="/shomya/app/deleteproduct?productId=${product.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-trash text-danger mr-1"></i>Delete</a>
                             </c:if>

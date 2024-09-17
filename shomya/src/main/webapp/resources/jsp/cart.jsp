@@ -1,6 +1,7 @@
 
 <html>
 <%@ page import="iti.jets.persistence.model.Category" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <jsp:directive.include file="/resources/head.html"/>
 <body>
 <%@include file="/resources/jsp/header.jsp"%>
@@ -63,7 +64,7 @@
                             </div>
                         </div>
                     </td>
-                    <td id="total-${item.product.id}" class="align-middle">$${(item.product.price*item.quantity)}</td>
+                    <td id="total-${item.product.id}" class="align-middle">$<fmt:formatNumber value="${(item.product.price*item.quantity)}" type="number" minFractionDigits="2" maxFractionDigits="2" /></td>
                     <td class="align-middle"><button onclick="removeProduct(${item.product.id})" class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></td>
                 </tr>
                     </c:forEach>

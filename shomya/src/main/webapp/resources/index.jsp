@@ -35,6 +35,48 @@
                     </div>
                 </div>
             </c:forEach>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', async () => {
+                    // Select all image elements that you want to load
+                    const categoryImages = document.querySelectorAll("[id^='category-image-']");
+                    async function loadImageSequentially() {
+                        // Iterate over each image element
+                        console.log("image load")
+                        for (const imgElement of categoryImages) {
+                            // Extract the category ID from the data attribute (e.g., data-category-id="1")
+                            const categoryId = imgElement.getAttribute('data-category-id');
+                            console.log("image" + categoryId)
+                            try {
+                                // Wait for the image to load
+                                const imgSrc = await loadImage(categoryId);
+                                imgElement.src = imgSrc; // Replace the placeholder with the loaded image
+                            } catch (error) {
+                                console.error(`Failed to load image for category ID: `+categoryId, error);
+                            }
+                        }
+                    }
+
+                    function loadImage(categoryId) {
+                        return new Promise((resolve, reject) => {
+                            const img = new Image();
+                            img.src = `/shomya/app/categoryImage?categoryId=`+categoryId;
+
+                            img.onload = () => {
+                                resolve(img.src);
+                            };
+
+                            img.onerror = () => {
+                                reject(new Error(`Failed to load image for category ID:`+categoryId));
+                            };
+                        });
+                    }
+
+                    // Start loading images
+                    await loadImageSequentially();
+                });
+            </script>
+
         </c:if>
     </div>
 </div>
@@ -44,47 +86,6 @@
 
 <jsp:directive.include file="/resources/jsp/footer.jsp" />
 
-<script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        // Select all image elements that you want to load
-        const categoryImages = document.querySelectorAll("[id^='category-image-']");
-        console.log(categoryImages.length)
-        async function loadImageSequentially() {
-            // Iterate over each image element
-            console.log("image load")
-            for (const imgElement of categoryImages) {
-                // Extract the category ID from the data attribute (e.g., data-category-id="1")
-                const categoryId = imgElement.getAttribute('data-category-id');
-                console.log("image" + categoryId)
-                try {
-                    // Wait for the image to load
-                    const imgSrc = await loadImage(categoryId);
-                    imgElement.src = imgSrc; // Replace the placeholder with the loaded image
-                } catch (error) {
-                    console.error(`Failed to load image for category ID: `+categoryId, error);
-                }
-            }
-        }
-
-        function loadImage(categoryId) {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.src = `/shomya/app/categoryImage?categoryId=`+categoryId;
-
-                img.onload = () => {
-                    resolve(img.src);
-                };
-
-                img.onerror = () => {
-                    reject(new Error(`Failed to load image for category ID:`+categoryId));
-                };
-            });
-        }
-
-        // Start loading images
-        await loadImageSequentially();
-    });
-</script>
 <jsp:directive.include file="/resources/script.html" />
 </body>
 

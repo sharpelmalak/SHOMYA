@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +43,8 @@
                                 <td>${item.product.name}</td>
                                 <td>${item.quantity}</td>
                                 <td>$${item.currentPrice}</td>
-                                <td>$${item.currentPrice*item.quantity}</td>
+                                <td>$<fmt:formatNumber value="${item.currentPrice*item.quantity}" type="number" minFractionDigits="2" maxFractionDigits="2" />
+                                </td>
                             </tr>
                             </c:forEach>
                             <!-- Add more items as needed -->
@@ -54,7 +56,8 @@
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mb-3">
                             <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">$${order.totalPrice-10}</h6>
+                            <h6 class="font-weight-medium">$<fmt:formatNumber value="${order.totalPrice-10}" type="number" minFractionDigits="2" maxFractionDigits="2" />
+                            </h6>
                         </div>
                         <div class="d-flex justify-content-between mb-3">
                             <h6 class="font-weight-medium">Shipping</h6>
