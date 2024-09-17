@@ -24,19 +24,19 @@ This e-commerce website allows users to browse, search, and virtually purchase c
 - **TeamBacklog**: For project management and tracking.
 
 ## Team Members
-- **[Sharpel Malak]**
-  - Email: [sharbelmalak@gmail.com]
+- **Sharpel Malak**
+  - Email: sharbelmalak@gmail.com
   - GitHub: [https://github.com/sharpelmalak](https://github.com/sharpelmalak)
-- **[Mohamed Yasser]**
-  - Email: [mohamedd.yasser15@gmail.com]
+- **Mohamed Yasser**
+  - Email: mohamedd.yasser15@gmail.com
   - GitHub: [https://github.com/MoYaserr](https://github.com/MoYaserr)
-- **[Yasmeen Saad]**
-  - Email: [Yasmeenesaad@gmail.com]
-  - GitHub: [https://github.com/yasmeenesaad](https://github.com/yasmeenesaad))
+- **Yasmeen Saad**
+  - Email: Yasmeenesaad@gmail.com
+  - GitHub: [https://github.com/yasmeenesaad](https://github.com/yasmeenesaad)
 
 
 ## TeamBacklog
-For project management and tracking, please refer to our TeamBacklog sheet: [TeamBacklog Link]([https://example.com/your-teambacklog-link](https://docs.google.com/spreadsheets/d/19wdoVy30Yd0z1drf2HZa1oTiyqRDgZ4PleSpzl5oty4/edit?usp=sharing))
+For project management and tracking, please refer to our TeamBacklog sheet: [https://example.com/your-teambacklog-link](https://docs.google.com/spreadsheets/d/19wdoVy30Yd0z1drf2HZa1oTiyqRDgZ4PleSpzl5oty4/edit?usp=sharing)
 
 ## Getting Started
 To get a copy of this project up and running on your local machine, follow these steps.
