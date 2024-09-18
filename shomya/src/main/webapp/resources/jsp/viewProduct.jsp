@@ -46,6 +46,9 @@
                 <button type="button" class="btn btn-primary px-3" onclick="addtoCart(${product.id},getQauntity())"><i class="fa fa-shopping-cart mr-1" ></i> Add To Cart</button>
             </div>
             </c:if>
+            <c:if test="${product.quantity==0}">
+                <h6 class="text-truncate mb-3" style="color: #bd726b">Out of stock</h6>
+            </c:if>
         </div>
     </div>
 </div>
@@ -77,7 +80,12 @@
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border">
                         <a href="/shomya/app/viewproduct?productId=${pr.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
-                        <button type="button" class="btn btn-sm text-dark p-0" onclick="addtoCart(${pr.id},1)"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                        <c:if test="${pr.quantity>0}">
+                            <button type="button" class="btn btn-sm text-dark p-0" onclick="addtoCart(${pr.id},1)"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                        </c:if>
+                        <c:if test="${pr.quantity==0}">
+                            <h6 class="text-truncate mb-3" style="color: #bd726b">Out of stock</h6>
+                        </c:if>
                     </div>
                 </div>
                 </c:forEach>

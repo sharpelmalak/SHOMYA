@@ -58,14 +58,18 @@ public class CartService {
     public static boolean checkCart(List<CartItem> cart, ConnectionInstance connectionInstance) {
         boolean result = false;
         try {
-            ProductDao productDao = new ProductDao(connectionInstance.getEntityManager());
+            EntityManager em = connectionInstance.getEntityManager();
+            ProductDao productDao = new ProductDao(em);
             // Use an Iterator to avoid ConcurrentModificationException
             Iterator<CartItem> iterator = cart.iterator();
 
             while (iterator.hasNext()) {
                 CartItem cartItem = iterator.next();
+                em.merge(cartItem);
+                System.out.println("before exception");
+                System.out.println("cart item name is " + cartItem.getProduct().getName());
                 Product product = productDao.findById(cartItem.getProduct().getId());
-
+                System.out.println("product id is " + product.getId());
                 // If the product exists and there's enough quantity
                 if (product == null || product.getQuantity()==0) {
                     result = true;
@@ -134,6 +138,7 @@ public class CartService {
         try{
             CartItemDao cartItemDao = new CartItemDao(connectionInstance.getEntityManager());
             cart =  cartItemDao.findAll(customerId);
+            System.out.println("cart loaded with "+cart.size()+" items");
         }
         catch(Exception e){
             e.printStackTrace();

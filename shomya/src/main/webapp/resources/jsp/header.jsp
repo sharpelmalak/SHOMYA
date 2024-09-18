@@ -79,9 +79,6 @@
 
       <div class="col-lg-3 col-6">
         <div class="d-flex align-items-center gap-2">
-          <a href="" class="btn border">
-            <i class="fas fa-heart text-primary"></i>
-          </a>
           <a href="/shomya/app/viewcart" class="btn border" >
             <i class="fas fa-shopping-cart text-primary"></i>
           </a>

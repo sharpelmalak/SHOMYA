@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-//@WebServlet("/viewcart")
+
 public class ViewCartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,7 +23,7 @@ public class ViewCartServlet extends HttpServlet {
         Customer customer = (Customer) session.getAttribute("user");
         if (customer != null) {
             ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-            EntityManager entityManager = connectionInstance.getEntityManager();
+
             CartService.checkCart((List<CartItem>) session.getAttribute("cart"),connectionInstance);
             request.getRequestDispatcher("/resources/jsp/cart.jsp").forward(request, response);
         }

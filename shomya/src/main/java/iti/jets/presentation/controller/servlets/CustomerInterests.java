@@ -20,7 +20,7 @@ public class CustomerInterests extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
         Customer customer = (Customer) session.getAttribute("user");
         req.setAttribute("categoryList", UserService.getInterests(connectionInstance,customer.getId()));

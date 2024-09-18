@@ -53,8 +53,10 @@ public class ProductDao extends DAO<Product,Integer> {
             predicates.add(cb.lessThanOrEqualTo(product.get("price"), maxPrice));
         }
 
+        Predicate finalperdicate = cb.or(predicates.toArray(new Predicate[0]));
+        finalperdicate = cb.and(finalperdicate,cb.isFalse(product.get("deleted")));
         // Combine all predicates with AND
-        query.where(cb.and(predicates.toArray(new Predicate[0])));
+        query.where(finalperdicate);
 
         // Execute query
         return entityManager.createQuery(query).getResultList();
@@ -101,14 +103,14 @@ public class ProductDao extends DAO<Product,Integer> {
 
     public List<Product> findByCategory(Category category) {
         // JPQL query to find products by name where isDeleted = 0
-        String jpql = "SELECT p FROM Product p WHERE p.category = :category";
+        String jpql = "SELECT p FROM Product p WHERE p.category = :category and p.deleted =false ";
         return entityManager.createQuery(jpql, Product.class)
                 .setParameter("category",category)
                 .getResultList();
     }
 
     public List<Product> getPaginatedProducts(int pageNumber, int pageSize) {
-        String jpql = "SELECT p FROM Product p";
+        String jpql = "SELECT p FROM Product p WHERE p.deleted=false";
         TypedQuery<Product> query = entityManager.createQuery(jpql, Product.class);
 
         // Set pagination parameters
@@ -119,7 +121,7 @@ public class ProductDao extends DAO<Product,Integer> {
     }
 
     public long getTotalProductsCount() {
-        String jpql = "SELECT COUNT(p) FROM Product p";
+        String jpql = "SELECT COUNT(p) FROM Product p where p.deleted = false";
         TypedQuery<Long> query = entityManager.createQuery(jpql, Long.class);
         return query.getSingleResult();
     }

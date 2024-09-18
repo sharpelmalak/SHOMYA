@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema shomya
 -- -----------------------------------------------------
-DROP SCHEMA `shomya`;
+DROP SCHEMA IF EXISTS `shomya`;
 CREATE SCHEMA IF NOT EXISTS `shomya` DEFAULT CHARACTER SET utf8mb3 ;
 USE `shomya` ;
 

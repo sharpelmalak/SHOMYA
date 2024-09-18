@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,13 +36,13 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         // get connection instance for that user
-        ConnectionInstance connectionInstance = (ConnectionInstance)req.getSession().getAttribute("userConnection");
+        HttpSession session = req.getSession();
+        ConnectionInstance connectionInstance = (ConnectionInstance)session.getAttribute("userConnection");
         ///
         AuthService authService = new AuthService();
         authService.authUser(username, password,connectionInstance);
         if (authService.getUser() != null)
         {
-            HttpSession session = req.getSession(true);
             if(session != null)
             {
                 User user = authService.getUser();
@@ -54,6 +55,10 @@ public class LoginServlet extends HttpServlet {
                     List<CartItem> cart = CartService.loadCart(user.getId(), connectionInstance);
                     // delete cart from db
                     CartService.resetCart(user.getId(), connectionInstance);
+                    System.out.println("after login my cart size is " + cart.size());
+                    for(CartItem cartItem : cart){
+                        System.out.println(cartItem);
+                    }
                     session.setAttribute("cart", cart);
                 }
 

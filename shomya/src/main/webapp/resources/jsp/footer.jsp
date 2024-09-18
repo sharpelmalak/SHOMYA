@@ -18,28 +18,12 @@
         <div class="col-lg-4 col-md-6 mb-5 pr-3 pr-xl-5">
             <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
             <div class="d-flex flex-column justify-content-start">
-                <a class="text-dark mb-2" href="resources/index.jsp"><i class="fa fa-angle-right mr-2"></i>Home</a>
-                <a class="text-dark mb-2" href="resources/jsp/UiProducts.jsp"><i class="fa fa-angle-right mr-2"></i>Our Shop</a>
-                <a class="text-dark mb-2" href="resources/jsp/order-details.jsp"><i class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
-                <a class="text-dark mb-2" href="resources/jsp/cart.jsp"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
+                <a class="text-dark mb-2" href="/shomya"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                <a class="text-dark mb-2" href="/shomya/app/products"><i class="fa fa-angle-right mr-2"></i>Products</a>
             </div>
         </div>
 
         <!-- Column 3: Newsletter -->
-        <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
-            <h5 class="font-weight-bold text-dark mb-4">Newsletter</h5>
-            <form action="">
-                <div class="form-group">
-                    <input type="text" class="form-control border-0 py-4" placeholder="Your Name" required="required" />
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control border-0 py-4" placeholder="Your Email" required="required" />
-                </div>
-                <div>
-                    <button class="btn btn-primary btn-block border-0 py-3" type="submit">Subscribe Now</button>
-                </div>
-            </form>
-        </div>
     </div>
 
 

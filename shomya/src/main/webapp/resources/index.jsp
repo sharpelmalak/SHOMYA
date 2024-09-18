@@ -2,6 +2,7 @@
 <html lang="en">
 <%@ page import="iti.jets.persistence.model.Category" %>
 <jsp:directive.include file="/resources/head.html"/>
+
 <body>
 <jsp:directive.include file="/resources/jsp/header.jsp" />
 
@@ -20,18 +21,27 @@
             <c:forEach items="${categoryList}" var="category">
                 <div class="col-lg-4 col-md-6 pb-1">
                     <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                        <p class="text-right">${category.products.size()} Products</p>
+                        <p class="text-right">
+                            <c:set var="activeProductsCount" value="0"/>
+                            <c:forEach items="${category.products}" var="product">
+                                <c:if test="${!product.deleted}">
+                                    <c:set var="activeProductsCount" value="${activeProductsCount + 1}"/>
+                                </c:if>
+                            </c:forEach>
+                                ${activeProductsCount} Products
+                        </p>
                         <a href="/shomya/app/products?categoryId=${category.id}" class="cat-img position-relative overflow-hidden mb-3">
                             <img id="category-image-${category.id}" data-category-id="${category.id}" class="img-fluid fixed-size" src="/shomya/resources/img/default.jpg" alt="Loading...">
                         </a>
                         <h5 class="font-weight-semi-bold m-0">${category.name}</h5>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
+
                             <c:if test="${userRole == EnumHelper.getAdminRole()}">
+                        <div class="card-footer d-flex justify-content-between bg-light border">
                                 <a href="/shomya/app/updatecategory?catId=${category.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-edit text-primary mr-1"></i>Update</a>
                                 <a href="/shomya/app/deletecategory?catId=${category.id}" class="btn btn-sm text-dark p-0"><i class="fas fa-trash text-danger mr-1"></i>Delete</a>
-
-                            </c:if>
                         </div>
+                            </c:if>
+
                     </div>
                 </div>
             </c:forEach>
@@ -82,7 +92,6 @@
 </div>
 
 
-<jsp:directive.include file="/resources/jsp/UiSubscribe.jsp" />
 
 <jsp:directive.include file="/resources/jsp/footer.jsp" />
 

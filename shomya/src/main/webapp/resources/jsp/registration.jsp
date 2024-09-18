@@ -58,14 +58,14 @@
         <!-- Name -->
         <div class="control-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Name" required/>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Name" maxlength="20" minlength="4" required/>
             <small class="form-text text-danger" id="nameError"></small>
         </div>
 
         <!-- Username -->
         <div class="control-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control" name="username" id="username" placeholder="Username" onblur="checkUsername()" required />
+            <input type="text" class="form-control" name="username" id="username" placeholder="Username" maxlength="20" minlength="4" onblur="checkUsername()" required />
             <small class="form-text text-danger" id="usernameError"></small>
         </div>
 
@@ -86,7 +86,7 @@
         <!-- Address -->
         <div class="control-group">
             <label for="address">Address</label>
-            <input type="text" class="form-control" name="address" id="address" placeholder="Address" required/>
+            <input type="text" class="form-control" name="address" id="address" placeholder="Address" maxlength="30" minlength="4" required/>
             <small class="form-text text-danger" id="addressError"></small>
         </div>
 
@@ -100,13 +100,13 @@
         <!-- Job -->
         <div class="control-group">
             <label for="job">Job</label>
-            <input type="text" class="form-control" name="job" id="job" placeholder="Job" />
+            <input type="text" class="form-control" name="job" id="job" maxlength="20" minlength="4" placeholder="Job" />
             <small class="form-text text-danger" id="jobError"></small>
         </div>
 
         <div class="control-group position-relative">
             <label for="password">Password</label>
-            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required/>
+            <input type="password" class="form-control" name="password" id="password" maxlength="20" minlength="4" placeholder="Password" onblur="checkPassword()" required/>
             <small class="form-text text-danger" id="passwordError"></small>
             <!-- Show/Hide Password Icon -->
             <i class="fa fa-eye position-absolute" id="togglePassword" style="cursor: pointer; right: 10px; top: 38px;"></i>
@@ -115,13 +115,13 @@
         <!-- Confirm Password -->
         <div class="control-group position-relative">
             <label for="confirmPassword">Confirm Password</label>
-            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" onchange="checkPassword()" required/>
+            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" maxlength="20" minlength="4" placeholder="Confirm Password" onchange="checkPassword()" required/>
             <small class="form-text text-danger" id="confirmPasswordError"></small>
             <!-- Show/Hide Confirm Password Icon -->
             <i class="fa fa-eye position-absolute" id="toggleConfirmPassword" style="cursor: pointer; right: 10px; top: 38px;"></i>
         </div>
         <div class="form-group">
-            <label for="choose_categories">Choose Categories</label>
+            <label for="choose_categories">Select Your Interests</label>
             <c:forEach var="category" items="${categories}">
                 <div class="form-check" id="choose_categories">
                     <input class="form-check-input" type="checkbox" name="categories" value="${category.id}" id= "${category.id}">
@@ -139,6 +139,7 @@
     </form>
 </div>
 <jsp:directive.include file="/resources/script.html"/>
+
 <script>
 
 
@@ -171,6 +172,33 @@
     var isUserFound = false
     var isEmailFound = false
     var isPassCorrect = false
+    var isCorrectDate = false
+
+
+    document.getElementById('date').addEventListener('input', function() {
+        // Get the value of the date input
+        const inputDate = new Date(this.value);
+        // Get the current date without the time component
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        // Check if the input date is in the future
+        if (inputDate > today) {
+            // Show error message
+            document.getElementById('dateError').textContent = 'Birthdate cannot be in the future.';
+            // Set input to invalid
+            this.setCustomValidity('Invalid date');
+            isCorrectDate = false
+        } else {
+            // Clear error message
+            document.getElementById('dateError').textContent = '';
+            // Set input to valid
+            this.setCustomValidity('');
+            isCorrectDate = true
+        }
+        updateSubmitButton()
+    });
+
 
 
 
@@ -192,6 +220,7 @@
         if (password !== confirmPassword) {
             confirmPasswordError.textContent = "Passwords do not match!";
             isPassCorrect = false
+            updateSubmitButton()
             return false; // Prevent form submission
         }
         isPassCorrect = true
@@ -201,7 +230,7 @@
 
     function updateSubmitButton()
     {
-        if(isEmailFound && isUserFound && isPassCorrect)
+        if(isEmailFound && isUserFound && isPassCorrect && isCorrectDate)
         {
             document.getElementById("submitButton").disabled = false;
         }
@@ -213,7 +242,7 @@
         var usernameError = document.getElementById('usernameError');
 
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8080/shomya/app/checkunique?' + param, true);
+        xhr.open('GET', '/shomya/app/checkunique?' + param, true);
 
 
         xhr.onreadystatechange = function () {

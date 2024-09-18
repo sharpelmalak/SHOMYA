@@ -23,10 +23,10 @@
                         <div class="mb-3">
                             <p><strong>Order ID:</strong> #${order.id}</p>
                             <p><strong>Date:</strong> ${order.orderDate}</p>
-                            <p><strong>Customer:</strong>${order.customer.name}</p>
+                            <p><strong>Customer: </strong>${order.customer.name}</p>
                             <p><strong>Status:</strong> Shipped</p>
                         </div>
-
+                        <div class="table-responsive">
                         <table class="table table-bordered order-items-table">
                             <thead>
                             <tr>
@@ -50,6 +50,7 @@
                             <!-- Add more items as needed -->
                             </tbody>
                         </table>
+                        </div>
                     </div>
 
                     <!-- Order Totals -->

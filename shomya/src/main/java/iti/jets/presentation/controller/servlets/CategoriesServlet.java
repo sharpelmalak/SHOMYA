@@ -20,11 +20,18 @@ public class CategoriesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        HttpSession session = req.getSession();
-        ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
-        req.setAttribute("categoryList", CategoryService.getCategories(connectionInstance));
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/categories.jsp");
-        requestDispatcher.forward(req, resp);
+        HttpSession session = req.getSession(false);
+        try{
+            ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
+            req.setAttribute("categoryList", CategoryService.getCategories(connectionInstance));
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/resources/jsp/categories.jsp");
+            requestDispatcher.forward(req, resp);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            resp.sendRedirect("/shomya");
+        }
+
     }
 
 }

@@ -61,7 +61,15 @@
                 <c:forEach items="${categoryList}" var="category">
                     <div class="col-lg-4 col-md-6 pb-1">
                         <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                            <p class="text-right">${category.products.size()} Products</p>
+                            <p class="text-right">
+                                <c:set var="activeProductsCount" value="0"/>
+                                <c:forEach items="${category.products}" var="product">
+                                    <c:if test="${!product.deleted}">
+                                        <c:set var="activeProductsCount" value="${activeProductsCount + 1}"/>
+                                    </c:if>
+                                </c:forEach>
+                                    ${activeProductsCount} Products
+                            </p>
                             <a href="/shomya/app/products?categoryId=${category.id}" class="cat-img position-relative overflow-hidden mb-3">
                                 <img id="category-image-${category.id}" data-category-id="${category.id}" class="img-fluid fixed-size" src="/shomya/resources/img/default.jpg" alt="Loading...">
                             </a>

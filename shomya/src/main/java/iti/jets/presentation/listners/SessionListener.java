@@ -30,7 +30,10 @@ public class SessionListener implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent event) {
         // This method is called when a session is destroyed
         logger.info("Session destroyed: ID=" + event.getSession().getId());
-
+        HttpSession session = event.getSession();
+        if (session.getAttribute("userConnection") != null) {
+            session.removeAttribute("userConnection");
+        }
         // Example: Perform cleanup, like removing session-specific data
         // Clean up any resources tied to this session if necessary
     }

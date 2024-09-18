@@ -43,7 +43,6 @@ public class RegisterationServlet extends HttpServlet
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
         ConnectionInstance connectionInstance = (ConnectionInstance) req.getSession().getAttribute("userConnection");
-        EntityManager entityManager = connectionInstance.getEntityManager();
         try{
 
             String name = req.getParameter("name");

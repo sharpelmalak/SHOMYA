@@ -18,7 +18,7 @@ import java.io.InputStream;
 public class UpdateCategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         if (session.getAttribute("userRole") == EnumHelper.getAdminRole()) {
             try {
                 ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");
@@ -38,7 +38,7 @@ public class UpdateCategoryServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
+        HttpSession session = req.getSession(false);
         if (session.getAttribute("userRole") == EnumHelper.getAdminRole()) {
             try {
                 ConnectionInstance connectionInstance = (ConnectionInstance) session.getAttribute("userConnection");

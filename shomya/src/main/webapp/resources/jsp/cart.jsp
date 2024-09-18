@@ -171,8 +171,7 @@
                 <p>Order Number: <strong id="orderNumber">#123456</strong></p>
             </div>
             <div class="modal-footer">
-                <a href="/shomya">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Continue Shopping</button>
+                <a href="/shomya/" class="btn btn-primary">Continue Shoping
                 </a>
                 <a id="order" href="" class="btn btn-secondary">View Order Details</a>
             </div>

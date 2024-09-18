@@ -89,9 +89,13 @@
                                         <a href="/shomya/app/viewproduct?productId=${product.id}" class="btn btn-sm text-dark p-0">
                                             <i class="fas fa-eye text-primary mr-1"></i>View Detail
                                         </a>
-                                            <button type="button" class="btn btn-sm text-dark p-0" onclick="addtoCart(${product.id})">
-                                                <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
-                                            </button>
+                                        <c:if test="${product.quantity>0}">
+                                            <button type="button" class="btn btn-sm text-dark p-0" onclick="addtoCart(${product.id})"><i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart</button>
+                                        </c:if>
+                                        <c:if test="${product.quantity==0}">
+                                            <h6 class="text-truncate mb-3" style="color: #bd726b">Out of stock</h6>
+                                        </c:if>
+
                                     </div>
                                 </div>
                             </div>
@@ -182,44 +186,6 @@
         // Start loading images
         await loadImageSequentially();
     });
-    // Function to search products by name and filter by price and category
-    // function searchProducts() {
-    //     const name = $('#productName').val();
-    //     const minPrice = $('#minPrice').val();
-    //     const maxPrice = $('#maxPrice').val();
-    //     const categories = $('input[name="categories"]:checked').map(function() {
-    //         return this.value;
-    //     }).get();
-    //
-    //     const params = {
-    //         name: name,
-    //         categories: categories.join(','), // Join categories into a comma-separated string
-    //         minprice: minPrice,
-    //         maxprice: maxPrice
-    //     };
-    //
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: '/shomya/app/shop',
-    //         data: params,
-    //         success: function(response) {
-    //             $('#searchresult .row').html(response);
-    //             // Show the search result container
-    //             $('#searchresult').show();
-    //         },
-    //         error: function() {
-    //             $('#alert-container').html('<div class="alert alert-danger">Failed to fetch products</div>');
-    //         }
-    //     });
-    // }
-    //
-    //
-    // document.getElementById('productName').addEventListener('keyup', searchProducts);
-    // document.getElementById('minPrice').addEventListener('input', searchProducts);
-    // document.getElementById('maxPrice').addEventListener('input', searchProducts);
-    // document.querySelectorAll('input[name="categories"]').forEach(function (el) {
-    //     el.addEventListener('change', searchProducts);
-    // });
 
     function addtoCart(id) {
         const xhr = new XMLHttpRequest();
